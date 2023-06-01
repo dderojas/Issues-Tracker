@@ -30,7 +30,7 @@ resource "aws_s3_object" "lambda_hello_world" {
 }
 
 resource "aws_s3_bucket" "lambda_bucket" {
-  bucket = "badabingbucket"
+  bucket        = "badabingbucket"
   force_destroy = true
 }
 
@@ -54,6 +54,56 @@ resource "aws_cloudwatch_log_group" "hello_world" {
   retention_in_days = 30
 }
 
+resource "aws_dynamodb_table" "book_catalog_table" {
+  name           = "BookCatalog"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 1
+  write_capacity = 1
+  hash_key       = "BookName"
+
+  attribute {
+    name = "BookName"
+    type = "S"
+  }
+
+  attribute {
+    name = "Author"
+    type = "S"
+  }
+  global_secondary_index {
+    name               = "Author-Index"
+    hash_key           = "Author"
+    write_capacity     = 1
+    read_capacity      = 1
+    projection_type    = "INCLUDE"
+    non_key_attributes = ["Genre"]
+  }
+  tags = {
+    Name        = "book-catalog-table"
+    Environment = "dev"
+  }
+}
+
+resource "aws_iam_policy" "dynamoDBLambdaPolicy" {
+  name = "DynamoDBLambdaPolicy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:GetItem",
+          "dynamodb:PutItem"
+        ]
+        Resource = [
+          aws_dynamodb_table.book_catalog_table.arn
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role" "lambda_exec" {
   name = "serverless_lambda"
 
@@ -72,8 +122,12 @@ resource "aws_iam_role" "lambda_exec" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
+  for_each = toset([
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+    aws_iam_policy.dynamoDBLambdaPolicy.arn
+  ])
   role       = aws_iam_role.lambda_exec.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  policy_arn = each.value
 }
 
 resource "aws_apigatewayv2_api" "lambda" {
