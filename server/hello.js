@@ -5,7 +5,7 @@ const params = {
   TableName : 'BookCatalog',
   Item: {
      BookName: 'MyStory',
-     Author: 'Don'
+     Author: 'David'
   }
 }
 

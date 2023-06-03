@@ -3,10 +3,25 @@ import { useState, useEffect } from 'react'
 import AWS from 'aws-sdk'
 
 AWS.config.region = "us-west-2";
+// will hide future keys, this is testing
+AWS.config.update({
+  region: 'us-west-2',
+  accessKeyId: 'AKIA5DJRWA3LPGOJR46H',
+  secretAccessKey: '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',
+});
 const lambda = new AWS.Lambda()
-console.log(process.env, 'envvvvvv')
+
 
 const App = () => {
+
+  const myFunc = async () => {
+    const params = {
+      FunctionName: 'HelloWorld'
+    };
+    const result = await lambda.invoke(params).promise();
+    console.log(result, 'resultssssss')
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -25,6 +40,7 @@ const App = () => {
       <div>
         hellooooooooooo
       </div>
+      <button onClick={() => myFunc()}>click meeeeee</button>
     </div>
   );
 }
