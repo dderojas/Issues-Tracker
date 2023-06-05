@@ -13,11 +13,61 @@ const lambda = new AWS.Lambda()
 
 
 const App = () => {
+  
+  const putItem = async () => {
+    const putParams = {
+      TableName : 'BookCatalog',
+      Item: {
+         BookName: 'BadaBing',
+         Author: 'Don'
+      }
+    }
 
-  const myFunc = async () => {
     const params = {
-      FunctionName: 'HelloWorld'
+      FunctionName: 'HelloWorld',
+      Payload: JSON.stringify(putParams)
     };
+
+    const result = await lambda.invoke(params).promise();
+    console.log(result, 'resultssssss')
+  }
+
+  const getItem = async () => {
+    const getParams = {
+      Key: {
+       "BookName": 'BadaBing', // can only make get call with BookName attribute?
+      //  "Author": 'Don'
+      }, 
+      TableName: "BookCatalog"
+     };;
+
+    const params = {
+      FunctionName: 'HelloWorld',
+      Payload: JSON.stringify(getParams)
+    };
+
+    const result = await lambda.invoke(params).promise();
+    console.log(result, 'resultssssss')
+  }
+
+  const updateItem = async () => {
+    const updateParams = {
+      TableName: "BookCatalog",
+      Key: {
+        BookName: "BadaBing",
+      },
+      UpdateExpression: "set Author = :author",
+      ExpressionAttributeValues: {
+        ":author": "SteveHEHE",
+      },
+      ReturnValues: "ALL_NEW",
+    };;
+
+    const params = {
+      FunctionName: 'HelloWorld',
+      Payload: JSON.stringify(updateParams)
+    };
+
     const result = await lambda.invoke(params).promise();
     console.log(result, 'resultssssss')
   }
@@ -40,7 +90,9 @@ const App = () => {
       <div>
         hellooooooooooo
       </div>
-      <button onClick={() => myFunc()}>click meeeeee</button>
+      <button onClick={() => putItem()}>put item</button>
+      <button onClick={() => getItem()}>get item</button>
+      <button onClick={() => updateItem()}>get item</button>
     </div>
   );
 }

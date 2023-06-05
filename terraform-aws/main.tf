@@ -94,7 +94,11 @@ resource "aws_iam_policy" "dynamoDBLambdaPolicy" {
         Effect = "Allow"
         Action = [
           "dynamodb:GetItem",
-          "dynamodb:PutItem"
+          "dynamodb:PutItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:Scan",  
+          "dynamodb:Query",
+          "dynamodb:UpdateItem"
         ]
         Resource = [
           aws_dynamodb_table.book_catalog_table.arn
