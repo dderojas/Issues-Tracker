@@ -1,6 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react'
 import AWS from 'aws-sdk'
+import { TemporaryPayloadType } from '../types' 
 
 AWS.config.region = "us-west-2";
 // will hide future keys, this is testing
@@ -11,62 +12,89 @@ AWS.config.update({
 });
 const lambda = new AWS.Lambda()
 
+// typing json stringify payload?
+const lambdaParams = (functionName: string, payload: any) => {
+    return {
+      FunctionName: functionName,
+      Payload: JSON.stringify(payload)
+    }
+}
 
 const App = () => {
   
   const putItem = async () => {
-    const putParams = {
-      TableName : 'BookCatalog',
-      Item: {
-         BookName: 'BadaBing',
-         Author: 'Don'
+    const putParams: TemporaryPayloadType = {
+      Method: 'Put',
+      Payload: {
+        TableName : 'BookCatalog',
+        Item: {
+           BookName: 'BadaBing',
+           Author: 'Don'
+        }
+
       }
     }
 
-    const params = {
-      FunctionName: 'HelloWorld',
-      Payload: JSON.stringify(putParams)
-    };
+    const params = lambdaParams('HelloWorld', putParams)
 
     const result = await lambda.invoke(params).promise();
     console.log(result, 'resultssssss')
   }
 
   const getItem = async () => {
-    const getParams = {
-      Key: {
-       "BookName": 'BadaBing', // can only make get call with BookName attribute?
-      //  "Author": 'Don'
-      }, 
-      TableName: "BookCatalog"
+    const getParams: TemporaryPayloadType = {
+      Method: 'Get',
+      Payload: {
+        Key: {
+          "BookName": 'BadaBing'
+         }, 
+         TableName: "BookCatalog" 
+      }
      };;
 
-    const params = {
-      FunctionName: 'HelloWorld',
-      Payload: JSON.stringify(getParams)
-    };
+     const params = lambdaParams('HelloWorld', getParams)
+
 
     const result = await lambda.invoke(params).promise();
     console.log(result, 'resultssssss')
   }
 
   const updateItem = async () => {
-    const updateParams = {
-      TableName: "BookCatalog",
-      Key: {
-        BookName: "BadaBing",
-      },
-      UpdateExpression: "set Author = :author",
-      ExpressionAttributeValues: {
-        ":author": "SteveHEHE",
-      },
-      ReturnValues: "ALL_NEW",
+    const updateParams: TemporaryPayloadType = {
+      Method: 'Update',
+      Payload: {
+        TableName: "BookCatalog",
+        Key: {
+          BookName: "BadaBing",
+        },
+        UpdateExpression: "set Author = :author",
+        ExpressionAttributeValues: {
+          ":author": "SteveHEHE",
+        },
+        ReturnValues: "ALL_NEW",
+      }
     };;
 
-    const params = {
-      FunctionName: 'HelloWorld',
-      Payload: JSON.stringify(updateParams)
-    };
+    const params = lambdaParams('HelloWorld', updateParams)
+
+
+    const result = await lambda.invoke(params).promise();
+    console.log(result, 'resultssssss')
+  }
+
+  const deleteItem = async () => {
+    const deleteParams: TemporaryPayloadType = {
+      Method: 'Delete',
+      Payload: {
+        TableName: "BookCatalog",
+        Key: {
+          BookName: "BadaBing",
+        },
+      }
+    }
+
+    const params = lambdaParams('HelloWorld', deleteParams)
+
 
     const result = await lambda.invoke(params).promise();
     console.log(result, 'resultssssss')
@@ -92,7 +120,8 @@ const App = () => {
       </div>
       <button onClick={() => putItem()}>put item</button>
       <button onClick={() => getItem()}>get item</button>
-      <button onClick={() => updateItem()}>get item</button>
+      <button onClick={() => updateItem()}>update item</button>
+      <button onClick={() => deleteItem()}>delete item</button>
     </div>
   );
 }

@@ -4,17 +4,28 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 module.exports.handler = async (event) => {
   console.log('Event: ', event);
   let responseMessage = 'Successfully created item!';
-
+  let results = ''
 
   try {
-    if (event.hasOwnProperty('Key')) {
+    if (event?.Method === 'Delete') {
 
-      const results = await docClient.get(event).promise();
+      results = await docClient.delete(event.Payload).promise();
       console.log(results, 'results!!!!')
 
-    } else {
+    } else if (event?.Method === 'Put') {
 
-      await docClient.put(event).promise();
+      results = await docClient.put(event.Payload).promise();
+      console.log(results, 'results!!!!')
+
+    } else if (event?.Method === 'Update') {
+
+      results = await docClient.update(event.Payload).promise();
+      console.log(results, 'results!!!!')
+
+    } else if (event?.Method === 'Get') {
+
+      results = await docClient.get(event.Payload).promise();
+      console.log(results, 'asdfasdfasf')
 
     }
 
@@ -26,6 +37,7 @@ module.exports.handler = async (event) => {
       },
       body: JSON.stringify({
         message: responseMessage,
+        results: results
       }),
     }
   } catch (err) {
