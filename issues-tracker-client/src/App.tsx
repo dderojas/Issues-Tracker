@@ -1,23 +1,11 @@
 
 import AWS from 'aws-sdk'
 import { useState, useEffect } from 'react'
-import styled from 'styled-components'
 import { TemporaryPayloadType } from '../types'
 import { HorizontalNavbar } from './components';
 import { VerticalNavbar } from './components'
+import { Button } from './styles';
 
-const Button = styled.button`
-  background-color: #4CAF50; /* Green */
-  border: 1px solid green;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  cursor: pointer;
-  float: left;
-`
 
 AWS.config.region = "us-west-2";
 // will hide future keys, this is testing
