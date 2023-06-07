@@ -4,31 +4,28 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 module.exports.handler = async (event) => {
   console.log('Event: ', event);
   let responseMessage = 'Successfully created item!';
-  let results = ''
+  let results
 
   try {
     if (event?.Method === 'Delete') {
 
       results = await docClient.delete(event.Payload).promise();
-      console.log(results, 'results!!!!')
 
     } else if (event?.Method === 'Put') {
 
       results = await docClient.put(event.Payload).promise();
-      console.log(results, 'results!!!!')
 
     } else if (event?.Method === 'Update') {
 
       results = await docClient.update(event.Payload).promise();
-      console.log(results, 'results!!!!')
 
     } else if (event?.Method === 'Get') {
 
       results = await docClient.get(event.Payload).promise();
-      console.log(results, 'asdfasdfasf')
 
     }
 
+    console.log(results, 'DB results!!')
 
     return {
       statusCode: 200,

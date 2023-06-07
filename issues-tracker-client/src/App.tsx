@@ -1,7 +1,23 @@
-import './App.css';
-import { useState, useEffect } from 'react'
+
 import AWS from 'aws-sdk'
-import { TemporaryPayloadType } from '../types' 
+import { useState, useEffect } from 'react'
+import styled from 'styled-components'
+import { TemporaryPayloadType } from '../types'
+import { HorizontalNavbar } from './components';
+import { VerticalNavbar } from './components'
+
+const Button = styled.button`
+  background-color: #4CAF50; /* Green */
+  border: 1px solid green;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: left;
+`
 
 AWS.config.region = "us-west-2";
 // will hide future keys, this is testing
@@ -102,26 +118,14 @@ const App = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <div>
-        hellooooooooooo
-      </div>
-      <button onClick={() => putItem()}>put item</button>
-      <button onClick={() => getItem()}>get item</button>
-      <button onClick={() => updateItem()}>update item</button>
-      <button onClick={() => deleteItem()}>delete item</button>
+      <HorizontalNavbar>
+        <Button onClick={() => putItem()}>put item</Button>
+        <Button onClick={() => getItem()}>get item</Button>
+      </HorizontalNavbar>
+      <VerticalNavbar>
+        <Button onClick={() => updateItem()}>update item</Button>
+        <Button onClick={() => deleteItem()}>delete item</Button>
+      </VerticalNavbar>
     </div>
   );
 }
