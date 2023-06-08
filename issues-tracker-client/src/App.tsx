@@ -5,6 +5,7 @@ import { TemporaryPayloadType } from '../types'
 import { HorizontalNavbar } from './components';
 import { VerticalNavbar } from './components'
 import { Button } from './styles';
+import { Modal } from './components';
 
 
 AWS.config.region = "us-west-2";
@@ -25,7 +26,10 @@ const lambdaParams = (functionName: string, payload: any) => {
 }
 
 const App = () => {
-  
+  // @ts-ignore
+  const [modalOpen, setModalOpen] = useState(false)
+
+
   const putItem = async () => {
     const putParams: TemporaryPayloadType = {
       Method: 'Put',
@@ -113,7 +117,9 @@ const App = () => {
       <VerticalNavbar>
         <Button onClick={() => updateItem()}>update item</Button>
         <Button onClick={() => deleteItem()}>delete item</Button>
+        <Button onClick={() => setModalOpen(true)}>open modal</Button>
       </VerticalNavbar>
+      {modalOpen && <Modal setOpenModal={setModalOpen}/>}
     </div>
   );
 }

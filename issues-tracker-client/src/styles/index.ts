@@ -1,7 +1,8 @@
-import { VerticalNav, HorizontalNav, Button } from "./navbarStyles";
+import { VerticalNav, HorizontalNav, Button, ModalContainer } from "./navbarStyles";
 
 export {
   VerticalNav,
   HorizontalNav,
-  Button
+  Button,
+  ModalContainer
 }
