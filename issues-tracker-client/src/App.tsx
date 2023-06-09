@@ -1,9 +1,10 @@
 
 import AWS from 'aws-sdk'
-import { useState, useEffect } from 'react'
+import { useState, useReducer } from 'react'
 import { TemporaryPayloadType } from '../types'
 import { HorizontalNavbar } from './components';
 import { VerticalNavbar } from './components'
+import { BacklogView } from './components'
 import { Button } from './styles';
 import { Modal } from './components';
 
@@ -25,11 +26,19 @@ const lambdaParams = (functionName: string, payload: any) => {
     }
 }
 
+// @ts-ignore
+const reducerSomething = (state, action) => {
+  return [...state, action.payload.item]
+}
+
 const App = () => {
   // @ts-ignore
   const [modalOpen, setModalOpen] = useState(false)
+  const [showBacklog, setBacklog] = useState(false)
+  // @ts-ignore
+  const [state, dispatch] = useReducer(reducerSomething, [])
 
-
+console.log(showBacklog, 'state!!!')
   const putItem = async () => {
     const putParams: TemporaryPayloadType = {
       Method: 'Put',
@@ -108,18 +117,31 @@ const App = () => {
     console.log(result, 'resultssssss')
   }
 
+  const addTicket = () => {
+    dispatch({ payload: { item: 'heloooooo' } })
+  }
+
   return (
-    <div className="App">
-      <HorizontalNavbar>
-        <Button onClick={() => putItem()}>put item</Button>
-        <Button onClick={() => getItem()}>get item</Button>
-      </HorizontalNavbar>
-      <VerticalNavbar>
-        <Button onClick={() => updateItem()}>update item</Button>
-        <Button onClick={() => deleteItem()}>delete item</Button>
-        <Button onClick={() => setModalOpen(true)}>open modal</Button>
-      </VerticalNavbar>
-      {modalOpen && <Modal setOpenModal={setModalOpen}/>}
+    <div>
+      <header>
+        <HorizontalNavbar>
+          <Button onClick={() => putItem()}>put item</Button>
+          <Button onClick={() => getItem()}>Sign In/Register</Button>
+        </HorizontalNavbar>
+      </header>
+      {modalOpen && <Modal addTicket={addTicket} setOpenModal={setModalOpen}/>}
+      <div style={{ display: 'flex' }}>
+        <VerticalNavbar>
+          <Button onClick={() => {
+            setBacklog(!showBacklog)
+          }}>Backlog</Button>
+          <Button onClick={() => deleteItem()}>delete item</Button>
+          <Button onClick={() => setModalOpen(true)}>Create Ticket</Button>
+        </VerticalNavbar>
+        {/*
+        @ts-ignore */}
+        { showBacklog && <BacklogView list={state}/> }
+      </div>
     </div>
   );
 }

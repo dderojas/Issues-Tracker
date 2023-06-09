@@ -1,8 +1,8 @@
-import { ModalContainer } from "../styles";
+import { ModalContainer, ModalBackground } from "../styles";
 // @ts-ignore
-const Modal = ({ setOpenModal }) => {
+const Modal = ({ setOpenModal, addTicket }) => {
   return (
-    <div className="modalBackground">
+    <ModalBackground>
       <ModalContainer>
         <div className="titleCloseBtn">
           <button
@@ -12,13 +12,15 @@ const Modal = ({ setOpenModal }) => {
           >
             X
           </button>
+          <button onClick={() => {
+            addTicket()
+          }}>add item</button>
         </div>
         <div className="title">
           <h1>Are You Sure You Want to Continue?</h1>
         </div>
-        HEY
       </ModalContainer>
-    </div>
+    </ModalBackground>
   );
 }
 
