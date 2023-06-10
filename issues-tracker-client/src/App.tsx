@@ -26,16 +26,19 @@ const lambdaParams = (functionName: string, payload: any) => {
     }
 }
 
-// @ts-ignore
-const reducerSomething = (state, action) => {
+type ActionType = {
+  type: string;
+  payload: { item: string }
+}
+
+const reducerSomething = (state: [string], action: ActionType) => {
   return [...state, action.payload.item]
 }
 
 const App = () => {
-  // @ts-ignore
-  const [modalOpen, setModalOpen] = useState(false)
-  const [showBacklog, setBacklog] = useState(false)
-  // @ts-ignore
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [showBacklog, setBacklog] = useState<boolean>(false)
+
   const [state, dispatch] = useReducer(reducerSomething, [])
 
 console.log(showBacklog, 'state!!!')
