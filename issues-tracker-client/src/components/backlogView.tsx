@@ -1,14 +1,11 @@
 type BacklogType = {
-  list: [string];
+  list?: string[];
 }
 const BacklogView = ({ list }: BacklogType) => {
   console.log(list, 'list!!!!!')
   return (
     <div>
-      helooooooo
-      {/*
-      // @ts-ignore */}
-      {list.map((elem) => {
+      {list?.map((elem) => {
         return <div>{elem}</div>
       })}
     </div>

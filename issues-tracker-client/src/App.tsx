@@ -27,11 +27,11 @@ const lambdaParams = (functionName: string, payload: any) => {
 }
 
 type ActionType = {
-  type: string;
+  type?: string;
   payload: { item: string }
 }
 
-const reducerSomething = (state: [string], action: ActionType) => {
+const reducerSomething = (state: string[], action: ActionType) => {
   return [...state, action.payload.item]
 }
 
@@ -57,8 +57,7 @@ console.log(showBacklog, 'state!!!')
 
     const params = lambdaParams('HelloWorld', putParams)
 
-    const result = await lambda.invoke(params).promise();
-    console.log(result, 'resultssssss')
+    await lambda.invoke(params).promise();
   }
 
   const getItem = async () => {
@@ -75,8 +74,7 @@ console.log(showBacklog, 'state!!!')
      const params = lambdaParams('HelloWorld', getParams)
 
 
-    const result = await lambda.invoke(params).promise();
-    console.log(result, 'resultssssss')
+    await lambda.invoke(params).promise();
   }
 
   const updateItem = async () => {
@@ -98,8 +96,7 @@ console.log(showBacklog, 'state!!!')
     const params = lambdaParams('HelloWorld', updateParams)
 
 
-    const result = await lambda.invoke(params).promise();
-    console.log(result, 'resultssssss')
+    await lambda.invoke(params).promise();
   }
 
   const deleteItem = async () => {
@@ -116,8 +113,7 @@ console.log(showBacklog, 'state!!!')
     const params = lambdaParams('HelloWorld', deleteParams)
 
 
-    const result = await lambda.invoke(params).promise();
-    console.log(result, 'resultssssss')
+    await lambda.invoke(params).promise();
   }
 
   const addTicket = () => {
@@ -141,8 +137,6 @@ console.log(showBacklog, 'state!!!')
           <Button onClick={() => deleteItem()}>delete item</Button>
           <Button onClick={() => setModalOpen(true)}>Create Ticket</Button>
         </VerticalNavbar>
-        {/*
-        @ts-ignore */}
         { showBacklog && <BacklogView list={state}/> }
       </div>
     </div>
