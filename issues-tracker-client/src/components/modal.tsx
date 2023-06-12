@@ -1,6 +1,11 @@
 import { ModalContainer, ModalBackground } from "../styles";
-// @ts-ignore
-const Modal = ({ setOpenModal, addTicket }) => {
+
+type ModalPropsType = {
+  setOpenModal: (boolean: boolean) => void;
+  addTicket: () => void;
+}
+
+const Modal = ({ setOpenModal, addTicket }: ModalPropsType) => {
   return (
     <ModalBackground>
       <ModalContainer>
