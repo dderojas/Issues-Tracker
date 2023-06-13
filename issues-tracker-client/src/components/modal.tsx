@@ -1,11 +1,22 @@
+import { useState } from 'react';
 import { ModalContainer, ModalBackground } from "../styles";
 
 type ModalPropsType = {
   setOpenModal: (boolean: boolean) => void;
-  addTicket: () => void;
+  addTicket: (state: any) => void;
 }
 
 const Modal = ({ setOpenModal, addTicket }: ModalPropsType) => {
+  const [formState, setFormState] = useState({ issue: '', description: ''})
+
+
+  const handleChange = (e: any) => {
+    e.preventDefault()
+    setFormState({ ...formState, [e.target.name]: e.target.value})
+  }
+
+  
+
   return (
     <ModalBackground>
       <ModalContainer>
@@ -15,15 +26,15 @@ const Modal = ({ setOpenModal, addTicket }: ModalPropsType) => {
               setOpenModal(false);
             }}
           >
-            X
+            Close Modal
           </button>
-          <button onClick={() => {
-            addTicket()
-          }}>add item</button>
         </div>
-        <div className="title">
-          <h1>Are You Sure You Want to Continue?</h1>
-        </div>
+        <h1>Create a Ticket</h1>
+        <form onSubmit={addTicket}>
+          <input name="issue" type="text" value={formState.issue} onChange={handleChange} />
+          <input name="description" type="text" value={formState.description} onChange={handleChange} />
+          <button>add item</button>
+        </form>
       </ModalContainer>
     </ModalBackground>
   );

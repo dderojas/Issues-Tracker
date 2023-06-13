@@ -7,6 +7,10 @@ type Item = {
   Author: string;
 }
 
+type Ticket = {
+  [key:string]: string;
+}
+
 type ExpressionAttributeValues = {
   [key: string]: string;
 }
@@ -44,5 +48,6 @@ export type {
   PutParams,
   UpdateParams,
   DeleteParams,
-  TemporaryPayloadType
+  TemporaryPayloadType,
+  Ticket
 }

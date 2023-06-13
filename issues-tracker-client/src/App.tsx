@@ -3,15 +3,15 @@ import { HorizontalNavbar } from './components';
 import { VerticalNavbar } from './components'
 import { BacklogView } from './components'
 import { Button } from './styles';
+import { Ticket } from '../types'
 import { Modal } from './components';
-
 
 type ActionType = {
   type?: string;
-  payload: { item: string }
+  payload: { item: Ticket }
 }
 
-const reducerSomething = (state: string[], action: ActionType) => {
+const reducerSomething = (state: Ticket[], action: ActionType) => {
   return [...state, action.payload.item]
 }
 
@@ -19,11 +19,16 @@ const App = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [showBacklog, setBacklog] = useState(false)
 
-  const [state, dispatch] = useReducer(reducerSomething, [])
+  const [state, dispatch] = useReducer(reducerSomething, [{ issue: '', description: '' }])
 
 
-  const addTicket = () => {
-    dispatch({ payload: { item: 'heloooooo' } })
+  const addTicket = (e: any) => {
+    e.preventDefault()
+
+    dispatch({ payload: { item: {
+      [e.target[0].name]: e.target[0].value,
+      [e.target[1].name]: e.target[1].value
+    } } })
   }
 
   return (
