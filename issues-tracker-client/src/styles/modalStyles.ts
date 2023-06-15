@@ -10,7 +10,6 @@ const ModalContainer = styled.div`
   flex-direction: column;
   padding: 25px;
   > form, div, h1 {
-    // display: inline-block;
     text-align: center;
     margin-top: 10px;
   }

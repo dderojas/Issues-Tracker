@@ -11,6 +11,13 @@ type Ticket = {
   [key:string]: string;
 }
 
+type FormState = { issue: string, description: string }
+
+type InitialState = {
+  formState: FormState;
+  backlogState: Ticket[];
+}
+
 type ExpressionAttributeValues = {
   [key: string]: string;
 }
@@ -49,5 +56,7 @@ export type {
   UpdateParams,
   DeleteParams,
   TemporaryPayloadType,
-  Ticket
+  Ticket,
+  InitialState,
+  FormState
 }
