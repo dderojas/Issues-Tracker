@@ -22,8 +22,6 @@ const Modal = ({ setModalOpen, addTicket, formState = { issue: '', description: 
     })
   }
 
-  console.log(formState, 'asdfasdfasdf')
-
   return (
     <ModalBackground>
       <ModalContainer onSubmit={addTicket}>
@@ -40,7 +38,8 @@ const Modal = ({ setModalOpen, addTicket, formState = { issue: '', description: 
         <form>
           <input name="issue" type="text" value={formState.issue} onChange={handleChange} />
           <input name="description" type="text" value={formState.description} onChange={handleChange} />
-          <button>add item</button>
+          <button>add ticket</button>
+          <button>update Ticket</button>
         </form>
       </ModalContainer>
     </ModalBackground>

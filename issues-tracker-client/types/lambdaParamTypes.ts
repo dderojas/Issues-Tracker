@@ -7,7 +7,7 @@ type Item = {
   Author: string;
 }
 
-type Ticket = {
+type TicketType = {
   [key:string]: string;
 }
 
@@ -15,7 +15,7 @@ type FormState = { issue: string, description: string }
 
 type InitialState = {
   formState: FormState;
-  backlogState: Ticket[];
+  backlogState: TicketType[];
 }
 
 type ExpressionAttributeValues = {
@@ -56,7 +56,7 @@ export type {
   UpdateParams,
   DeleteParams,
   TemporaryPayloadType,
-  Ticket,
+  TicketType,
   InitialState,
   FormState
 }

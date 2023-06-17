@@ -1,20 +1,22 @@
-import { Ticket } from '../../types'
+import { TicketType } from '../../types'
+import { Ticket } from '../styles'
 
 type BacklogType = {
-  list?: Ticket[];
-  openModalWithData: (something: any) => void;
+  list?: TicketType[];
+  openModalWithData: (issue: any, description: any) => void;
 }
 
 const BacklogView = ({ list, openModalWithData }: BacklogType) => {
-  console.log(list, 'list!!!!!')
   return (
     <div>
       {list?.map((elem) => {
         return (
-          <div>
-            <input type="text" value={elem.issue} onClick={openModalWithData} />
+          <Ticket onClick={() => {
+            openModalWithData(elem.issue, elem.description)
+          }}>
+            <div>{elem.issue}</div>
             <div>{elem.description}</div>
-          </div>
+          </Ticket>
         )
       })}
     </div>

@@ -3,12 +3,13 @@ import { HorizontalNavbar } from './components';
 import { VerticalNavbar } from './components'
 import { BacklogView } from './components'
 import { Button } from './styles';
-import { Ticket, InitialState, FormState } from '../types'
+import { TicketType, InitialState, FormState } from '../types'
 import { Modal } from './components';
 
 const ACTIONS = {
   ADD_TICKET: 'add ticket',
-  SET_FORM_STATE: 'set-form-state'
+  SET_MODAL_STATE: 'set-form-state',
+  EDIT_TICKET: 'modal-with-data'
 }
 
 const initialState: InitialState = {
@@ -18,7 +19,7 @@ const initialState: InitialState = {
 
 type ActionType = {
   type: string;
-  payload: FormState | Ticket;
+  payload: FormState | TicketType;
 }
 
 const issuesReducer = (state: InitialState, action: ActionType): InitialState => {
@@ -27,8 +28,10 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
   switch(action.type) {
     case ACTIONS.ADD_TICKET:
       return { backlogState: [...backlogState, action.payload], formState: initialState.formState }
-    case ACTIONS.SET_FORM_STATE:
+    case ACTIONS.SET_MODAL_STATE:
       return { backlogState, formState: { ...formState, ...action.payload} }
+    case ACTIONS.EDIT_TICKET:
+      return { backlogState, formState: { ...formState, ...action.payload} } 
     default:
       return initialState
   }
@@ -53,10 +56,9 @@ const App = () => {
     })
   }
 
-  const openModalWithData = (e:any) => {
-    e.preventDefault()
-    console.log(e.target, 'adsfasdfasdfads')
-    // dispatch()
+  const openModalWithData = (issue:any, description: any) => {
+    setModalOpen(true)
+    dispatch({ type: ACTIONS.EDIT_TICKET, payload: { issue: issue, description: description} })
   }
 
   return (
