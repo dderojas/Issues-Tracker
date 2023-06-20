@@ -1,4 +1,5 @@
 import { ModalContainer, ModalBackground } from "../styles";
+import { FormState } from "../../types";
 
 const ACTIONS = {
   ADD_TICKET: 'add ticket',
@@ -8,11 +9,14 @@ const ACTIONS = {
 type ModalPropsType = {
   setModalOpen: (boolean: boolean) => void;
   addTicket: (state: any) => void;
-  formState: { issue: string, description: string };
+  deleteTicket: (id: number) => void;
+  updateTicket: (e: any,id: number, issue: string, description: string) => void;
+  formState: FormState;
   dispatch: (something: any) => void;
 }
 
-const Modal = ({ setModalOpen, addTicket, formState = { issue: '', description: ''}, dispatch  }: ModalPropsType) => {
+const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState = { id: -Infinity, issue: '', description: ''}, dispatch  }: ModalPropsType) => {
+  const { id, issue, description } = formState
 
   const handleChange = (e: any) => {
     e.preventDefault()
@@ -36,11 +40,20 @@ const Modal = ({ setModalOpen, addTicket, formState = { issue: '', description: 
         </div>
         <h1>Create a Ticket</h1>
         <form>
-          <input name="issue" type="text" value={formState.issue} onChange={handleChange} />
-          <input name="description" type="text" value={formState.description} onChange={handleChange} />
-          <button>add ticket</button>
-          <button>update Ticket</button>
+          <input name="issue" type="text" value={issue} onChange={handleChange} />
+          <input name="description" type="text" value={description} onChange={handleChange} />
+          <button>Add Ticket</button>
         </form>
+          <button onClick={(e) => {
+            updateTicket(e, id, issue, description)
+          }}>
+            Update Ticket
+          </button>
+          <button onClick={(e) => {
+            deleteTicket(id)
+          }}>
+            Delete Ticket
+          </button>
       </ModalContainer>
     </ModalBackground>
   );

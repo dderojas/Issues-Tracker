@@ -8,10 +8,10 @@ type Item = {
 }
 
 type TicketType = {
-  [key:string]: string;
+  [key:string]: string | number;
 }
 
-type FormState = { issue: string, description: string }
+type FormState = { id: number, issue: string, description: string }
 
 type InitialState = {
   formState: FormState;
