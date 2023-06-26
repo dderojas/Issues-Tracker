@@ -4,9 +4,9 @@ import { TemporaryPayloadType } from '../../types'
 AWS.config.region = "us-west-2";
 // will hide future keys, this is testing
 AWS.config.update({
-  region: 'us-west-2',
-  accessKeyId: 'AKIA5DJRWA3LPGOJR46H',
-  secretAccessKey: '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',
+  region: process.env.REACT_APP_AWS_REGION,
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
 });
 const lambda = new AWS.Lambda()
 
