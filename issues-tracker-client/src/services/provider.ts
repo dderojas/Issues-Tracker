@@ -19,15 +19,17 @@ const lambdaParams = (functionName: string, payload: any) => {
   }
 }
 
+//@ts-ignore
+const putItem = async (payload) => {
+  const { issue, description } = payload
 
-const putItem = async () => {
   const putParams: TemporaryPayloadType = {
     Method: 'Put',
     Payload: {
       TableName : 'BookCatalog',
       Item: {
-         BookName: 'BadaBing',
-         Author: 'Don'
+         BookName: issue,
+         Author: description
       }
 
     }
@@ -92,4 +94,49 @@ const deleteItem = async () => {
 
 
   await lambda.invoke(params).promise();
+}
+
+const queryFunc = async () => {
+  const queryParams: TemporaryPayloadType = {
+    Method: 'Query',
+    Payload: {
+      TableName: "BookCatalog",
+      IndexName: 'Author-Index',
+      KeyConditionExpression: 'Author=:author',
+      ExpressionAttributeValues: {
+        ':author': 'morning!'
+      },
+      Limit: 5
+    }
+  }
+
+  const params = lambdaParams('HelloWorld', queryParams)
+
+  const { Payload } = await lambda.invoke(params).promise();
+  // @ts-ignore
+  const something = JSON.parse(Payload)
+  console.log(something.body.results)
+
+}
+
+const scanFunc = async () => {
+  const scanParams = {
+    Method: 'Scan',
+    Payload: {
+      TableName: "BookCatalog"
+    }
+  }
+
+  const params = lambdaParams('HelloWorld', scanParams)
+  const something = await lambda.invoke(params).promise();
+  console.log(something, 'eyyyyyyy')
+}
+
+export {
+  deleteItem,
+  getItem,
+  putItem,
+  updateItem,
+  queryFunc,
+  scanFunc
 }

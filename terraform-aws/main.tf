@@ -96,13 +96,11 @@ resource "aws_iam_policy" "dynamoDBLambdaPolicy" {
           "dynamodb:GetItem",
           "dynamodb:PutItem",
           "dynamodb:DeleteItem",
+          "dynamodb:UpdateItem",
           "dynamodb:Scan",  
-          "dynamodb:Query",
-          "dynamodb:UpdateItem"
+          "dynamodb:Query"
         ]
-        Resource = [
-          aws_dynamodb_table.book_catalog_table.arn
-        ]
+        Resource = "*"
       }
     ]
   })

@@ -5,6 +5,7 @@ import { BacklogView } from './components'
 import { Button } from './styles';
 import { TicketType, InitialState, FormState } from '../types'
 import { Modal } from './components';
+import { queryFunc, scanFunc } from './services';
 
 const ACTIONS = {
   ADD_TICKET: 'add ticket',
@@ -31,9 +32,9 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
     case ACTIONS.ADD_TICKET:
       return { backlogState: [...backlogState, action.payload], formState: initialState.formState }
     case ACTIONS.SET_MODAL_STATE:
-      return { backlogState, formState: { ...formState, ...action.payload} }
+      return { backlogState, formState: { ...formState, ...action.payload } }
     case ACTIONS.EDIT_TICKET:
-      return { backlogState, formState: { ...formState, ...action.payload} }
+      return { backlogState, formState: { ...formState, ...action.payload } }
     case ACTIONS.UPDATE_TICKET:
       return { backlogState: backlogState.map((elem) => {
         if (elem.id === action.payload.id) {
@@ -68,8 +69,13 @@ const App = () => {
         [e.target[1].name]: e.target[1].value
       }
     })
+    queryFunc()
+    // putItem({
+    //   [e.target[0].name]: e.target[0].value,
+    //   [e.target[1].name]: e.target[1].value
+    // })
   }
-
+// do I need this id now?
   const updateTicket = (e: any, id: any, issue: string, description: string) => {
     // e.preventDefault()
     dispatch({ 
@@ -104,10 +110,10 @@ const App = () => {
           <Button onClick={() => {
             setBacklog(!showBacklog)
           }}>Backlog</Button>
-          <Button>delete item</Button>
+          <Button>put item</Button>
           <Button onClick={() => setModalOpen(true)}>Create Ticket</Button>
         </VerticalNavbar>
-        {modalOpen && <Modal setModalOpen={setModalOpen} addTicket={addTicket} updateTicket={updateTicket} deleteTicket={deleteTicket} formState={formState} dispatch={dispatch}/>}
+        { modalOpen && <Modal setModalOpen={setModalOpen} addTicket={addTicket} updateTicket={updateTicket} deleteTicket={deleteTicket} formState={formState} dispatch={dispatch}/> }
       <div style={{ display: 'flex', paddingLeft: '12%', paddingTop: '7%' }}>
         { showBacklog && <BacklogView list={backlogState} openModalWithData={openModalWithData}/> }
       </div>

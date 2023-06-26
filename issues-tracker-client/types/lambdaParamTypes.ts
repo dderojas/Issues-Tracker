@@ -42,9 +42,17 @@ type UpdateParams = {
   ReturnValues: string;
 }
 
+type QueryParams = {
+  TableName: string;
+  IndexName: string;
+  KeyConditionExpression?: string;
+  ExpressionAttributeValues?: ExpressionAttributeValues;
+  Limit: number;
+}
+
 type TemporaryPayloadType = {
   Method: string;
-  Payload: GetParams | PutParams | UpdateParams | DeleteParams
+  Payload: GetParams | PutParams | UpdateParams | DeleteParams | QueryParams
 }
 
 export type {
@@ -58,5 +66,6 @@ export type {
   TemporaryPayloadType,
   TicketType,
   InitialState,
-  FormState
+  FormState,
+  QueryParams
 }

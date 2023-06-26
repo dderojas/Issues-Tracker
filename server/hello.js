@@ -5,8 +5,16 @@ module.exports.handler = async (event) => {
   console.log('Event: ', event);
   let responseMessage = 'Successfully created item!';
   let results
-
+  
   try {
+    if (event.Method === 'Scan') {
+      results = await docClient.scan(event.Payload).promise()
+    }
+
+    if (event.Method === 'Query') {
+      results = await docClient.query(event.Payload).promise()
+    }
+
     if (event?.Method === 'Delete') {
 
       results = await docClient.delete(event.Payload).promise();
@@ -32,10 +40,10 @@ module.exports.handler = async (event) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
+      body: {
         message: responseMessage,
-        results: results
-      }),
+        results
+      },
     }
   } catch (err) {
     
