@@ -55,31 +55,47 @@ resource "aws_cloudwatch_log_group" "hello_world" {
 }
 
 resource "aws_dynamodb_table" "book_catalog_table" {
-  name           = "BookCatalog"
+  name           = "Issues"
   billing_mode   = "PROVISIONED"
   read_capacity  = 1
   write_capacity = 1
-  hash_key       = "BookName"
+  hash_key       = "Issue"
 
   attribute {
-    name = "BookName"
+    name = "Issue"
     type = "S"
   }
 
   attribute {
-    name = "Author"
+    name = "Description"
     type = "S"
   }
+
+  attribute {
+    name = "Priority-Level"
+    type = "S"
+  }
+
   global_secondary_index {
-    name               = "Author-Index"
-    hash_key           = "Author"
+    name               = "Priority-Index"
+    hash_key           = "Priority-Level"
     write_capacity     = 1
     read_capacity      = 1
     projection_type    = "INCLUDE"
     non_key_attributes = ["Genre"]
   }
+
+  global_secondary_index {
+    name               = "Description-Index"
+    hash_key           = "Description"
+    write_capacity     = 1
+    read_capacity      = 1
+    projection_type    = "INCLUDE"
+    non_key_attributes = ["Description"]
+  }
+
   tags = {
-    Name        = "book-catalog-table"
+    Name        = "issues-tracker-table"
     Environment = "dev"
   }
 }

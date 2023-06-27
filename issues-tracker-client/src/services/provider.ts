@@ -1,8 +1,8 @@
 import AWS from 'aws-sdk'
 import { TemporaryPayloadType } from '../../types'
 
-AWS.config.region = "us-west-2";
-// will hide future keys, this is testing
+AWS.config.region = process.env.REACT_APP_AWS_REGION;
+
 AWS.config.update({
   region: process.env.REACT_APP_AWS_REGION,
   accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
@@ -21,15 +21,17 @@ const lambdaParams = (functionName: string, payload: any) => {
 
 //@ts-ignore
 const putItem = async (payload) => {
-  const { issue, description } = payload
+  const { issue, description, priorityLevel
+   } = payload
 
   const putParams: TemporaryPayloadType = {
     Method: 'Put',
     Payload: {
-      TableName : 'BookCatalog',
+      TableName : 'Issues',
       Item: {
-         BookName: issue,
-         Author: description
+         Issue: issue,
+         Description: description,
+         PriorityLevel: priorityLevel
       }
 
     }
@@ -57,17 +59,23 @@ const getItem = async () => {
   await lambda.invoke(params).promise();
 }
 
-const updateItem = async () => {
+// @ts-ignore
+const updateItem = async (payload) => {
+  const { issue, description, priorityLevel
+  } = payload
+
   const updateParams: TemporaryPayloadType = {
     Method: 'Update',
     Payload: {
-      TableName: "BookCatalog",
+      TableName: "Issues",
       Key: {
-        BookName: "BadaBing",
+        // @ts-ignore
+        Issue: issue
       },
-      UpdateExpression: "set Author = :author",
+      UpdateExpression: "set PriorityLevel = :priority, Description = :description",
       ExpressionAttributeValues: {
-        ":author": "SteveHEHE",
+        ":priority": priorityLevel,
+        ":description": description
       },
       ReturnValues: "ALL_NEW",
     }
@@ -76,16 +84,19 @@ const updateItem = async () => {
   const params = lambdaParams('HelloWorld', updateParams)
 
 
-  await lambda.invoke(params).promise();
+  const results = await lambda.invoke(params).promise();
+  // @ts-ignore
+  console.log(JSON.parse(results), 'INUPDATE!@!#@')
 }
 
-const deleteItem = async () => {
+const deleteItem = async (Issue: string) => {
   const deleteParams: TemporaryPayloadType = {
     Method: 'Delete',
     Payload: {
-      TableName: "BookCatalog",
+      TableName: "Issues",
       Key: {
-        BookName: "BadaBing",
+        //@ts-ignore
+        Issue: Issue,
       },
     }
   }
@@ -100,7 +111,7 @@ const queryFunc = async () => {
   const queryParams: TemporaryPayloadType = {
     Method: 'Query',
     Payload: {
-      TableName: "BookCatalog",
+      TableName: "Issues",
       IndexName: 'Author-Index',
       KeyConditionExpression: 'Author=:author',
       ExpressionAttributeValues: {
@@ -123,13 +134,16 @@ const scanFunc = async () => {
   const scanParams = {
     Method: 'Scan',
     Payload: {
-      TableName: "BookCatalog"
+      TableName: "Issues"
     }
   }
 
   const params = lambdaParams('HelloWorld', scanParams)
-  const something = await lambda.invoke(params).promise();
-  console.log(something, 'eyyyyyyy')
+  const { Payload } = await lambda.invoke(params).promise();
+  // @ts-ignore
+  const something = JSON.parse(Payload)
+  console.log(something.body.results, 'bodyyyyyy')
+  return something.body.results
 }
 
 export {

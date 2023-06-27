@@ -3,15 +3,16 @@ type Key = {
 }
 
 type Item = {
-  BookName: string;
-  Author: string;
+  Issue: string;
+  Description: string;
+  PriorityLevel: string;
 }
 
 type TicketType = {
-  [key:string]: string | number;
+  [key:string]: string | number | undefined;
 }
 
-type FormState = { id: number, issue: string, description: string }
+type FormState = { id: number, issue: string, description: string, priorityLevel: string }
 
 type InitialState = {
   formState: FormState;
