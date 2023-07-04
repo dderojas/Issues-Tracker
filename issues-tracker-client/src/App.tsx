@@ -3,12 +3,12 @@ import { HorizontalNavbar } from './components';
 import { VerticalNavbar } from './components'
 import { BacklogView } from './components'
 import { Button } from './styles';
-import { TicketType, InitialState, FormState } from '../types'
+import { InitialState, FormState, Item } from '../types'
 import { Modal } from './components';
 import { putItem, scanFunc, updateItem, deleteItem } from './services';
 
 const ACTIONS = {
-  ADD_TICKET: 'add ticket',
+  ADD_TICKET: 'add-ticket',
   SET_MODAL_STATE: 'set-form-state',
   EDIT_TICKET: 'modal-with-data',
   UPDATE_TICKET: 'update-ticket',
@@ -17,29 +17,31 @@ const ACTIONS = {
 }
 
 const initialState: InitialState = {
-  formState: { id: -Infinity, issue: '', description: '', priorityLevel: '' },
+  formState: { Assignee: '', Description: '', PriorityLevel: '', Status: '', IssueType: '' },
   backlogState: []
 }
 
 type ActionType = {
   type: string;
-  payload?: FormState | TicketType;
+  backlogPayload?: FormState[] | Item[];
+  ticketPayload?: Item;
 }
 
 const issuesReducer = (state: InitialState, action: ActionType): InitialState => {
   const { formState, backlogState } = state
-
+  
   switch(action.type) {
     case ACTIONS.ADD_TICKET:
-      // @ts-ignore
       return { backlogState: [...backlogState ], formState: initialState.formState }
     case ACTIONS.UPDATE_BACKLOG:
-      // @ts-ignore
-      return { backlogState: [...action.payload ], formState: initialState.formState }
+      return { 
+        backlogState: action.backlogPayload ? [ ...action.backlogPayload ] : [ ...backlogState ], 
+        formState: initialState.formState 
+      }
     case ACTIONS.SET_MODAL_STATE:
-      return { backlogState, formState: { ...formState, ...action.payload } }
+      return { backlogState, formState: { ...formState, ...action.ticketPayload } }
     case ACTIONS.EDIT_TICKET:
-      return { backlogState, formState: { ...formState, ...action.payload } }
+      return { backlogState, formState: { ...formState, ...action.ticketPayload } }
     default:
       return initialState
   }
@@ -50,15 +52,16 @@ const App = () => {
   const [showBacklog, setBacklog] = useState(false)
 
   const [{ backlogState, formState }, dispatch] = useReducer(issuesReducer, initialState)
-  console.log(formState, 'inAppparentttttt')
 
   useEffect(() => {
     (async () => {
       if (!modalOpen) {
-        const results = await scanFunc()
-        console.log(results, 'results!!@#!@#')
+        const items = await scanFunc()
+        console.log(items, 'results!!@#!@#')
 
-        dispatch({ type: ACTIONS.UPDATE_BACKLOG, payload: results.Items})
+        if (items?.length) {
+          dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: items })
+        }
       }
     })()
 
@@ -72,13 +75,15 @@ const App = () => {
     putItem({
       [e.target[0].name]: e.target[0].value,
       [e.target[1].name]: e.target[1].value,
-      [e.target[2].name]: e.target[2].value
+      [e.target[2].name]: e.target[2].value,
+      [e.target[3].name]: e.target[3].value,
+      [e.target[4].name]: e.target[4].value
     })
   }
-// do I need this id now?
-  const updateTicket = async (e: any, id: any, issue: string, description: string, priorityLevel: string) => {
 
-    await updateItem({ issue, description, priorityLevel })
+  const updateTicket = async ({ Assignee, Description, PriorityLevel, Status, IssueType }: FormState) => {
+
+    await updateItem({ Assignee, Description, PriorityLevel, Status, IssueType })
   }
 
   const deleteTicket = async (issue: string) => {
@@ -86,10 +91,9 @@ const App = () => {
     await deleteItem(issue)
   }
 
-  const openModalWithData = (issue:any, description: any, priorityLevel: string) => {
-    console.log(issue, description, priorityLevel, 'test in openmodalwdata!!!')
+  const openModalWithData = (Assignee: string, Description: string, PriorityLevel: string, Status: string, IssueType: string) => {
     setModalOpen(true)
-    dispatch({ type: ACTIONS.EDIT_TICKET, payload: { issue, description, priorityLevel } })
+    dispatch({ type: ACTIONS.EDIT_TICKET, ticketPayload: { Assignee, Description, PriorityLevel, Status, IssueType } })
   }
 
   return (
@@ -112,4 +116,7 @@ const App = () => {
   );
 }
 
-export default App;
+export {
+  App,
+  ACTIONS
+};

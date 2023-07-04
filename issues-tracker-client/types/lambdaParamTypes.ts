@@ -1,22 +1,25 @@
 type Key = {
-  BookName: string;
+  Assignee: string;
 }
 
 type Item = {
-  Issue: string;
+  Assignee: string;
   Description: string;
   PriorityLevel: string;
+  Status: string;
+  IssueType: string;
+  TicketId?: number;
 }
 
 type TicketType = {
-  [key:string]: string | number | undefined;
+  [key:string]: string;
 }
 
-type FormState = { id: number, issue: string, description: string, priorityLevel: string }
+type FormState = Item
 
 type InitialState = {
   formState: FormState;
-  backlogState: TicketType[];
+  backlogState: FormState[];
 }
 
 type ExpressionAttributeValues = {
@@ -51,7 +54,7 @@ type QueryParams = {
   Limit: number;
 }
 
-type TemporaryPayloadType = {
+type IssuesPayloadType = {
   Method: string;
   Payload: GetParams | PutParams | UpdateParams | DeleteParams | QueryParams
 }
@@ -64,7 +67,7 @@ export type {
   PutParams,
   UpdateParams,
   DeleteParams,
-  TemporaryPayloadType,
+  IssuesPayloadType,
   TicketType,
   InitialState,
   FormState,

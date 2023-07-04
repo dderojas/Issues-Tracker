@@ -1,22 +1,25 @@
-import { TicketType } from '../../types'
+import { Item } from '../../types'
 import { Ticket } from '../styles'
 
 type BacklogType = {
-  list?: TicketType[];
-  openModalWithData: (issue: any, description: any, priorityLevel: any) => void;
+  list?: Item[];
+  openModalWithData: (assignee: string, description: string, priorityLevel: string, status: string, issueType: string) => void;
 }
 
 const BacklogView = ({ list = [], openModalWithData }: BacklogType) => {
+  console.log(list, 'list!!!!')
   return (
     <div>
-      {list?.map((elem) => {
+      {list?.map((elem: Item) => {
         return (
-          <Ticket key={elem.id} onClick={() => {
-            openModalWithData(elem.Issue, elem.Description, elem.PriorityLevel)
+          <Ticket key={elem.TicketId} onClick={() => {
+            openModalWithData(elem.Assignee, elem.Description, elem.PriorityLevel, elem.Status, elem.IssueType)
           }}>
-            <div>{elem.Issue}</div>
+            <div>{elem.Assignee}</div>
             <div>{elem.Description}</div>
             <div>{elem.PriorityLevel}</div>
+            <div>{elem.IssueType}</div>
+            <div>{elem.Status}</div>
           </Ticket>
         )
       })}

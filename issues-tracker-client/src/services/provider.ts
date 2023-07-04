@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk'
-import { TemporaryPayloadType } from '../../types'
+import { IssuesPayloadType, Item } from '../../types'
 
 AWS.config.region = process.env.REACT_APP_AWS_REGION;
 
@@ -21,17 +21,27 @@ const lambdaParams = (functionName: string, payload: any) => {
 
 //@ts-ignore
 const putItem = async (payload) => {
-  const { issue, description, priorityLevel
+  const { 
+    Assignee, 
+    Description, 
+    PriorityLevel,
+    Status,
+    IssueType
    } = payload
-
-  const putParams: TemporaryPayloadType = {
+   
+  const putParams: IssuesPayloadType = {
     Method: 'Put',
     Payload: {
       TableName : 'Issues',
+      //@ts-ignore
       Item: {
-         Issue: issue,
-         Description: description,
-         PriorityLevel: priorityLevel
+         Assignee,
+         Description,
+         PriorityLevel,
+         Status,
+         IssueType,
+         //@ts-ignore
+         'Ticket-Id': Date.now().toString() // TBD string or number
       }
 
     }
@@ -43,10 +53,11 @@ const putItem = async (payload) => {
 }
 
 const getItem = async () => {
-  const getParams: TemporaryPayloadType = {
+  const getParams: IssuesPayloadType = {
     Method: 'Get',
     Payload: {
       Key: {
+        //@ts-ignore
         "BookName": 'BadaBing'
        }, 
        TableName: "BookCatalog" 
@@ -64,7 +75,7 @@ const updateItem = async (payload) => {
   const { issue, description, priorityLevel
   } = payload
 
-  const updateParams: TemporaryPayloadType = {
+  const updateParams: IssuesPayloadType = {
     Method: 'Update',
     Payload: {
       TableName: "Issues",
@@ -89,14 +100,13 @@ const updateItem = async (payload) => {
   console.log(JSON.parse(results), 'INUPDATE!@!#@')
 }
 
-const deleteItem = async (Issue: string) => {
-  const deleteParams: TemporaryPayloadType = {
+const deleteItem = async (Assignee: string) => {
+  const deleteParams: IssuesPayloadType = {
     Method: 'Delete',
     Payload: {
       TableName: "Issues",
       Key: {
-        //@ts-ignore
-        Issue: Issue,
+        Assignee
       },
     }
   }
@@ -108,7 +118,7 @@ const deleteItem = async (Issue: string) => {
 }
 
 const queryFunc = async () => {
-  const queryParams: TemporaryPayloadType = {
+  const queryParams: IssuesPayloadType = {
     Method: 'Query',
     Payload: {
       TableName: "Issues",
@@ -139,11 +149,31 @@ const scanFunc = async () => {
   }
 
   const params = lambdaParams('HelloWorld', scanParams)
-  const { Payload } = await lambda.invoke(params).promise();
-  // @ts-ignore
-  const something = JSON.parse(Payload)
-  console.log(something.body.results, 'bodyyyyyy')
-  return something.body.results
+
+  try {
+    const lambdaResults = await lambda.invoke(params).promise()
+
+    const something:{
+      body: {
+        message: string;
+        results: {
+          Items: Item[]
+          Count: number
+          ScannedCount: number
+        }
+      }
+      header: string
+      statusCode: number
+    } = JSON.parse(lambdaResults.Payload!.toString())
+
+    console.log(something, 'inscannnnnnn')
+    const { body: { results }, header, statusCode} = something
+
+    return results.Items
+
+  } catch(e) {
+
+  }
 }
 
 export {
@@ -154,3 +184,18 @@ export {
   queryFunc,
   scanFunc
 }
+/* 
+{
+  body: {
+    message: string;
+    results: {
+      Items: Item[]
+      Count: number
+      ScannedCount: number
+    }
+  }
+  header: string
+  statusCode: number
+}
+
+*/

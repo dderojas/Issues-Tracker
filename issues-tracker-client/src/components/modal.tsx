@@ -1,28 +1,24 @@
 import { ModalContainer, ModalBackground } from "../styles";
 import { FormState } from "../../types";
-
-const ACTIONS = {
-  ADD_TICKET: 'add ticket',
-  SET_FORM_STATE: 'set-form-state'
-}
+import { ACTIONS } from '../App'
 
 type ModalPropsType = {
   setModalOpen: (boolean: boolean) => void;
   addTicket: (state: any) => void;
   deleteTicket: (issue: string) => void;
-  updateTicket: (e: any,id: number, issue: string, description: string, priorityLevel: string) => void;
+  updateTicket: ({ Assignee, Description, PriorityLevel, Status, IssueType }: FormState) => void;
   formState: FormState;
   dispatch: (something: any) => void;
 }
 
-const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState = { id: -Infinity, issue: '', description: '', priorityLevel: ''}, dispatch  }: ModalPropsType) => {
-  const { id, issue, description, priorityLevel } = formState
-  console.log(formState, 'formmmmstateeeee')
+const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState = { Assignee: '', Description: '', PriorityLevel: '', Status: '', IssueType: ''}, dispatch  }: ModalPropsType) => {
+  const { Assignee, Description, PriorityLevel, Status, IssueType } = formState
+  
   const handleChange = (e: any) => {
     e.preventDefault()
     dispatch({ 
-      type: ACTIONS.SET_FORM_STATE,
-      payload: { [e.target.name]: e.target.value }
+      type: ACTIONS.SET_MODAL_STATE,
+      ticketPayload: { [e.target.name]: e.target.value }
     })
   }
 
@@ -40,18 +36,20 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
         </div>
         <h1>Create a Ticket</h1>
         <form>
-          <input name="issue" type="text" placeholder="Issue" value={issue} onChange={handleChange} />
-          <input name="description" type="text" placeholder="Description" value={description} onChange={handleChange} />
-          <input name="priorityLevel" type="text" placeholder="Priority Level" value={priorityLevel} onChange={handleChange} />
+          <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
+          <input name="Description" type="text" placeholder="Description" value={Description} onChange={handleChange} />
+          <input name="PriorityLevel" type="text" placeholder="Priority Level" value={PriorityLevel} onChange={handleChange} />
+          <input name="Status" type="text" placeholder="Status" value={Status} onChange={handleChange} />
+          <input name="IssueType" type="text" placeholder="Issue Type" value={IssueType} onChange={handleChange} />
           <button>Add Ticket</button>
         </form>
           <button onClick={(e) => {
-            updateTicket(e, id, issue, description, priorityLevel)
+            updateTicket({ Assignee, Description, PriorityLevel, Status, IssueType })
           }}>
             Update Ticket
           </button>
           <button onClick={(e) => {
-            deleteTicket(issue)
+            deleteTicket(Assignee)
           }}>
             Delete Ticket
           </button>
