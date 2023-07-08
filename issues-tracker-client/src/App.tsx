@@ -3,7 +3,7 @@ import { HorizontalNavbar } from './components';
 import { VerticalNavbar } from './components'
 import { BacklogView } from './components'
 import { Button } from './styles';
-import { InitialState, FormState, Item } from '../types'
+import { InitialState, Item } from '../types'
 import { Modal } from './components';
 import { putItem, scanFunc, updateItem, deleteItem } from './services';
 
@@ -17,13 +17,13 @@ const ACTIONS = {
 }
 
 const initialState: InitialState = {
-  formState: { Assignee: '', Description: '', PriorityLevel: '', Status: '', IssueType: '' },
+  formState: { Assignee: '', Description: '', PriorityLevel: '', TicketStatus: '', IssueType: '' },
   backlogState: []
 }
 
 type ActionType = {
   type: string;
-  backlogPayload?: FormState[] | Item[];
+  backlogPayload?: Item[];
   ticketPayload?: Item;
 }
 
@@ -33,6 +33,8 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
   switch(action.type) {
     case ACTIONS.ADD_TICKET:
       return { backlogState: [...backlogState ], formState: initialState.formState }
+    case ACTIONS.DELETE_TICKET:
+      return { backlogState: initialState.backlogState, formState: initialState.formState}
     case ACTIONS.UPDATE_BACKLOG:
       return { 
         backlogState: action.backlogPayload ? [ ...action.backlogPayload ] : [ ...backlogState ], 
@@ -57,7 +59,6 @@ const App = () => {
     (async () => {
       if (!modalOpen) {
         const items = await scanFunc()
-        console.log(items, 'results!!@#!@#')
 
         if (items?.length) {
           dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: items })
@@ -81,19 +82,23 @@ const App = () => {
     })
   }
 
-  const updateTicket = async ({ Assignee, Description, PriorityLevel, Status, IssueType }: FormState) => {
+  const updateTicket = async ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId = '' }: Item) => {
+    dispatch({ type: ACTIONS.ADD_TICKET })
 
-    await updateItem({ Assignee, Description, PriorityLevel, Status, IssueType })
+
+    await updateItem({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
   }
 
-  const deleteTicket = async (issue: string) => {
+  const deleteTicket = async (Assignee: string, TicketId?: string) => {
+    
+    dispatch({ type: ACTIONS.DELETE_TICKET })
 
-    await deleteItem(issue)
+    await deleteItem(Assignee, TicketId)
   }
 
-  const openModalWithData = (Assignee: string, Description: string, PriorityLevel: string, Status: string, IssueType: string) => {
+  const openModalWithData = (Assignee: string, Description: string, PriorityLevel: string, TicketStatus: string, IssueType: string, TicketId?: string) => {
     setModalOpen(true)
-    dispatch({ type: ACTIONS.EDIT_TICKET, ticketPayload: { Assignee, Description, PriorityLevel, Status, IssueType } })
+    dispatch({ type: ACTIONS.EDIT_TICKET, ticketPayload: { Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId } })
   }
 
   return (

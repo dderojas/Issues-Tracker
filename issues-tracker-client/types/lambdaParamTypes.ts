@@ -1,25 +1,27 @@
 type Key = {
-  Assignee: string;
+  TicketId?: string;
+  Assignee?: string
 }
 
-type Item = {
-  Assignee: string;
-  Description: string;
-  PriorityLevel: string;
-  Status: string;
-  IssueType: string;
-  TicketId?: number;
+interface Item extends FormState {
+  TicketId?: string;
 }
 
 type TicketType = {
   [key:string]: string;
 }
 
-type FormState = Item
+type FormState = {
+  Assignee: string;
+  Description: string;
+  PriorityLevel: string;
+  TicketStatus: string;
+  IssueType: string;
+}
 
 type InitialState = {
   formState: FormState;
-  backlogState: FormState[];
+  backlogState: Item[];
 }
 
 type ExpressionAttributeValues = {

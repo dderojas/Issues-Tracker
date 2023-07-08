@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk'
-import { IssuesPayloadType, Item } from '../../types'
+import { IssuesPayloadType, Item, TicketType } from '../../types'
 
 AWS.config.region = process.env.REACT_APP_AWS_REGION;
 
@@ -19,29 +19,26 @@ const lambdaParams = (functionName: string, payload: any) => {
   }
 }
 
-//@ts-ignore
-const putItem = async (payload) => {
+const putItem = async (payload: TicketType) => {
   const { 
     Assignee, 
     Description, 
     PriorityLevel,
-    Status,
+    TicketStatus,
     IssueType
    } = payload
-   
+
   const putParams: IssuesPayloadType = {
     Method: 'Put',
     Payload: {
       TableName : 'Issues',
-      //@ts-ignore
       Item: {
          Assignee,
          Description,
          PriorityLevel,
-         Status,
+         TicketStatus,
          IssueType,
-         //@ts-ignore
-         'Ticket-Id': Date.now().toString() // TBD string or number
+         TicketId: Date.now().toString() // TBD string or number
       }
 
     }
@@ -56,11 +53,10 @@ const getItem = async () => {
   const getParams: IssuesPayloadType = {
     Method: 'Get',
     Payload: {
+      TableName: 'Issues' ,
       Key: {
-        //@ts-ignore
-        "BookName": 'BadaBing'
-       }, 
-       TableName: "BookCatalog" 
+        Assignee: 'BadaBing'
+      }
     }
    };;
 
@@ -70,23 +66,31 @@ const getItem = async () => {
   await lambda.invoke(params).promise();
 }
 
-// @ts-ignore
-const updateItem = async (payload) => {
-  const { issue, description, priorityLevel
-  } = payload
+
+const updateItem = async (payload:TicketType) => {
+  const { 
+    Assignee, 
+    Description, 
+    PriorityLevel,
+    TicketStatus,
+    IssueType,
+    TicketId
+   } = payload
 
   const updateParams: IssuesPayloadType = {
     Method: 'Update',
     Payload: {
       TableName: "Issues",
       Key: {
-        // @ts-ignore
-        Issue: issue
+        Assignee,
+        TicketId
       },
-      UpdateExpression: "set PriorityLevel = :priority, Description = :description",
+      UpdateExpression: "set PriorityLevel = :priority, Description = :description, TicketStatus = :ticketStatus, IssueType = :issueType",
       ExpressionAttributeValues: {
-        ":priority": priorityLevel,
-        ":description": description
+        ":priority": PriorityLevel,
+        ":description": Description,
+        ":ticketStatus": TicketStatus,
+        ":issueType": IssueType
       },
       ReturnValues: "ALL_NEW",
     }
@@ -95,18 +99,20 @@ const updateItem = async (payload) => {
   const params = lambdaParams('HelloWorld', updateParams)
 
 
-  const results = await lambda.invoke(params).promise();
-  // @ts-ignore
-  console.log(JSON.parse(results), 'INUPDATE!@!#@')
+  const results = await lambda.invoke(params).promise()
+  console.log(results, 'resultsssssss')
+  // return JSON.parse(results.toString())
 }
 
-const deleteItem = async (Assignee: string) => {
+const deleteItem = async (Assignee: string, TicketId?: string) => {
+  console.log(TicketId, Assignee, 'in delete item!')
   const deleteParams: IssuesPayloadType = {
     Method: 'Delete',
     Payload: {
       TableName: "Issues",
       Key: {
-        Assignee
+        Assignee,
+        TicketId
       },
     }
   }
@@ -133,9 +139,9 @@ const queryFunc = async () => {
 
   const params = lambdaParams('HelloWorld', queryParams)
 
-  const { Payload } = await lambda.invoke(params).promise();
-  // @ts-ignore
-  const something = JSON.parse(Payload)
+  const lambdaResults = await lambda.invoke(params).promise();
+
+  const something = JSON.parse(lambdaResults.Payload!.toString())
   console.log(something.body.results)
 
 }
@@ -172,7 +178,7 @@ const scanFunc = async () => {
     return results.Items
 
   } catch(e) {
-
+    console.error(e)
   }
 }
 
@@ -184,18 +190,3 @@ export {
   queryFunc,
   scanFunc
 }
-/* 
-{
-  body: {
-    message: string;
-    results: {
-      Items: Item[]
-      Count: number
-      ScannedCount: number
-    }
-  }
-  header: string
-  statusCode: number
-}
-
-*/
