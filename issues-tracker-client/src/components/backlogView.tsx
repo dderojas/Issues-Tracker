@@ -1,5 +1,5 @@
-import { Item, FormState } from '../../types'
-import { Ticket } from '../styles'
+import { Item } from '../../types'
+import { Ticket, BacklogBoard } from '../styles'
 
 type BacklogType = {
   list?: Item[];
@@ -8,7 +8,7 @@ type BacklogType = {
 
 const BacklogView = ({ list = [], openModalWithData }: BacklogType) => {
   return (
-    <div>
+    <BacklogBoard>
       {list?.map((elem: Item) => {
         return (
           <Ticket key={Math.random()} onClick={() => {
@@ -22,7 +22,7 @@ const BacklogView = ({ list = [], openModalWithData }: BacklogType) => {
           </Ticket>
         )
       })}
-    </div>
+    </BacklogBoard>
   )
 }
 

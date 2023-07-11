@@ -9,6 +9,8 @@ const VerticalNav = styled.div`
   height: 100%;
   width: 10%;
   overflow: auto;
+  border-color: black;
+  border-style: solid;
 `
 const HorizontalNav = styled.nav`
   display: flex;
@@ -20,6 +22,8 @@ const HorizontalNav = styled.nav`
   width: 100%;
   padding: 10px 10px 10px 10px;
   z-index: 9999;
+  border-color: black;
+  border-style: solid;
 `
 
 // temporary button

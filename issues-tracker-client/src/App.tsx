@@ -2,7 +2,7 @@ import { useState, useReducer, useEffect } from 'react'
 import { HorizontalNavbar } from './components';
 import { VerticalNavbar } from './components'
 import { BacklogView } from './components'
-import { Button } from './styles';
+import { Button, Columns, SprintBoard } from './styles';
 import { InitialState, Item } from '../types'
 import { Modal } from './components';
 import { putItem, scanFunc, updateItem, deleteItem } from './services';
@@ -103,20 +103,38 @@ const App = () => {
 
   return (
     <>
-        <HorizontalNavbar>
-          <Button>logo?</Button>
-          <Button>Sign In/Register</Button>
-        </HorizontalNavbar>
-        <VerticalNavbar>
-          <Button onClick={() => {
-            setBacklog(!showBacklog)
-          }}>Backlog</Button>
-          <Button onClick={() => setModalOpen(true)}>Create Ticket</Button>
-        </VerticalNavbar>
-        { modalOpen && <Modal setModalOpen={setModalOpen} addTicket={addTicket} updateTicket={updateTicket} deleteTicket={deleteTicket} formState={formState} dispatch={dispatch}/> }
-      <div style={{ display: 'flex', paddingLeft: '12%', paddingTop: '7%' }}>
-        { showBacklog && <BacklogView list={backlogState} openModalWithData={openModalWithData}/> }
-      </div>
+      <HorizontalNavbar>
+        <Button>logo?</Button>
+        <Button>Sign In/Register</Button>
+      </HorizontalNavbar>
+      <VerticalNavbar>
+        <Button onClick={() => {
+          setBacklog(!showBacklog)
+        }}>Backlog</Button>
+        <Button onClick={() => setModalOpen(true)}>Create Ticket</Button>
+      </VerticalNavbar>
+        { modalOpen && 
+          <Modal 
+            setModalOpen={setModalOpen} 
+            addTicket={addTicket} 
+            updateTicket={updateTicket} 
+            deleteTicket={deleteTicket} 
+            formState={formState} 
+            dispatch={dispatch}
+          /> }
+      { !showBacklog && 
+        <SprintBoard>
+          <Columns>
+            heyoooo
+          </Columns>
+          <Columns>
+            heyoooo
+          </Columns>
+          <Columns>
+            heyoooo
+          </Columns>
+        </SprintBoard> }
+      { showBacklog && <BacklogView list={backlogState} openModalWithData={openModalWithData}/> }
     </>
   );
 }
