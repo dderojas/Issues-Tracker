@@ -22,6 +22,7 @@ type FormState = {
 type InitialState = {
   formState: FormState;
   backlogState: Item[];
+  sprintBoardState: any;
 }
 
 type ExpressionAttributeValues = {

@@ -4,9 +4,10 @@ const BacklogBoard = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 12%;
-  padding-top: 10%;
+  padding-top: 8%;
   height: 100%;
   background-color: #2F4F4F;
+  overflow: auto;
 `
 
 const SprintBoard = styled.div`
@@ -20,9 +21,9 @@ const SprintBoard = styled.div`
 
 const Columns = styled.div`
   display: flex;
-  padding-left: 10%;
-  padding-top: 7%;
+  flex-direction: column;
   background-color: #6495ED;
+  padding: 1%;
   height: 100%;
   border-color: black;
   border-style: solid;

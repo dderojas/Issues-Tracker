@@ -1,10 +1,7 @@
 import { useState, useReducer, useEffect } from 'react'
-import { HorizontalNavbar } from './components';
-import { VerticalNavbar } from './components'
-import { BacklogView } from './components'
-import { Button, Columns, SprintBoard } from './styles';
+import { HorizontalNavbar, VerticalNavbar, Modal, BacklogView, SprintBoardView } from './components';
+import { Button } from './styles';
 import { InitialState, Item } from '../types'
-import { Modal } from './components';
 import { putItem, scanFunc, updateItem, deleteItem } from './services';
 
 const ACTIONS = {
@@ -13,37 +10,70 @@ const ACTIONS = {
   EDIT_TICKET: 'modal-with-data',
   UPDATE_TICKET: 'update-ticket',
   DELETE_TICKET: 'delete-ticket',
-  UPDATE_BACKLOG: 'update-backlog'
+  UPDATE_BACKLOG: 'update-backlog',
+  UPDATE_SPRINT_BOARD: 'update-sprint-board'
 }
 
 const initialState: InitialState = {
   formState: { Assignee: '', Description: '', PriorityLevel: '', TicketStatus: '', IssueType: '' },
-  backlogState: []
+  backlogState: [],
+  sprintBoardState: { todo: [], inProgress: [], done: [] }
 }
 
 type ActionType = {
   type: string;
   backlogPayload?: Item[];
   ticketPayload?: Item;
+  sprintBoardPayload?: any;
 }
 
+
+const filterForKanban = (backlogData:any) => {
+
+  const inProgress:any = []
+
+  const todo:any = []
+
+  const done:any = []
+
+  const results:any = { inProgress, todo, done }
+
+  for (let i = 0; i < backlogData.length; i++) {
+    if (backlogData[i].TicketStatus === 'inProgress') {
+      results.inProgress.push(backlogData[i])
+    }
+    if (backlogData[i].TicketStatus === 'todo') {
+      results.todo.push(backlogData[i])
+    }
+    if (backlogData[i].TicketStatus === 'done') {
+      results.done.push(backlogData[i])
+    }
+  }
+
+  return results;
+}
+
+
 const issuesReducer = (state: InitialState, action: ActionType): InitialState => {
-  const { formState, backlogState } = state
+  const { formState, backlogState, sprintBoardState } = state
   
   switch(action.type) {
     case ACTIONS.ADD_TICKET:
-      return { backlogState: [...backlogState ], formState: initialState.formState }
+      return { backlogState: [...backlogState ], sprintBoardState, formState: initialState.formState }
     case ACTIONS.DELETE_TICKET:
-      return { backlogState: initialState.backlogState, formState: initialState.formState}
+      return { backlogState: initialState.backlogState, sprintBoardState, formState: initialState.formState}
     case ACTIONS.UPDATE_BACKLOG:
       return { 
         backlogState: action.backlogPayload ? [ ...action.backlogPayload ] : [ ...backlogState ], 
-        formState: initialState.formState 
+        sprintBoardState, 
+        formState: initialState.formState
       }
     case ACTIONS.SET_MODAL_STATE:
-      return { backlogState, formState: { ...formState, ...action.ticketPayload } }
+      return { backlogState, sprintBoardState, formState: { ...formState, ...action.ticketPayload } }
     case ACTIONS.EDIT_TICKET:
-      return { backlogState, formState: { ...formState, ...action.ticketPayload } }
+      return { backlogState, sprintBoardState, formState: { ...formState, ...action.ticketPayload } }
+    case ACTIONS.UPDATE_SPRINT_BOARD:
+      return { backlogState, sprintBoardState: filterForKanban(action.sprintBoardPayload), formState: initialState.formState }
     default:
       return initialState
   }
@@ -51,9 +81,9 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
 
 const App = () => {
   const [modalOpen, setModalOpen] = useState(false)
-  const [showBacklog, setBacklog] = useState(false)
+  const [view, setView] = useState(false)
 
-  const [{ backlogState, formState }, dispatch] = useReducer(issuesReducer, initialState)
+  const [{ backlogState, formState, sprintBoardState }, dispatch] = useReducer(issuesReducer, initialState)
 
   useEffect(() => {
     (async () => {
@@ -62,6 +92,7 @@ const App = () => {
 
         if (items?.length) {
           dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: items })
+          dispatch({ type: ACTIONS.UPDATE_SPRINT_BOARD, sprintBoardPayload: items })
         }
       }
     })()
@@ -105,12 +136,16 @@ const App = () => {
     <>
       <HorizontalNavbar>
         <Button>logo?</Button>
+        { view ? <div style={{ color: 'white', fontSize: '30px' }}>BACKLOG</div> : <div style={{ color: 'white', fontSize: '30px' }}>SPRINT BOARD</div>}
         <Button>Sign In/Register</Button>
       </HorizontalNavbar>
       <VerticalNavbar>
         <Button onClick={() => {
-          setBacklog(!showBacklog)
+          setView(true)
         }}>Backlog</Button>
+        <Button onClick={() => {
+          setView(false)
+        }}>Sprint Board</Button>
         <Button onClick={() => setModalOpen(true)}>Create Ticket</Button>
       </VerticalNavbar>
         { modalOpen && 
@@ -122,19 +157,9 @@ const App = () => {
             formState={formState} 
             dispatch={dispatch}
           /> }
-      { !showBacklog && 
-        <SprintBoard>
-          <Columns>
-            heyoooo
-          </Columns>
-          <Columns>
-            heyoooo
-          </Columns>
-          <Columns>
-            heyoooo
-          </Columns>
-        </SprintBoard> }
-      { showBacklog && <BacklogView list={backlogState} openModalWithData={openModalWithData}/> }
+          {/*@ts-ignore*/}
+      { !view && <SprintBoardView sprintBoardState={sprintBoardState} /> }
+      { view && <BacklogView list={backlogState} openModalWithData={openModalWithData}/> }
     </>
   );
 }

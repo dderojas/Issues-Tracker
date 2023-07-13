@@ -5,7 +5,7 @@ const Ticket = styled.div`
   display: flex;
   flex-direction: column;
   height: 100px;
-  width: 75%;
+  width: 100%;
   border-style: solid;
   border-color: black;
   background-color: #B0C4DE;
