@@ -9,7 +9,7 @@ const Ticket = styled.div`
   border-style: solid;
   border-color: black;
   background-color: #B0C4DE;
-  overflow: auto;
+  overflow: hidden;
 `
 
 export {

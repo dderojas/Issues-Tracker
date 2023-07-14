@@ -7,7 +7,9 @@ const SprintBoardView = (props:any) => {
       <Columns>
         {props.sprintBoardState.todo?.map((elem:any) => {
           return (
-            <Ticket>
+            <Ticket onClick={() => {
+              props.openModalWithData(elem.Assignee, elem.Description, elem.PriorityLevel, elem.TicketStatus, elem.IssueType, elem.TicketId)
+            }}>
               <div>{elem.Assignee}</div>
               <div>{elem.Description}</div>
               <div>{elem.PriorityLevel}</div>
@@ -20,7 +22,9 @@ const SprintBoardView = (props:any) => {
       <Columns>
         {props.sprintBoardState.inProgress?.map((elem:any) => {
           return (
-            <Ticket>
+            <Ticket onClick={() => {
+              props.openModalWithData(elem.Assignee, elem.Description, elem.PriorityLevel, elem.TicketStatus, elem.IssueType, elem.TicketId)
+            }}>
               <div>{elem.Assignee}</div>
               <div>{elem.Description}</div>
               <div>{elem.PriorityLevel}</div>
@@ -33,7 +37,9 @@ const SprintBoardView = (props:any) => {
       <Columns>
         {props.sprintBoardState.done?.map((elem:any) => {
           return (
-            <Ticket>
+            <Ticket onClick={() => {
+              props.openModalWithData(elem.Assignee, elem.Description, elem.PriorityLevel, elem.TicketStatus, elem.IssueType, elem.TicketId)
+            }}>
               <div>{elem.Assignee}</div>
               <div>{elem.Description}</div>
               <div>{elem.PriorityLevel}</div>

@@ -4,8 +4,9 @@ const BacklogBoard = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 12%;
+  padding-right: 5%;
   padding-top: 8%;
-  height: 100%;
+  height: 1000px;
   background-color: #2F4F4F;
   overflow: auto;
 `

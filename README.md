@@ -18,12 +18,12 @@ A Simple Kanban board implementation
 - [x] Save tickets on any edit
  - [ ] Show error if save didn't work
 - [ ] Add logo for header
-- [ ] Get backlog button to toggle name depending on what board is showing
-- [ ] Edit ticket modal, change title of create modal to "Edit Ticket"
+- [x] Get backlog button to toggle name depending on what board is showing
+- [x] Edit ticket modal, change title of create modal to "Edit Ticket"
   - [ ] Add ability to create and view comments
 - [ ] Update button styling
 
-- [ ] Allow use to move tickets to different Columns
+- [ ] Allow user to move tickets to different Columns
 - [x] Remove AWS SDK secrets from Provider file and use enviorment variables
 
 ### Backend

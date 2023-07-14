@@ -158,7 +158,7 @@ const App = () => {
             dispatch={dispatch}
           /> }
           {/*@ts-ignore*/}
-      { !view && <SprintBoardView sprintBoardState={sprintBoardState} /> }
+      { !view && <SprintBoardView sprintBoardState={sprintBoardState} openModalWithData={openModalWithData}/> }
       { view && <BacklogView list={backlogState} openModalWithData={openModalWithData}/> }
     </>
   );

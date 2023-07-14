@@ -21,7 +21,7 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
       ticketPayload: { [e.target.name]: e.target.value }
     })
   }
-
+  
   return (
     <ModalBackground>
       <ModalContainer onSubmit={addTicket}>
@@ -34,7 +34,7 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
             Close Modal
           </button>
         </div>
-        <h1>Create a Ticket</h1>
+        <h1>{TicketId ? 'Edit Ticket' : 'Create a Ticket'}</h1>
         <form>
           <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
           <input name="Description" type="text" placeholder="Description" value={Description} onChange={handleChange} />
