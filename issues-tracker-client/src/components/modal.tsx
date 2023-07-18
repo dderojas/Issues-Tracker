@@ -13,7 +13,11 @@ type ModalPropsType = {
 
 const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState = { Assignee: '', Description: '', PriorityLevel: '', TicketStatus: '', IssueType: '', TicketId: ''}, dispatch  }: ModalPropsType) => {
   const { Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId } = formState
-  
+
+  const ticketStatusDropDown = ['Choose Ticket Status', 'Todo', 'In Progress', 'Done']
+  const priorityLevelDropDown = ['Choose Priority Level', 'High', 'Medium', 'Low']
+  const issueTypeDropDown = ['Choose Issue Type', 'Feature', 'Bug']
+
   const handleChange = (e: any) => {
     e.preventDefault()
     dispatch({ 
@@ -36,11 +40,28 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
         </div>
         <h1>{TicketId ? 'Edit Ticket' : 'Create a Ticket'}</h1>
         <form>
-          <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
+          <input name="Assignee" type="teXxt" placeholder="Assignee" value={Assignee} onChange={handleChange} />
           <input name="Description" type="text" placeholder="Description" value={Description} onChange={handleChange} />
-          <input name="PriorityLevel" type="text" placeholder="Priority Level" value={PriorityLevel} onChange={handleChange} />
-          <input name="TicketStatus" type="text" placeholder="TicketStatus" value={TicketStatus} onChange={handleChange} />
-          <input name="IssueType" type="text" placeholder="Issue Type" value={IssueType} onChange={handleChange} />
+          <select name="PriorityLevel" value={PriorityLevel} onChange={handleChange}>
+            {priorityLevelDropDown.map((elem, index) => {
+              if (index === 0) return <option value="" disabled selected hidden>{elem}</option>
+
+              return <option value={elem} key={elem}>{elem}</option>
+            })}
+          </select>
+          <select name="TicketStatus" value={TicketStatus} onChange={handleChange}>
+            {ticketStatusDropDown.map((elem, index) => {
+              if (index === 0) return <option value="" disabled selected hidden>{elem}</option>
+
+              return <option value={elem} key={elem}>{elem}</option>
+            })}
+          </select>
+          <select name="IssueType" value={IssueType} onChange={handleChange}>
+            {issueTypeDropDown.map((elem, index) => {
+              if (index === 0) return <option value="" disabled selected hidden>{elem}</option>
+              return <option value={elem} key={elem}>{elem}</option>
+            })}
+          </select>
           <button>Add Ticket</button>
         </form>
           <button onClick={(e) => {

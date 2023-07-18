@@ -39,13 +39,13 @@ const filterForKanban = (backlogData:any) => {
   const results:any = { inProgress, todo, done }
 
   for (let i = 0; i < backlogData.length; i++) {
-    if (backlogData[i].TicketStatus === 'inProgress') {
+    if (backlogData[i].TicketStatus === 'In Progress') {
       results.inProgress.push(backlogData[i])
     }
-    if (backlogData[i].TicketStatus === 'todo') {
+    if (backlogData[i].TicketStatus === 'Todo') {
       results.todo.push(backlogData[i])
     }
-    if (backlogData[i].TicketStatus === 'done') {
+    if (backlogData[i].TicketStatus === 'Done') {
       results.done.push(backlogData[i])
     }
   }
