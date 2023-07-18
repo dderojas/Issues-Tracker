@@ -30,13 +30,7 @@ type ActionType = {
 
 const filterForKanban = (backlogData:any) => {
 
-  const inProgress:any = []
-
-  const todo:any = []
-
-  const done:any = []
-
-  const results:any = { inProgress, todo, done }
+  const results:any = { inProgress: [], todo: [], done: [] }
 
   for (let i = 0; i < backlogData.length; i++) {
     if (backlogData[i].TicketStatus === 'In Progress') {
@@ -82,42 +76,56 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
 const App = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [view, setView] = useState(false)
-
+  const [inputError, setInputError] = useState(null)
+  
   const [{ backlogState, formState, sprintBoardState }, dispatch] = useReducer(issuesReducer, initialState)
-
+  
   useEffect(() => {
     (async () => {
       if (!modalOpen) {
         const items = await scanFunc()
-
+        
         if (items?.length) {
           dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: items })
           dispatch({ type: ACTIONS.UPDATE_SPRINT_BOARD, sprintBoardPayload: items })
         }
       }
     })()
-
+    
   }, [modalOpen])
-
+  
   // add type for "e", maybe React.FormEvent<HTMLInputElement>
   const addTicket = (e: any) => {
     e.preventDefault()
-    dispatch({ type: ACTIONS.ADD_TICKET })
 
-    putItem({
-      [e.target[0].name]: e.target[0].value,
-      [e.target[1].name]: e.target[1].value,
-      [e.target[2].name]: e.target[2].value,
-      [e.target[3].name]: e.target[3].value,
-      [e.target[4].name]: e.target[4].value
-    })
+    if (e.target[0].value.length === 0 || e.target[1].value.length === 0) {
+      //@ts-ignore
+      setInputError('Assignee and Description cannot be empty')
+    } else {
+      dispatch({ type: ACTIONS.ADD_TICKET })
+      
+      putItem({
+        [e.target[0].name]: e.target[0].value,
+        [e.target[1].name]: e.target[1].value,
+        [e.target[2].name]: e.target[2].value,
+        [e.target[3].name]: e.target[3].value,
+        [e.target[4].name]: e.target[4].value
+      })
+  
+      setModalOpen(false)
+    }
   }
 
   const updateTicket = async ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId = '' }: Item) => {
-    dispatch({ type: ACTIONS.ADD_TICKET })
-
-
-    await updateItem({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
+    if (Assignee.length === 0 || Description.length === 0) {
+      //@ts-ignore
+      setInputError('Assignee and Description cannot be empty')
+    } else {
+      dispatch({ type: ACTIONS.ADD_TICKET })
+      
+      await updateItem({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
+      setModalOpen(false)
+    }
   }
 
   const deleteTicket = async (Assignee: string, TicketId?: string) => {
@@ -125,6 +133,8 @@ const App = () => {
     dispatch({ type: ACTIONS.DELETE_TICKET })
 
     await deleteItem(Assignee, TicketId)
+
+    setModalOpen(false)
   }
 
   const openModalWithData = (Assignee: string, Description: string, PriorityLevel: string, TicketStatus: string, IssueType: string, TicketId?: string) => {
@@ -136,7 +146,7 @@ const App = () => {
     <>
       <HorizontalNavbar>
         <Button>logo?</Button>
-        { view ? <div style={{ color: 'white', fontSize: '30px' }}>BACKLOG</div> : <div style={{ color: 'white', fontSize: '30px' }}>SPRINT BOARD</div>}
+        <div style={{ color: 'white', fontSize: '30px' }}>{view ? 'BACKLOG' : 'SPRINT BOARD'}</div>
         <Button>Sign In/Register</Button>
       </HorizontalNavbar>
       <VerticalNavbar>
@@ -156,8 +166,9 @@ const App = () => {
             deleteTicket={deleteTicket} 
             formState={formState} 
             dispatch={dispatch}
+            //@ts-ignore
+            inputError={inputError}
           /> }
-          {/*@ts-ignore*/}
       { !view && <SprintBoardView sprintBoardState={sprintBoardState} openModalWithData={openModalWithData}/> }
       { view && <BacklogView list={backlogState} openModalWithData={openModalWithData}/> }
     </>

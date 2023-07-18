@@ -10,10 +10,10 @@ type ModalPropsType = {
   formState: Item;
   dispatch: (something: any) => void;
 }
-
-const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState = { Assignee: '', Description: '', PriorityLevel: '', TicketStatus: '', IssueType: '', TicketId: ''}, dispatch  }: ModalPropsType) => {
+//@ts-ignore
+const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState = { Assignee: '', Description: '', PriorityLevel: '', TicketStatus: '', IssueType: '', TicketId: ''}, dispatch, inputError  }: ModalPropsType) => {
   const { Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId } = formState
-
+  
   const ticketStatusDropDown = ['Choose Ticket Status', 'Todo', 'In Progress', 'Done']
   const priorityLevelDropDown = ['Choose Priority Level', 'High', 'Medium', 'Low']
   const issueTypeDropDown = ['Choose Issue Type', 'Feature', 'Bug']
@@ -62,6 +62,7 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
               return <option value={elem} key={elem}>{elem}</option>
             })}
           </select>
+          {inputError && <div style={{ color: 'red' }}>{inputError}</div> }
           <button>Add Ticket</button>
         </form>
           <button onClick={(e) => {
