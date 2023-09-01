@@ -10,6 +10,7 @@ const isPositionChanged = (destination: any, source: any) => {
 };
 
 const SprintBoardView = (props:any) => {
+  const [something, updateSomething] = useState([{ id: 'anakin' }, { id: 'obiwan' }])
 
   const handleOnDragEnd = ({ draggableId, destination, source }: any) => {
     console.log('in dragend!!!')
@@ -30,18 +31,18 @@ const SprintBoardView = (props:any) => {
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <SprintBoard>
-        <Droppable key={'you were the chosen one!'} droppableId='you were the chosen one!'>
+        <Droppable key={'todo'} droppableId='todo'>
           { provided => (
-            <Draggable draggableId={issue.id.toString()} index={index}>
-              {(provided, snapshot) => (
-                <Columns {...provided.droppableProps} ref={provided.innerRef}>
-                      <Ticket>
-                        <div>you were the chosen one!</div>
-                      </Ticket>
-                      {provided.placeholder}
-                </Columns>
-              )}
-            </Draggable>
+            <Columns {...provided.droppableProps} ref={provided.innerRef}>
+              <Draggable draggableId={something[0].id.toString()} index={0}>
+                {(provided, snapshot) => (
+                  <Ticket {...provided.draggableProps} {...provided.dragHandleProps}>
+                    <div>you were the chosen one!</div>
+                  </Ticket>
+                )}
+              </Draggable>
+              {provided.placeholder}
+            </Columns>
           )}
         </Droppable>
         <Droppable key={''} droppableId=''>
