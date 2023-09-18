@@ -1,6 +1,24 @@
-import { useState } from 'react'
+// @ts-nocheck
+import { useState, useEffect } from 'react'
 import { SprintBoard, Columns, Ticket } from '../styles'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+
+// StrictMode solution??
+export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    const animation = requestAnimationFrame(() => setEnabled(true));
+    return () => {
+      cancelAnimationFrame(animation);
+      setEnabled(false);
+    };
+  }, []);
+  if (!enabled) {
+    return null;
+  }
+  return <Droppable {...props}>{children}</Droppable>;
+};
+
 
 const isPositionChanged = (destination: any, source: any) => {
   if (!destination) return false;
@@ -27,24 +45,24 @@ const SprintBoardView = (props:any) => {
     //   setLocalData: fields => updateLocalProjectIssues(issueId, fields),
     // });
   };
-
+console.log(something[0].id.toString(), '????')
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <SprintBoard>
-        <Droppable key={'todo'} droppableId='todo'>
+        <StrictModeDroppable key={'todo'} type="COLUMN" droppableId='todo' direction='horizontal'>
           { provided => (
             <Columns {...provided.droppableProps} ref={provided.innerRef}>
-              <Draggable draggableId={something[0].id.toString()} index={0}>
+              <Draggable key={something[0].id} draggableId={something[0].id} index={0}>
                 {(provided, snapshot) => (
-                  <Ticket {...provided.draggableProps} {...provided.dragHandleProps}>
-                    <div>you were the chosen one!</div>
+                  <Ticket ref={provided.innerRef} {...provided.draggableProps} isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
+                    <div isDragging={snapshot.isDragging} {...provided.dragHandleProps}>you were the chosen one!</div>
                   </Ticket>
                 )}
               </Draggable>
               {provided.placeholder}
             </Columns>
           )}
-        </Droppable>
+        </StrictModeDroppable>
         <Droppable key={''} droppableId=''>
           { provided => (
             <Columns>
