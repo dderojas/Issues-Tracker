@@ -19,43 +19,93 @@ export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
   return <Droppable {...props}>{children}</Droppable>;
 };
 
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
-const isPositionChanged = (destination: any, source: any) => {
-  if (!destination) return false;
-  const isSameList = destination.droppableId === source.droppableId;
-  const isSamePosition = destination.index === source.index;
-  return !isSameList || !isSamePosition;
+  return result;
 };
 
+const starWarsMap = {
+  anakin: [{ id: '1a', content: 'I hate you!' }],
+  obiwan: [{ id: '2a', content: 'you were the chosen one!' }],
+  yoda: [{ id: '3a', content: 'hello there' }],
+}
+
 const SprintBoardView = (props:any) => {
-  const [something, updateSomething] = useState([{ id: 'anakin' }, { id: 'obiwan' }])
+  const [columns, setColumns] = useState(starWarsMap)
+  const [ordered, setOrdered] = useState(Object.keys(starWarsMap))
 
-  const handleOnDragEnd = ({ draggableId, destination, source }: any) => {
+  const handleOnDragEnd = (result: any) => {
     console.log('in dragend!!!')
-    if (!isPositionChanged(source, destination)) return;
 
-    const issueId = Number(draggableId);
-    console.log(issueId, 'issueId11')
-    // api.optimisticUpdate(`/issues/${issueId}`, {
-    //   updatedFields: {
-    //     status: destination.droppableId,
-    //     listPosition: calculateIssueListPosition(project.issues, destination, source, issueId),
-    //   },
-    //   currentFields: project.issues.find(({ id }) => id === issueId),
-    //   setLocalData: fields => updateLocalProjectIssues(issueId, fields),
-    // });
+    if (result.combine) {
+      console.log('in combine??')
+      if (result.type === "COLUMN") {
+        const shallow = [...ordered];
+        shallow.splice(result.source.index, 1);
+        setOrdered(shallow);
+        return;
+      }
+
+      const column = columns[result.source.droppableId];
+      const withQuoteRemoved = [...column];
+
+      withQuoteRemoved.splice(result.source.index, 1);
+
+      const orderedColumns = {
+        ...columns,
+        [result.source.droppableId]: withQuoteRemoved
+      };
+      setColumns(orderedColumns);
+      return;
+    }
+
+    // dropped nowhere
+    if (!result.destination) {
+      console.log(result, 'in nowhere??')
+      return;
+    }
+
+    const source = result.source;
+    const destination = result.destination;
+
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return;
+    }
+    console.log(result, 'before reorder!')
+    // reordering column
+    if (result.type === "COLUMN") {
+      const reorderedorder = reorder(ordered, source.index, destination.index);
+
+      setOrdered(reorderedorder);
+
+      return;
+    }
+
+    const data = reorderQuoteMap({
+      quoteMap: columns,
+      source,
+      destination
+    });
+
+    setColumns(data.quoteMap);
   };
-console.log(something[0].id.toString(), '????')
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <SprintBoard>
-        <StrictModeDroppable key={'todo'} type="COLUMN" droppableId='todo' direction='horizontal'>
+        <StrictModeDroppable type="COLUMN" droppableId='todo' direction='horizontal'>
           { provided => (
             <Columns {...provided.droppableProps} ref={provided.innerRef}>
-              <Draggable key={something[0].id} draggableId={something[0].id} index={0}>
+              <Draggable key={ordered[0]} draggableId={ordered[0]} index={0}>
                 {(provided, snapshot) => (
                   <Ticket ref={provided.innerRef} {...provided.draggableProps} isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
-                    <div isDragging={snapshot.isDragging} {...provided.dragHandleProps}>you were the chosen one!</div>
+                    <div isdragging={snapshot.isDragging.toString()} {...provided.dragHandleProps}>{columns[ordered[0]][0].content}</div>
                   </Ticket>
                 )}
               </Draggable>
@@ -63,24 +113,34 @@ console.log(something[0].id.toString(), '????')
             </Columns>
           )}
         </StrictModeDroppable>
-        <Droppable key={''} droppableId=''>
+        <StrictModeDroppable type="COLUMN" droppableId='bagh' direction='horizontal'>
           { provided => (
-            <Columns>
-                  <Ticket>
-                    <div>hello there</div>
+            <Columns {...provided.droppableProps} ref={provided.innerRef}>
+              <Draggable key={ordered[1]} draggableId={ordered[1]} index={1}>
+                {(provided, snapshot) => (
+                  <Ticket ref={provided.innerRef} {...provided.draggableProps} isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
+                    <div isdragging={snapshot.isDragging.toString()} {...provided.dragHandleProps}>{columns[ordered[1]][0].content}</div>
                   </Ticket>
+                )}
+              </Draggable>
+              {provided.placeholder}
             </Columns>
           )}
-        </Droppable>
-        <Droppable key={''} droppableId=''>
+        </StrictModeDroppable>
+        <StrictModeDroppable type="COLUMN" droppableId='ugh' direction='horizontal'>
           { provided => (
-            <Columns>
-                  <Ticket>
-                    <div>you will tryyy</div>
+            <Columns {...provided.droppableProps} ref={provided.innerRef}>
+              <Draggable key={ordered[2]} draggableId={ordered[2]} index={2}>
+                {(provided, snapshot) => (
+                  <Ticket ref={provided.innerRef} {...provided.draggableProps} isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
+                    <div isdragging={snapshot.isDragging.toString()} {...provided.dragHandleProps}>{columns[ordered[2]][0].content}</div>
                   </Ticket>
+                )}
+              </Draggable>
+              {provided.placeholder}
             </Columns>
           )}
-        </Droppable>
+        </StrictModeDroppable>
       </SprintBoard>
     </DragDropContext>
         //   <SprintBoard>
