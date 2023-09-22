@@ -21,16 +21,19 @@ export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
+  console.log(result, 'result??')
   const [removed] = result.splice(startIndex, 1);
+  console.log(removed, 'removed??')
   result.splice(endIndex, 0, removed);
+  console.log(result, 'result after splice??')
 
   return result;
 };
 
 const starWarsMap = {
-  anakin: [{ id: '1a', content: 'I hate you!' }],
-  obiwan: [{ id: '2a', content: 'you were the chosen one!' }],
-  yoda: [{ id: '3a', content: 'hello there' }],
+  anakin: [{ id: '1a', content: 'I hate you!' }, {id: '1b', content: 'anakin!!'}],
+  obiwan: [{ id: '2a', content: 'you were the chosen one!' }, {id: '2b', content: 'obiwan!!'}],
+  yoda: [{ id: '3a', content: 'hello there' }, {id: '3b', content: 'yoda!!'}],
 }
 
 const SprintBoardView = (props:any) => {
@@ -81,7 +84,7 @@ const SprintBoardView = (props:any) => {
     // reordering column
     if (result.type === "COLUMN") {
       const reorderedorder = reorder(ordered, source.index, destination.index);
-
+      console.log(reorderedorder, 'reorderedorder??')
       setOrdered(reorderedorder);
 
       return;
@@ -102,24 +105,17 @@ const SprintBoardView = (props:any) => {
         <StrictModeDroppable type="COLUMN" droppableId='todo' direction='horizontal'>
           { provided => (
             <Columns {...provided.droppableProps} ref={provided.innerRef}>
-              <Draggable key={ordered[0]} draggableId={ordered[0]} index={0}>
+              <Draggable key={columns[ordered[0]][0].id} draggableId={columns[ordered[0]][0].id} index={0}>
                 {(provided, snapshot) => (
                   <Ticket ref={provided.innerRef} {...provided.draggableProps} isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
                     <div isdragging={snapshot.isDragging.toString()} {...provided.dragHandleProps}>{columns[ordered[0]][0].content}</div>
                   </Ticket>
                 )}
               </Draggable>
-              {provided.placeholder}
-            </Columns>
-          )}
-        </StrictModeDroppable>
-        <StrictModeDroppable type="COLUMN" droppableId='bagh' direction='horizontal'>
-          { provided => (
-            <Columns {...provided.droppableProps} ref={provided.innerRef}>
-              <Draggable key={ordered[1]} draggableId={ordered[1]} index={1}>
+              <Draggable key={columns[ordered[0]][1].id} draggableId={columns[ordered[0]][1].id} index={0}>
                 {(provided, snapshot) => (
                   <Ticket ref={provided.innerRef} {...provided.draggableProps} isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
-                    <div isdragging={snapshot.isDragging.toString()} {...provided.dragHandleProps}>{columns[ordered[1]][0].content}</div>
+                    <div isdragging={snapshot.isDragging.toString()} {...provided.dragHandleProps}>{columns[ordered[0]][1].content}</div>
                   </Ticket>
                 )}
               </Draggable>
@@ -127,13 +123,41 @@ const SprintBoardView = (props:any) => {
             </Columns>
           )}
         </StrictModeDroppable>
-        <StrictModeDroppable type="COLUMN" droppableId='ugh' direction='horizontal'>
+        <StrictModeDroppable type="COLUMN" droppableId='inProgress' direction='horizontal'>
           { provided => (
             <Columns {...provided.droppableProps} ref={provided.innerRef}>
-              <Draggable key={ordered[2]} draggableId={ordered[2]} index={2}>
+              <Draggable key={columns[ordered[1]][0].id} draggableId={columns[ordered[1]][0].id} index={1}>
+                {(provided, snapshot) => (
+                  <Ticket ref={provided.innerRef} {...provided.draggableProps} isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
+                    <div isdragging={snapshot.isDragging.toString()} {...provided.dragHandleProps}>{columns[ordered[1]][0].content}</div>
+                  </Ticket>
+                )}
+              </Draggable>
+              <Draggable key={columns[ordered[1]][1].id} draggableId={columns[ordered[1]][1].id} index={1}>
+                {(provided, snapshot) => (
+                  <Ticket ref={provided.innerRef} {...provided.draggableProps} isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
+                    <div isdragging={snapshot.isDragging.toString()} {...provided.dragHandleProps}>{columns[ordered[1]][1].content}</div>
+                  </Ticket>
+                )}
+              </Draggable>
+              {provided.placeholder}
+            </Columns>
+          )}
+        </StrictModeDroppable>
+        <StrictModeDroppable type="COLUMN" droppableId='done' direction='horizontal'>
+          { provided => (
+            <Columns {...provided.droppableProps} ref={provided.innerRef}>
+              <Draggable key={columns[ordered[2]][0].id} draggableId={columns[ordered[2]][0].id} index={2}>
                 {(provided, snapshot) => (
                   <Ticket ref={provided.innerRef} {...provided.draggableProps} isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
                     <div isdragging={snapshot.isDragging.toString()} {...provided.dragHandleProps}>{columns[ordered[2]][0].content}</div>
+                  </Ticket>
+                )}
+              </Draggable>
+              <Draggable key={columns[ordered[2]][1].id} draggableId={columns[ordered[2]][1].id} index={2}>
+                {(provided, snapshot) => (
+                  <Ticket ref={provided.innerRef} {...provided.draggableProps} isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
+                    <div isdragging={snapshot.isDragging.toString()} {...provided.dragHandleProps}>{columns[ordered[2]][1].content}</div>
                   </Ticket>
                 )}
               </Draggable>
