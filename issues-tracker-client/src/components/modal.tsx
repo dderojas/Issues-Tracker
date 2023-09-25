@@ -1,6 +1,6 @@
 import { ModalContainer, ModalBackground } from "../styles";
 import { FormState, Item } from "../../types";
-import { ACTIONS } from '../App'
+import { ACTIONS } from './issuesTracker'
 
 type ModalPropsType = {
   setModalOpen: (boolean: boolean) => void;
@@ -40,7 +40,7 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
         </div>
         <h1>{TicketId ? 'Edit Ticket' : 'Create a Ticket'}</h1>
         <form>
-          <input name="Assignee" type="teXxt" placeholder="Assignee" value={Assignee} onChange={handleChange} />
+          <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
           <input name="Description" type="text" placeholder="Description" value={Description} onChange={handleChange} />
           <select name="PriorityLevel" value={PriorityLevel} onChange={handleChange}>
             {priorityLevelDropDown.map((elem, index) => {
