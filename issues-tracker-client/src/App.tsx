@@ -1,5 +1,5 @@
 import { useAuthUser, useIsAuthenticated } from 'react-auth-kit'
-import { IssuesTracker, Login } from "./components";
+import { IssuesTracker, LoginPage } from "./components";
 
 const App = () => {
 console.log(document.cookie, '???')
@@ -11,7 +11,7 @@ console.log(window.location.hostname, 'hostname??')
   return (
     <>
       {isAuthenticated() && <IssuesTracker />}
-      <Login />
+      <LoginPage />
     </>
   );
 }

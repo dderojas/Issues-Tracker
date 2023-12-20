@@ -11,6 +11,7 @@
     "@types/react": "^18.2.8",
     "@types/react-dom": "^18.2.4",
     "aws-sdk": "^2.1390.0",
+    "axios": "^1.5.1",
     "react": "^18.2.0",
     "react-auth-kit": "^2.12.7",
     "react-dom": "^18.2.0",

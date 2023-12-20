@@ -1,7 +1,7 @@
 import { useState, useReducer, useEffect } from 'react'
 import { HorizontalNavbar, VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
 import { Button } from '../styles';
-import { InitialState, Item } from '../../types'
+import { InitialState, Item, SprintBoardState, DeleteTicketType } from '../../types'
 import { putItem, scanFunc, updateItem, deleteItem } from '../services';
 
 const ACTIONS = {
@@ -24,13 +24,15 @@ type ActionType = {
   type: string;
   backlogPayload?: Item[];
   ticketPayload?: Item;
-  sprintBoardPayload?: any;
+  sprintBoardPayload?: Item[];
 }
 
 
-const filterForKanban = (backlogData:any) => {
+const filterForKanban = (backlogData: Item[] | undefined): SprintBoardState => {
+  
+  const results: SprintBoardState = { inProgress: [], todo: [], done: [] }
 
-  const results:any = { inProgress: [], todo: [], done: [] }
+  if (!backlogData || backlogData.length === 0) return results
 
   for (let i = 0; i < backlogData.length; i++) {
     if (backlogData[i].TicketStatus === 'In Progress') {
@@ -76,7 +78,7 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
 const IssuesTracker = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [view, setView] = useState(false)
-  const [inputError, setInputError] = useState(null)
+  const [inputError, setInputError] = useState('')
   
   const [{ backlogState, formState, sprintBoardState }, dispatch] = useReducer(issuesReducer, initialState)
   
@@ -94,31 +96,30 @@ const IssuesTracker = () => {
     
   }, [modalOpen])
   
-  // add type for "e", maybe React.FormEvent<HTMLInputElement>
-  const addTicket = (e: any) => {
-    e.preventDefault()
+  // add type for "e", maybe React.FormEvent<HTMLInputElement>, might have to change implementation of addTicket in modal
+  const addTicket = ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType }: Item) => {
 
-    if (e.target[0].value.length === 0 || e.target[1].value.length === 0) {
-      //@ts-ignore
+    if (!Assignee || !Description) {
+      
       setInputError('Assignee and Description cannot be empty')
+
     } else {
       dispatch({ type: ACTIONS.ADD_TICKET })
       
       putItem({
-        [e.target[0].name]: e.target[0].value,
-        [e.target[1].name]: e.target[1].value,
-        [e.target[2].name]: e.target[2].value,
-        [e.target[3].name]: e.target[3].value,
-        [e.target[4].name]: e.target[4].value
+        Assignee,
+        Description,
+        PriorityLevel,
+        TicketStatus,
+        IssueType
       })
   
       setModalOpen(false)
     }
   }
 
-  const updateTicket = async ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId = '' }: Item) => {
-    if (Assignee.length === 0 || Description.length === 0) {
-      //@ts-ignore
+  const updateTicket = async ({ Assignee = '', Description = '', PriorityLevel, TicketStatus, IssueType, TicketId }: Item) => {
+    if (Assignee.length === 0 || Description.length === 0 || !TicketId || !PriorityLevel || !TicketStatus || !IssueType) {
       setInputError('Assignee and Description cannot be empty')
     } else {
       dispatch({ type: ACTIONS.ADD_TICKET })
@@ -128,7 +129,7 @@ const IssuesTracker = () => {
     }
   }
 
-  const deleteTicket = async (Assignee: string, TicketId?: string) => {
+  const deleteTicket = async ({ Assignee, TicketId }: DeleteTicketType) => {
     
     dispatch({ type: ACTIONS.DELETE_TICKET })
 
@@ -166,7 +167,6 @@ const IssuesTracker = () => {
             deleteTicket={deleteTicket} 
             formState={formState} 
             dispatch={dispatch}
-            //@ts-ignore
             inputError={inputError}
           /> }
       { !view && <SprintBoardView sprintBoardState={sprintBoardState} openModalWithData={openModalWithData}/> }

@@ -12,6 +12,7 @@ const BacklogView = ({ list = [], openModalWithData }: BacklogType) => {
       {list?.map((elem: Item) => {
         return (
           <Ticket key={Math.random()} onClick={() => {
+            //@ts-ignore
             openModalWithData(elem.Assignee, elem.Description, elem.PriorityLevel, elem.TicketStatus, elem.IssueType, elem.TicketId)
           }}>
             <div>{elem.Assignee}</div>

@@ -54,6 +54,19 @@ resource "aws_cloudwatch_log_group" "hello_world" {
   retention_in_days = 30
 }
 
+resource "aws_dynamodb_table" "UserAuth" {
+  name           = "UserAuth"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 1
+  write_capacity = 1
+  hash_key       = "Username"
+
+  attribute {
+    name = "Username"
+    type = "S"
+  }
+}
+
 resource "aws_dynamodb_table" "book_catalog_table" {
   name           = "Issues"
   billing_mode   = "PROVISIONED"

@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk'
-import { IssuesPayloadType, Item, TicketType } from '../../types'
+import { IssuesPayloadType, Item, TicketType, AccountFormType, FormState } from '../../types'
 
 AWS.config.region = process.env.REACT_APP_AWS_REGION;
 
@@ -12,14 +12,14 @@ const lambda = new AWS.Lambda()
 
 
 // typing json stringify payload?
-const lambdaParams = (functionName: string, payload: any) => {
+const lambdaParams = (functionName: string, payload: IssuesPayloadType) => {
   return {
     FunctionName: functionName,
     Payload: JSON.stringify(payload)
   }
 }
 
-const putItem = async (payload: TicketType) => {
+const putItem = async (payload: FormState) => {
   const { 
     Assignee, 
     Description, 
@@ -123,6 +123,7 @@ const deleteItem = async (Assignee: string, TicketId?: string) => {
   await lambda.invoke(params).promise();
 }
 
+// Do I need queryFunc?
 const queryFunc = async () => {
   const queryParams: IssuesPayloadType = {
     Method: 'Query',
@@ -153,7 +154,7 @@ const scanFunc = async () => {
       TableName: "Issues"
     }
   }
-
+// @ts-ignore
   const params = lambdaParams('HelloWorld', scanParams)
 
   try {
@@ -182,11 +183,52 @@ const scanFunc = async () => {
   }
 }
 
+const createAccount = async (payload: AccountFormType) => {
+  const { Username, Password } = payload
+  console.log(payload, 'payload in create account!')
+  const putParams: IssuesPayloadType = {
+    Method: 'Put',
+    Payload: {
+      TableName : 'UserAuth',
+      Item: { Username, Password }
+    }
+  }
+
+  const params = lambdaParams('HelloWorld', putParams)
+
+  await lambda.invoke(params).promise();
+}
+
+const login = async (payload: AccountFormType) => {
+  const { Username, Password } = payload
+  console.log(payload, 'payload in login!!')
+  const something = {
+    Method: 'Get',
+    Payload: {
+      TableName: "UserAuth",
+      KeyConditionExpression: 'username=:username, password=:password',
+      ExpressionAttributeValues: {
+        ':username': Username,
+        ':password': Password
+      }
+    }
+  }
+  //@ts-ignore
+  const params = lambdaParams('HelloWorld', something)
+
+  const results = await lambda.invoke(params).promise();
+  const moreResults = JSON.parse(results.Payload!.toString())
+
+  console.log(moreResults, 'results login??')
+}
+
 export {
   deleteItem,
   getItem,
   putItem,
   updateItem,
   queryFunc,
-  scanFunc
+  scanFunc,
+  createAccount,
+  login
 }

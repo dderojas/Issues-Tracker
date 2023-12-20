@@ -4,7 +4,7 @@ import BacklogView from "./backlogView";
 import Modal from "./modal";
 import { SprintBoardView } from "./sprintBoardView";
 import { IssuesTracker } from "./issuesTracker";
-import Login from "./login";
+import LoginPage from "./loginPage";
 
 export {
   HorizontalNavbar,
@@ -13,5 +13,5 @@ export {
   Modal,
   SprintBoardView,
   IssuesTracker,
-  Login
+  LoginPage
 }

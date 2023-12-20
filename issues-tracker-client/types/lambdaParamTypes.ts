@@ -7,22 +7,35 @@ interface Item extends FormState {
   TicketId?: string;
 }
 
+type DispatchType = {
+  type: string;
+  backlogPayload?: Item[];
+  sprintBoardPayload?: Item[];
+  ticketPayload?: Item;
+}
+
 type TicketType = {
   [key:string]: string;
 }
-
+// clarify why they are all tentative properties
 type FormState = {
-  Assignee: string;
-  Description: string;
-  PriorityLevel: string;
-  TicketStatus: string;
-  IssueType: string;
+  Assignee?: string;
+  Description?: string;
+  PriorityLevel?: string;
+  TicketStatus?: string;
+  IssueType?: string;
+}
+
+type SprintBoardState = { 
+  todo: Item[], 
+  inProgress: Item[], 
+  done: Item[] 
 }
 
 type InitialState = {
   formState: FormState;
   backlogState: Item[];
-  sprintBoardState: any;
+  sprintBoardState: SprintBoardState;
 }
 
 type ExpressionAttributeValues = {
@@ -38,7 +51,7 @@ type DeleteParams = GetParams
 
 type PutParams = {
   TableName: string;
-  Item: Item;
+  Item: Item | AccountFormType;
 }
 
 type UpdateParams = {
@@ -62,6 +75,16 @@ type IssuesPayloadType = {
   Payload: GetParams | PutParams | UpdateParams | DeleteParams | QueryParams
 }
 
+type AccountFormType = {
+  Username: string;
+  Password: string;
+}
+
+type DeleteTicketType = {
+  Assignee: string;
+  TicketId: string;
+}
+
 export type {
   Key,
   Item,
@@ -74,5 +97,9 @@ export type {
   TicketType,
   InitialState,
   FormState,
-  QueryParams
+  QueryParams, 
+  AccountFormType,
+  SprintBoardState,
+  DispatchType,
+  DeleteTicketType
 }

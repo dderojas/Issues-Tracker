@@ -1,16 +1,19 @@
 import { ModalContainer, ModalBackground } from "../styles";
-import { FormState, Item } from "../../types";
+import { FormState, Item, DispatchType, DeleteTicketType } from "../../types";
 import { ACTIONS } from './issuesTracker'
+import React from "react";
 
 type ModalPropsType = {
   setModalOpen: (boolean: boolean) => void;
-  addTicket: (state: any) => void;
-  deleteTicket: (Assignee: string, TicketId?: string) => void;
+  addTicket: (state: Item) => void;
+  // might not need Assignee for delete ticket
+  deleteTicket: ({ Assignee, TicketId }: DeleteTicketType) => void;
   updateTicket: ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId }: Item) => void;
   formState: Item;
-  dispatch: (something: any) => void;
+  dispatch: ({ type, ticketPayload }: DispatchType) => void;
+  inputError: string;
 }
-//@ts-ignore
+
 const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState = { Assignee: '', Description: '', PriorityLevel: '', TicketStatus: '', IssueType: '', TicketId: ''}, dispatch, inputError  }: ModalPropsType) => {
   const { Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId } = formState
   
@@ -18,17 +21,20 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
   const priorityLevelDropDown = ['Choose Priority Level', 'High', 'Medium', 'Low']
   const issueTypeDropDown = ['Choose Issue Type', 'Feature', 'Bug']
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement>) => {
     e.preventDefault()
+    let name:string = (e!.target as HTMLInputElement)!.name;
+    let value:string = (e!.target as HTMLInputElement)!.value;
+
     dispatch({ 
       type: ACTIONS.SET_MODAL_STATE,
-      ticketPayload: { [e.target.name]: e.target.value }
+      ticketPayload: { [name]: value }
     })
   }
   
   return (
     <ModalBackground>
-      <ModalContainer onSubmit={addTicket}>
+      <ModalContainer>
         <div className="titleCloseBtn">
           <button
             onClick={() => {
@@ -63,7 +69,9 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
             })}
           </select>
           {inputError && <div style={{ color: 'red' }}>{inputError}</div> }
-          <button>Add Ticket</button>
+          <button type="submit" onClick={() => addTicket({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })}>
+            Add Ticket
+          </button>
         </form>
           <button onClick={(e) => {
             updateTicket({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
@@ -71,7 +79,9 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
             Update Ticket
           </button>
           <button onClick={(e) => {
-            deleteTicket(Assignee, TicketId)
+            if (Assignee && TicketId) {
+              deleteTicket({ Assignee, TicketId })
+            }
           }}>
             Delete Ticket
           </button>
