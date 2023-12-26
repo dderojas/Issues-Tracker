@@ -1,50 +1,57 @@
 import { SprintBoard, Columns, Ticket } from '../styles'
+import { SprintBoardState, Item } from '../../types'
 
-const SprintBoardView = (props:any) => {
+type SprintBoardType = {
+  sprintBoardState: SprintBoardState;
+  openModalWithData: ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId }: Item) => void;
+}
+
+const SprintBoardView = ({ sprintBoardState, openModalWithData }: SprintBoardType) => {
+  const { todo, inProgress, done } = sprintBoardState
 
   return (
     <SprintBoard>
       <Columns>
-        {props.sprintBoardState.todo?.map((elem:any) => {
+        {todo?.map(({ Assignee, Description, PriorityLevel, IssueType, TicketStatus, TicketId }: Item) => {
           return (
             <Ticket onClick={() => {
-              props.openModalWithData(elem.Assignee, elem.Description, elem.PriorityLevel, elem.TicketStatus, elem.IssueType, elem.TicketId)
+              openModalWithData({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
             }}>
-              <div>{elem.Assignee}</div>
-              <div>{elem.Description}</div>
-              <div>{elem.PriorityLevel}</div>
-              <div>{elem.IssueType}</div>
-              <div>{elem.TicketStatus}</div>
+              <div>{Assignee}</div>
+              <div>{Description}</div>
+              <div>{PriorityLevel}</div>
+              <div>{IssueType}</div>
+              <div>{TicketStatus}</div>
             </Ticket>
           )
         })}
       </Columns>
       <Columns>
-        {props.sprintBoardState.inProgress?.map((elem:any) => {
+      {inProgress?.map(({ Assignee, Description, PriorityLevel, IssueType, TicketStatus, TicketId }: Item) => {
           return (
             <Ticket onClick={() => {
-              props.openModalWithData(elem.Assignee, elem.Description, elem.PriorityLevel, elem.TicketStatus, elem.IssueType, elem.TicketId)
+              openModalWithData({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
             }}>
-              <div>{elem.Assignee}</div>
-              <div>{elem.Description}</div>
-              <div>{elem.PriorityLevel}</div>
-              <div>{elem.IssueType}</div>
-              <div>{elem.TicketStatus}</div>
+              <div>{Assignee}</div>
+              <div>{Description}</div>
+              <div>{PriorityLevel}</div>
+              <div>{IssueType}</div>
+              <div>{TicketStatus}</div>
             </Ticket>
           )
         })}
       </Columns>
       <Columns>
-        {props.sprintBoardState.done?.map((elem:any) => {
+      {done?.map(({ Assignee, Description, PriorityLevel, IssueType, TicketStatus, TicketId }: Item) => {
           return (
             <Ticket onClick={() => {
-              props.openModalWithData(elem.Assignee, elem.Description, elem.PriorityLevel, elem.TicketStatus, elem.IssueType, elem.TicketId)
+              openModalWithData({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
             }}>
-              <div>{elem.Assignee}</div>
-              <div>{elem.Description}</div>
-              <div>{elem.PriorityLevel}</div>
-              <div>{elem.IssueType}</div>
-              <div>{elem.TicketStatus}</div>
+              <div>{Assignee}</div>
+              <div>{Description}</div>
+              <div>{PriorityLevel}</div>
+              <div>{IssueType}</div>
+              <div>{TicketStatus}</div>
             </Ticket>
           )
         })}

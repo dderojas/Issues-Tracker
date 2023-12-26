@@ -47,8 +47,8 @@ const LoginPage = () => {
         <ModalContainer>
           <h1>CREATE OR LOGIN</h1>
           <form>
-            <input name="username" type="text" placeholder="username" value={loginInfo.Username} onChange={handleChange} />
-            <input name="password" type="text" placeholder="password" value={loginInfo.Password} onChange={handleChange} />
+            <input name="Username" type="text" placeholder="username" value={loginInfo.Username} onChange={handleChange} />
+            <input name="Password" type="text" placeholder="password" value={loginInfo.Password} onChange={handleChange} />
             <button onClick={handleLogin}>Login</button>
             <button onClick={createLogin}>Create Account</button>
           </form>

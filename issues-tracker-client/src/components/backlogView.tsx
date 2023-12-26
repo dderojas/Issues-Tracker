@@ -3,23 +3,22 @@ import { Ticket, BacklogBoard } from '../styles'
 
 type BacklogType = {
   list?: Item[];
-  openModalWithData: (assignee: string, description: string, priorityLevel: string, TicketStatus: string, issueType: string, ticketId?: string) => void;
+  openModalWithData: ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId }: Item) => void;
 }
 
 const BacklogView = ({ list = [], openModalWithData }: BacklogType) => {
   return (
     <BacklogBoard>
-      {list?.map((elem: Item) => {
+      {list?.map(({ Assignee, Description, PriorityLevel, IssueType, TicketStatus, TicketId }: Item) => {
         return (
           <Ticket key={Math.random()} onClick={() => {
-            //@ts-ignore
-            openModalWithData(elem.Assignee, elem.Description, elem.PriorityLevel, elem.TicketStatus, elem.IssueType, elem.TicketId)
+            openModalWithData({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
           }}>
-            <div>{elem.Assignee}</div>
-            <div>{elem.Description}</div>
-            <div>{elem.PriorityLevel}</div>
-            <div>{elem.IssueType}</div>
-            <div>{elem.TicketStatus}</div>
+            <div>{Assignee}</div>
+            <div>{Description}</div>
+            <div>{PriorityLevel}</div>
+            <div>{IssueType}</div>
+            <div>{TicketStatus}</div>
           </Ticket>
         )
       })}

@@ -96,7 +96,6 @@ const IssuesTracker = () => {
     
   }, [modalOpen])
   
-  // add type for "e", maybe React.FormEvent<HTMLInputElement>, might have to change implementation of addTicket in modal
   const addTicket = ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType }: Item) => {
 
     if (!Assignee || !Description) {
@@ -138,7 +137,7 @@ const IssuesTracker = () => {
     setModalOpen(false)
   }
 
-  const openModalWithData = (Assignee: string, Description: string, PriorityLevel: string, TicketStatus: string, IssueType: string, TicketId?: string) => {
+  const openModalWithData = ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId }: Item) => {
     setModalOpen(true)
     dispatch({ type: ACTIONS.EDIT_TICKET, ticketPayload: { Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId } })
   }
@@ -169,6 +168,7 @@ const IssuesTracker = () => {
             dispatch={dispatch}
             inputError={inputError}
           /> }
+
       { !view && <SprintBoardView sprintBoardState={sprintBoardState} openModalWithData={openModalWithData}/> }
       { view && <BacklogView list={backlogState} openModalWithData={openModalWithData}/> }
     </>
