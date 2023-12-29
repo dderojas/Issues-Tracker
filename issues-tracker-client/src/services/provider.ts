@@ -202,7 +202,7 @@ const createAccount = async (payload: AccountFormType) => {
 const login = async (payload: AccountFormType) => {
   const { Username, Password } = payload
   console.log(payload, 'payload in login!!')
-  const something = {
+  const loginParams: IssuesPayloadType = {
     Method: 'Get',
     Payload: {
       TableName: "UserAuth",
@@ -213,13 +213,14 @@ const login = async (payload: AccountFormType) => {
       }
     }
   }
-  //@ts-ignore
-  const params = lambdaParams('HelloWorld', something)
+  
+  const params = lambdaParams('HelloWorld', loginParams)
 
   const results = await lambda.invoke(params).promise();
   const moreResults = JSON.parse(results.Payload!.toString())
 
   console.log(moreResults, 'results login??')
+  return moreResults
 }
 
 export {

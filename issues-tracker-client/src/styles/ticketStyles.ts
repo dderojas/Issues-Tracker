@@ -6,9 +6,10 @@ const Ticket = styled.div`
   flex-direction: column;
   height: 100px;
   width: 100%;
-  border-style: solid;
-  border-color: black;
-  background-color: #B0C4DE;
+  margin: 2px;
+  border-radius: 3px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  background-color: #eeeeee;
   overflow: hidden;
 `
 

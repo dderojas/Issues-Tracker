@@ -6,7 +6,7 @@ import React from "react";
 type ModalPropsType = {
   setModalOpen: (boolean: boolean) => void;
   addTicket: (state: Item) => void;
-  // might not need Assignee for delete ticket
+  // might only need ticketId for delete ticket
   deleteTicket: ({ Assignee, TicketId }: DeleteTicketType) => void;
   updateTicket: ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId }: Item) => void;
   formState: Item;

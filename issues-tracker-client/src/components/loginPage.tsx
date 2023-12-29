@@ -11,13 +11,13 @@ const LoginPage = () => {
   const handleLogin = async (e: any) => {
     e.preventDefault()
     const response = await login(loginInfo)
-    // this is next
+
     try {
       signIn({
-        token: 'asdf',
+        token: response.body.jwtToken,
         expiresIn: 3600,
         tokenType: "Bearer",
-        authState: { email: 'test@mail.com' },
+        authState: { email: response.body.results.Items[0].Username },
       })
     } catch(e) {
       console.error(e, 'error???')
@@ -28,17 +28,12 @@ const LoginPage = () => {
 
   const handleChange = (e: any) => {
     e.preventDefault()
-    // console.log(e.target.value, 'eyyyyyy')
-    // setLoginInfo({ username: e.target.value[0], password: e.target.value[1] })
-    
     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value })
   }
 // why did I have to spread the state?, why did {username: e.target.value[0], password: e.target.value[1]} not work?
   const createLogin = async (e: any) => {
     e.preventDefault()
-    // console.log(loginInfo, 'logininfo!!!!')
-    const response = await createAccount(loginInfo)
-    console.log(response, 'responseinloginnnnnn')
+    await createAccount(loginInfo)
   }
 
   return (

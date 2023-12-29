@@ -64,10 +64,10 @@ type UpdateParams = {
 
 type QueryParams = {
   TableName: string;
-  IndexName: string;
+  IndexName?: string;
   KeyConditionExpression?: string;
   ExpressionAttributeValues?: ExpressionAttributeValues;
-  Limit: number;
+  Limit?: number;
 }
 
 type IssuesPayloadType = {

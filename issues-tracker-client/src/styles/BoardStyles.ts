@@ -7,7 +7,7 @@ const BacklogBoard = styled.div`
   padding-right: 5%;
   padding-top: 8%;
   height: 1000px;
-  background-color: #2F4F4F;
+  background-color: #393e46;
   overflow: auto;
 `
 
@@ -15,19 +15,20 @@ const SprintBoard = styled.div`
   display: flex;
   justify-content: space-around;
   height: 100%;
-  background-color: #A9A9A9;
+  background-color: #393e46;
   padding-left: 10%;
-  padding-top: 7%;
+  padding-top: 5%;
+  padding-bottom: 3%;
 `
 
 const Columns = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #6495ED;
+  background-color: #0092ca;
   padding: 1%;
   height: 100%;
-  border-color: black;
-  border-style: solid;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   width: 200px;
 `
 

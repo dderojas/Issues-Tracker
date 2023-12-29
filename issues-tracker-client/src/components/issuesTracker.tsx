@@ -1,5 +1,6 @@
 import { useState, useReducer, useEffect } from 'react'
-import { HorizontalNavbar, VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
+import { useAuthUser } from 'react-auth-kit'
+import { VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
 import { Button } from '../styles';
 import { InitialState, Item, SprintBoardState, DeleteTicketType } from '../../types'
 import { putItem, scanFunc, updateItem, deleteItem } from '../services';
@@ -79,12 +80,14 @@ const IssuesTracker = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [view, setView] = useState(false)
   const [inputError, setInputError] = useState('')
+  const authUser = useAuthUser()
   
   const [{ backlogState, formState, sprintBoardState }, dispatch] = useReducer(issuesReducer, initialState)
   
   useEffect(() => {
     (async () => {
       if (!modalOpen) {
+        console.log(authUser(), 'IN ISSUESTRACKER')
         const items = await scanFunc()
         
         if (items?.length) {
@@ -144,18 +147,14 @@ const IssuesTracker = () => {
 
   return (
     <>
-      <HorizontalNavbar>
-        <Button>logo?</Button>
-        <div style={{ color: 'white', fontSize: '30px' }}>{view ? 'BACKLOG' : 'SPRINT BOARD'}</div>
-        <Button>Sign In/Register</Button>
-      </HorizontalNavbar>
       <VerticalNavbar>
+        <Button>Sign In/Register</Button>
         <Button onClick={() => {
           setView(true)
         }}>Backlog</Button>
         <Button onClick={() => {
           setView(false)
-        }}>Sprint Board</Button>
+        }}>Kanban Board</Button>
         <Button onClick={() => setModalOpen(true)}>Create Ticket</Button>
       </VerticalNavbar>
         { modalOpen && 
