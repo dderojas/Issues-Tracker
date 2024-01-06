@@ -8,18 +8,17 @@ type ModalPropsType = {
   addTicket: (state: Item) => void;
   // might only need ticketId for delete ticket
   deleteTicket: ({ Assignee, TicketId }: DeleteTicketType) => void;
-  updateTicket: ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId }: Item) => void;
+  updateTicket: ({ Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => void;
   formState: Item;
   dispatch: ({ type, ticketPayload }: DispatchType) => void;
   inputError: string;
 }
 
-const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState = { Assignee: '', Description: '', PriorityLevel: '', TicketStatus: '', IssueType: '', TicketId: ''}, dispatch, inputError  }: ModalPropsType) => {
-  const { Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId } = formState
+const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState = { Assignee: '', Description: '', TicketStatus: '', IssueType: '', TicketId: ''}, dispatch, inputError  }: ModalPropsType) => {
+  const { Assignee, Description, TicketStatus, IssueType, TicketId } = formState
   
   const ticketStatusDropDown = ['Choose Ticket Status', 'Todo', 'In Progress', 'Done']
-  const priorityLevelDropDown = ['Choose Priority Level', 'High', 'Medium', 'Low']
-  const issueTypeDropDown = ['Choose Issue Type', 'Feature', 'Bug']
+  const issueTypeDropDown = ['Choose Issue Type', 'Task', 'Feature', 'Bug']
 
   const handleChange = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement>) => {
     e.preventDefault()
@@ -48,13 +47,6 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
         <form>
           <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
           <input name="Description" type="text" placeholder="Description" value={Description} onChange={handleChange} />
-          <select name="PriorityLevel" value={PriorityLevel} onChange={handleChange}>
-            {priorityLevelDropDown.map((elem, index) => {
-              if (index === 0) return <option value="" disabled selected hidden>{elem}</option>
-
-              return <option value={elem} key={elem}>{elem}</option>
-            })}
-          </select>
           <select name="TicketStatus" value={TicketStatus} onChange={handleChange}>
             {ticketStatusDropDown.map((elem, index) => {
               if (index === 0) return <option value="" disabled selected hidden>{elem}</option>
@@ -69,12 +61,12 @@ const Modal = ({ setModalOpen, addTicket, updateTicket, deleteTicket, formState 
             })}
           </select>
           {inputError && <div style={{ color: 'red' }}>{inputError}</div> }
-          <button type="submit" onClick={() => addTicket({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })}>
+          <button type="submit" onClick={() => addTicket({ Assignee, Description, TicketStatus, IssueType, TicketId })}>
             Add Ticket
           </button>
         </form>
           <button onClick={(e) => {
-            updateTicket({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
+            updateTicket({ Assignee, Description, TicketStatus, IssueType, TicketId })
           }}>
             Update Ticket
           </button>

@@ -1,4 +1,4 @@
-import { getItem, updateItem, deleteItem, queryFunc, putItem, scanFunc, login, createAccount } from './provider'
+import { getItem, updateItem, deleteItem, queryFunc, putItem, login, createAccount } from './provider'
 
 export {
   getItem,
@@ -6,7 +6,6 @@ export {
   deleteItem, 
   putItem,
   queryFunc,
-  scanFunc,
   login,
   createAccount
 }

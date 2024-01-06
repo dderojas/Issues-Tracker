@@ -72,21 +72,16 @@ resource "aws_dynamodb_table" "book_catalog_table" {
   billing_mode   = "PROVISIONED"
   read_capacity  = 1
   write_capacity = 1
-  hash_key       = "Assignee"
+  hash_key       = "Email"
   range_key = "TicketId"
 
   attribute {
-    name = "Assignee"
+    name = "Email"
     type = "S"
   }
 
   attribute {
     name = "TicketId"
-    type = "S"
-  }
-
-  attribute {
-    name = "PriorityLevel"
     type = "S"
   }
 
@@ -100,7 +95,6 @@ resource "aws_dynamodb_table" "book_catalog_table" {
     type = "S"
   }
 
-
   global_secondary_index {
     name               = "Issue-Type-Index"
     hash_key           = "IssueType"
@@ -113,15 +107,6 @@ resource "aws_dynamodb_table" "book_catalog_table" {
   global_secondary_index {
     name               = "TicketStatus-Index"
     hash_key           = "TicketStatus"
-    write_capacity     = 1
-    read_capacity      = 1
-    projection_type    = "INCLUDE"
-    non_key_attributes = ["Genre"]
-  }
-
-    global_secondary_index {
-    name               = "Priority-Level-Index"
-    hash_key           = "PriorityLevel"
     write_capacity     = 1
     read_capacity      = 1
     projection_type    = "INCLUDE"

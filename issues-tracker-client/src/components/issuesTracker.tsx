@@ -3,7 +3,65 @@ import { useAuthUser } from 'react-auth-kit'
 import { VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
 import { Button } from '../styles';
 import { InitialState, Item, SprintBoardState, DeleteTicketType } from '../../types'
-import { putItem, scanFunc, updateItem, deleteItem } from '../services';
+import { putItem, updateItem, deleteItem, queryFunc } from '../services';
+
+// const oldMockData: Item[] = [
+//   {
+//     Assignee: 'Don',
+//     Description: 'something',
+//     PriorityLevel: 'High',
+//     TicketStatus: 'Todo',
+//     IssueType: 'bug',
+//   },
+//   {
+//     Assignee: 'sun',
+//     Description: 'bada',
+//     PriorityLevel: 'medium',
+//     TicketStatus: 'In Progress',
+//     IssueType: 'bug',
+//   },
+//   {
+//     Assignee: 'steph',
+//     Description: 'bing',
+//     PriorityLevel: 'low',
+//     TicketStatus: 'Done',
+//     IssueType: 'feature',
+//   }
+// ]
+
+const newMockData: any = [
+  {
+    Email: 'don@don.com',
+    Title: 'First Ticket',
+    Comments: 'NONE',
+    DueDate: 'Jan 24, 2024',
+    Project: 'N/A',
+    Assignee: 'Don',
+    Description: 'something',
+    TicketStatus: 'Todo',
+    IssueType: 'Task',
+  },
+  {
+    Email: 'sun@sun.com',
+    Title: 'Second Ticket',
+    Comments: 'NONE',
+    DueDate: 'Jan 24, 2024',
+    Assignee: 'sun',
+    Description: 'bada',
+    TicketStatus: 'In Progress',
+    IssueType: 'Bug',
+  },
+  {
+    Email: 'steph@steph.com',
+    Title: 'Third Ticket',
+    DueDate: 'Jan 24, 2024',
+    Comments: 'NONE',
+    Assignee: 'steph',
+    Description: 'bing',
+    TicketStatus: 'Done',
+    IssueType: 'Feature',
+  }
+]
 
 const ACTIONS = {
   ADD_TICKET: 'add-ticket',
@@ -16,7 +74,7 @@ const ACTIONS = {
 }
 
 const initialState: InitialState = {
-  formState: { Assignee: '', Description: '', PriorityLevel: '', TicketStatus: '', IssueType: '' },
+  formState: { Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
   backlogState: [],
   sprintBoardState: { todo: [], inProgress: [], done: [] }
 }
@@ -81,14 +139,16 @@ const IssuesTracker = () => {
   const [view, setView] = useState(false)
   const [inputError, setInputError] = useState('')
   const authUser = useAuthUser()
-  
   const [{ backlogState, formState, sprintBoardState }, dispatch] = useReducer(issuesReducer, initialState)
+  
+  //@ts-ignore
+  const { email: Email } = authUser()
   
   useEffect(() => {
     (async () => {
       if (!modalOpen) {
-        console.log(authUser(), 'IN ISSUESTRACKER')
-        const items = await scanFunc()
+        // const items = newMockData
+        const items = await queryFunc({ Email })
         
         if (items?.length) {
           dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: items })
@@ -97,9 +157,9 @@ const IssuesTracker = () => {
       }
     })()
     
-  }, [modalOpen])
+  }, [modalOpen, Email])
   
-  const addTicket = ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType }: Item) => {
+  const addTicket = ({ Assignee, Description, TicketStatus, IssueType }: Item) => {
 
     if (!Assignee || !Description) {
       
@@ -109,9 +169,9 @@ const IssuesTracker = () => {
       dispatch({ type: ACTIONS.ADD_TICKET })
       
       putItem({
+        Email,
         Assignee,
         Description,
-        PriorityLevel,
         TicketStatus,
         IssueType
       })
@@ -120,13 +180,13 @@ const IssuesTracker = () => {
     }
   }
 
-  const updateTicket = async ({ Assignee = '', Description = '', PriorityLevel, TicketStatus, IssueType, TicketId }: Item) => {
-    if (Assignee.length === 0 || Description.length === 0 || !TicketId || !PriorityLevel || !TicketStatus || !IssueType) {
+  const updateTicket = async ({ Assignee = '', Description = '', TicketStatus, IssueType, TicketId }: Item) => {
+    if (Assignee.length === 0 || Description.length === 0 || !TicketId || !TicketStatus || !IssueType) {
       setInputError('Assignee and Description cannot be empty')
     } else {
       dispatch({ type: ACTIONS.ADD_TICKET })
       
-      await updateItem({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
+      await updateItem({ Assignee, Description, TicketStatus, IssueType, TicketId })
       setModalOpen(false)
     }
   }
@@ -140,15 +200,15 @@ const IssuesTracker = () => {
     setModalOpen(false)
   }
 
-  const openModalWithData = ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId }: Item) => {
+  const openModalWithData = ({ Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => {
     setModalOpen(true)
-    dispatch({ type: ACTIONS.EDIT_TICKET, ticketPayload: { Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId } })
+    dispatch({ type: ACTIONS.EDIT_TICKET, ticketPayload: { Assignee, Description, TicketStatus, IssueType, TicketId } })
   }
 
   return (
     <>
       <VerticalNavbar>
-        <Button>Sign In/Register</Button>
+        <Button>Sign Out / Register</Button>
         <Button onClick={() => {
           setView(true)
         }}>Backlog</Button>

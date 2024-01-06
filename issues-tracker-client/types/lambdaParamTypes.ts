@@ -18,10 +18,22 @@ type TicketType = {
   [key:string]: string;
 }
 // clarify why they are all tentative properties
+// type FormState = {
+//   Assignee?: string;
+//   Description?: string;
+//   PriorityLevel?: string;
+//   TicketStatus?: string;
+//   IssueType?: string;
+// }
+
 type FormState = {
+  Email?: string;
+  Title?: string;
+  Comments?: string;
+  DueDate?: string;
+  Project?: string;
   Assignee?: string;
   Description?: string;
-  PriorityLevel?: string;
   TicketStatus?: string;
   IssueType?: string;
 }

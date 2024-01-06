@@ -29,7 +29,7 @@ const Columns = styled.div`
   height: 100%;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  width: 200px;
+  width: 18%;
 `
 
 export {

@@ -3,7 +3,7 @@ import { SprintBoardState, Item } from '../../types'
 
 type SprintBoardType = {
   sprintBoardState: SprintBoardState;
-  openModalWithData: ({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId }: Item) => void;
+  openModalWithData: ({ Title, Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => void;
 }
 
 const SprintBoardView = ({ sprintBoardState, openModalWithData }: SprintBoardType) => {
@@ -12,46 +12,49 @@ const SprintBoardView = ({ sprintBoardState, openModalWithData }: SprintBoardTyp
   return (
     <SprintBoard>
       <Columns>
-        {todo?.map(({ Assignee, Description, PriorityLevel, IssueType, TicketStatus, TicketId }: Item) => {
+        {todo?.map(({ Title, DueDate, Assignee, Description, IssueType, TicketStatus, TicketId }: Item) => {
           return (
             <Ticket onClick={() => {
-              openModalWithData({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
+              openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
             }}>
-              <div>{Assignee}</div>
-              <div>{Description}</div>
-              <div>{PriorityLevel}</div>
-              <div>{IssueType}</div>
-              <div>{TicketStatus}</div>
+              <p>{Title}</p>
+              <p>{IssueType}</p>
+              <footer>
+                <p>{Assignee}</p>
+                <p>{DueDate}</p>
+              </footer>
             </Ticket>
           )
         })}
       </Columns>
       <Columns>
-      {inProgress?.map(({ Assignee, Description, PriorityLevel, IssueType, TicketStatus, TicketId }: Item) => {
+      {inProgress?.map(({ Title, DueDate, Assignee, Description, IssueType, TicketStatus, TicketId }: Item) => {
           return (
             <Ticket onClick={() => {
-              openModalWithData({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
+              openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId })
             }}>
-              <div>{Assignee}</div>
-              <div>{Description}</div>
-              <div>{PriorityLevel}</div>
-              <div>{IssueType}</div>
-              <div>{TicketStatus}</div>
+              <p>{Title}</p>
+              <p>{IssueType}</p>
+              <footer>
+                <p>{Assignee}</p>
+                <p>{DueDate}</p>
+              </footer>
             </Ticket>
           )
         })}
       </Columns>
       <Columns>
-      {done?.map(({ Assignee, Description, PriorityLevel, IssueType, TicketStatus, TicketId }: Item) => {
+      {done?.map(({ Title, DueDate, Assignee, Description, IssueType, TicketStatus, TicketId }: Item) => {
           return (
             <Ticket onClick={() => {
-              openModalWithData({ Assignee, Description, PriorityLevel, TicketStatus, IssueType, TicketId })
+              openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
             }}>
-              <div>{Assignee}</div>
-              <div>{Description}</div>
-              <div>{PriorityLevel}</div>
-              <div>{IssueType}</div>
-              <div>{TicketStatus}</div>
+              <p>{Title}</p>
+              <p>{IssueType}</p>
+              <footer>
+                <p>{Assignee}</p>
+                <p>{DueDate}</p>
+              </footer>
             </Ticket>
           )
         })}

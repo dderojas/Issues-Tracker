@@ -29,7 +29,7 @@ const HorizontalNav = styled.nav`
 
 const Button = styled.button`
   color: white;
-  padding: 15px 32px;
+  padding: 15% 11%;
   text-align: center;
   text-decoration: none;
   display: inline-block;

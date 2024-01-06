@@ -10,7 +10,6 @@ AWS.config.update({
 });
 const lambda = new AWS.Lambda()
 
-
 // typing json stringify payload?
 const lambdaParams = (functionName: string, payload: IssuesPayloadType) => {
   return {
@@ -20,25 +19,25 @@ const lambdaParams = (functionName: string, payload: IssuesPayloadType) => {
 }
 
 const putItem = async (payload: FormState) => {
-  const { 
+  const {
+    Email, 
     Assignee, 
-    Description, 
-    PriorityLevel,
+    Description,
     TicketStatus,
     IssueType
-   } = payload
+  } = payload
 
   const putParams: IssuesPayloadType = {
     Method: 'Put',
     Payload: {
       TableName : 'Issues',
       Item: {
-         Assignee,
-         Description,
-         PriorityLevel,
-         TicketStatus,
-         IssueType,
-         TicketId: Date.now().toString() // TBD string or number
+        Email,
+        Assignee,
+        Description,
+        TicketStatus,
+        IssueType,
+        TicketId: Date.now().toString() // TBD string or number
       }
 
     }
@@ -124,64 +123,70 @@ const deleteItem = async (Assignee: string, TicketId?: string) => {
 }
 
 // Do I need queryFunc?
-const queryFunc = async () => {
-  const queryParams: IssuesPayloadType = {
-    Method: 'Query',
-    Payload: {
-      TableName: "Issues",
-      IndexName: 'Author-Index',
-      KeyConditionExpression: 'Author=:author',
-      ExpressionAttributeValues: {
-        ':author': 'morning!'
-      },
-      Limit: 5
-    }
-  }
+const queryFunc = async (payload: FormState) => {
+  const {
+    Email
+  } = payload
 
-  const params = lambdaParams('HelloWorld', queryParams)
-
-  const lambdaResults = await lambda.invoke(params).promise();
-
-  const something = JSON.parse(lambdaResults.Payload!.toString())
-  console.log(something.body.results)
-
-}
-
-const scanFunc = async () => {
-  const scanParams = {
-    Method: 'Scan',
-    Payload: {
-      TableName: "Issues"
-    }
-  }
-// @ts-ignore
-  const params = lambdaParams('HelloWorld', scanParams)
-
-  try {
-    const lambdaResults = await lambda.invoke(params).promise()
-
-    const something:{
-      body: {
-        message: string;
-        results: {
-          Items: Item[]
-          Count: number
-          ScannedCount: number
-        }
+  if (Email) {
+    const queryParams: IssuesPayloadType = {
+      Method: 'Query',
+      Payload: {
+        TableName: "Issues",
+        KeyConditionExpression: 'Email=:email',
+        ExpressionAttributeValues: {
+          ':email': Email
+        },
+        Limit: 5
       }
-      header: string
-      statusCode: number
-    } = JSON.parse(lambdaResults.Payload!.toString())
+    }
+  
+    const params = lambdaParams('HelloWorld', queryParams)
+  
+    const lambdaResults = await lambda.invoke(params).promise();
+  
+    const something = JSON.parse(lambdaResults.Payload!.toString())
 
-    console.log(something, 'inscannnnnnn')
-    const { body: { results }, header, statusCode} = something
-
-    return results.Items
-
-  } catch(e) {
-    console.error(e)
+    console.log(something, 'asdfasdfasdf')
+    return something.body.results.Items
   }
 }
+
+// const scanFunc = async () => {
+//   const scanParams = {
+//     Method: 'Scan',
+//     Payload: {
+//       TableName: "Issues"
+//     }
+//   }
+// // @ts-ignore
+//   const params = lambdaParams('HelloWorld', scanParams)
+
+//   try {
+//     const lambdaResults = await lambda.invoke(params).promise()
+
+//     const something:{
+//       body: {
+//         message: string;
+//         results: {
+//           Items: Item[]
+//           Count: number
+//           ScannedCount: number
+//         }
+//       }
+//       header: string
+//       statusCode: number
+//     } = JSON.parse(lambdaResults.Payload!.toString())
+
+//     console.log(something, 'inscannnnnnn')
+//     const { body: { results }, header, statusCode} = something
+
+//     return results.Items
+
+//   } catch(e) {
+//     console.error(e)
+//   }
+// }
 
 const createAccount = async (payload: AccountFormType) => {
   const { Username, Password } = payload
@@ -229,7 +234,6 @@ export {
   putItem,
   updateItem,
   queryFunc,
-  scanFunc,
   createAccount,
   login
 }
