@@ -5,29 +5,6 @@ import { Button } from '../styles';
 import { InitialState, Item, SprintBoardState, DeleteTicketType } from '../../types'
 import { putItem, updateItem, deleteItem, queryFunc } from '../services';
 
-// const oldMockData: Item[] = [
-//   {
-//     Assignee: 'Don',
-//     Description: 'something',
-//     PriorityLevel: 'High',
-//     TicketStatus: 'Todo',
-//     IssueType: 'bug',
-//   },
-//   {
-//     Assignee: 'sun',
-//     Description: 'bada',
-//     PriorityLevel: 'medium',
-//     TicketStatus: 'In Progress',
-//     IssueType: 'bug',
-//   },
-//   {
-//     Assignee: 'steph',
-//     Description: 'bing',
-//     PriorityLevel: 'low',
-//     TicketStatus: 'Done',
-//     IssueType: 'feature',
-//   }
-// ]
 
 const newMockData: any = [
   {
@@ -35,7 +12,7 @@ const newMockData: any = [
     Title: 'First Ticket',
     Comments: 'NONE',
     DueDate: 'Jan 24, 2024',
-    Project: 'N/A',
+    Category: 'N/A',
     Assignee: 'Don',
     Description: 'something',
     TicketStatus: 'Todo',
@@ -74,7 +51,7 @@ const ACTIONS = {
 }
 
 const initialState: InitialState = {
-  formState: { Title: '', Comments: '', DueDate: '', Project: '', Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
+  formState: { Title: '', Comments: '', DueDate: '', Category: '', Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
   backlogState: [],
   sprintBoardState: { todo: [], inProgress: [], done: [] }
 }
@@ -160,8 +137,7 @@ const IssuesTracker = () => {
     
   }, [modalOpen, Email])
   
-  const addTicket = ({ Title, DueDate, Project, Assignee, Description, TicketStatus, IssueType }: Item) => {
-
+  const addTicket = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType }: Item) => {
     if (!Assignee || !Description) {
       
       setInputError('Assignee and Description cannot be empty')
@@ -173,7 +149,7 @@ const IssuesTracker = () => {
         Email,
         Title,
         DueDate,
-        Project,
+        Category,
         Assignee,
         Description,
         TicketStatus,
@@ -184,22 +160,22 @@ const IssuesTracker = () => {
     }
   }
 
-  const updateTicket = async ({ Title = '', DueDate = '', Project = '', Assignee = '', Description = '', TicketStatus, IssueType, TicketId }: Item) => {
+  const updateTicket = async ({ Title = '', DueDate = '', Category = '', Assignee = '', Description = '', TicketStatus, IssueType, TicketId }: Item) => {
     if (Assignee.length === 0 || Description.length === 0 || !TicketId || !TicketStatus || !IssueType) {
       setInputError('Assignee and Description cannot be empty')
     } else {
       dispatch({ type: ACTIONS.ADD_TICKET })
       
-      await updateItem({ Title, DueDate, Project, Assignee, Description, TicketStatus, IssueType, TicketId })
+      await updateItem({ Email, Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId })
       setModalOpen(false)
     }
   }
 
-  const deleteTicket = async ({ Assignee, TicketId }: DeleteTicketType) => {
+  const deleteTicket = async ({ TicketId }: DeleteTicketType) => {
     
     dispatch({ type: ACTIONS.DELETE_TICKET })
 
-    await deleteItem(Assignee, TicketId)
+    await deleteItem(TicketId)
 
     setModalOpen(false)
   }

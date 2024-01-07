@@ -23,13 +23,14 @@ const putItem = async (payload: FormState) => {
     Email,
     Title,
     DueDate,
-    Project, 
+    Category, 
     Assignee, 
     Description,
     TicketStatus,
     IssueType
   } = payload
 
+  console.log(payload, 'payload in put????')
   const putParams: IssuesPayloadType = {
     Method: 'Put',
     Payload: {
@@ -38,7 +39,7 @@ const putItem = async (payload: FormState) => {
         Email,
         Title,
         DueDate,
-        Project,
+        Category,
         Assignee,
         Description,
         TicketStatus,
@@ -54,51 +55,53 @@ const putItem = async (payload: FormState) => {
   await lambda.invoke(params).promise();
 }
 
-const getItem = async () => {
-  const getParams: IssuesPayloadType = {
-    Method: 'Get',
-    Payload: {
-      TableName: 'Issues' ,
-      Key: {
-        Assignee: 'BadaBing'
-      }
-    }
-   };;
+// const getItem = async () => {
+//   const getParams: IssuesPayloadType = {
+//     Method: 'Get',
+//     Payload: {
+//       TableName: 'Issues' ,
+//       Key: {
+//         Assignee: 'BadaBing'
+//       }
+//     }
+//    };;
 
-   const params = lambdaParams('HelloWorld', getParams)
+//    const params = lambdaParams('HelloWorld', getParams)
 
 
-  await lambda.invoke(params).promise();
-}
+//   await lambda.invoke(params).promise();
+// }
 
 
 const updateItem = async (payload:TicketType) => {
   const {
+    Email,
     Title,
     DueDate,
-    Project, 
+    Category, 
     Assignee, 
-    Description, 
-    PriorityLevel,
+    Description,
     TicketStatus,
     IssueType,
     TicketId
    } = payload
+
+   console.log(payload, 'in updateitem!!!!!')
 
   const updateParams: IssuesPayloadType = {
     Method: 'Update',
     Payload: {
       TableName: "Issues",
       Key: {
+        Email,
         TicketId
       },
-      UpdateExpression: "set Title = :title, Assignee = :assignee, DueDate = :dueDate, Project = :project, PriorityLevel = :priority, Description = :description, TicketStatus = :ticketStatus, IssueType = :issueType",
+      UpdateExpression: "set Title = :title, Assignee = :assignee, DueDate = :dueDate, Category = :category, Description = :description, TicketStatus = :ticketStatus, IssueType = :issueType",
       ExpressionAttributeValues: {
         ":title": Title,
         ":assignee": Assignee,
         ":dueDate": DueDate,
-        ":project": Project,
-        ":priority": PriorityLevel,
+        ":category": Category,
         ":description": Description,
         ":ticketStatus": TicketStatus,
         ":issueType": IssueType
@@ -115,14 +118,13 @@ const updateItem = async (payload:TicketType) => {
   // return JSON.parse(results.toString())
 }
 
-const deleteItem = async (Assignee: string, TicketId?: string) => {
-  console.log(TicketId, Assignee, 'in delete item!')
+const deleteItem = async (TicketId?: string) => {
+  console.log(TicketId, 'in delete item!')
   const deleteParams: IssuesPayloadType = {
     Method: 'Delete',
     Payload: {
       TableName: "Issues",
       Key: {
-        Assignee,
         TicketId
       },
     }
@@ -148,7 +150,7 @@ const queryFunc = async (payload: FormState) => {
         ExpressionAttributeValues: {
           ':email': Email
         },
-        Limit: 5
+        Limit: 10
       }
     }
   
@@ -241,7 +243,6 @@ const login = async (payload: AccountFormType) => {
 
 export {
   deleteItem,
-  getItem,
   putItem,
   updateItem,
   queryFunc,

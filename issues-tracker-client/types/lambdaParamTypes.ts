@@ -1,6 +1,6 @@
 type Key = {
   TicketId?: string;
-  Assignee?: string
+  Email?: string
 }
 
 interface Item extends FormState {
@@ -17,21 +17,13 @@ type DispatchType = {
 type TicketType = {
   [key:string]: string;
 }
-// clarify why they are all tentative properties
-// type FormState = {
-//   Assignee?: string;
-//   Description?: string;
-//   PriorityLevel?: string;
-//   TicketStatus?: string;
-//   IssueType?: string;
-// }
 
 type FormState = {
   Email?: string;
   Title?: string;
   Comments?: string;
   DueDate?: string;
-  Project?: string;
+  Category?: string;
   Assignee?: string;
   Description?: string;
   TicketStatus?: string;
@@ -93,7 +85,6 @@ type AccountFormType = {
 }
 
 type DeleteTicketType = {
-  Assignee: string;
   TicketId: string;
 }
 

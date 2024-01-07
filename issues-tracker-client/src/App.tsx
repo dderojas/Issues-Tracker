@@ -2,7 +2,6 @@ import { useAuthUser, useIsAuthenticated } from 'react-auth-kit'
 import { IssuesTracker, LoginPage } from "./components";
 
 const App = () => {
-console.log(document.cookie, '???')
 const auth = useAuthUser()
 const isAuthenticated = useIsAuthenticated()
 console.log(isAuthenticated(), 'Authentic???')
