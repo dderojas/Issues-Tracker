@@ -88,7 +88,7 @@ const filterForKanban = (backlogData: Item[] | undefined): SprintBoardState => {
 
 const issuesReducer = (state: InitialState, action: ActionType): InitialState => {
   const { formState, backlogState, sprintBoardState } = state
-  
+  console.log(action, 'in reducer???')
   switch(action.type) {
     case ACTIONS.ADD_TICKET:
       return { backlogState: [...backlogState ], sprintBoardState, formState: initialState.formState }
@@ -180,9 +180,9 @@ const IssuesTracker = () => {
     setModalOpen(false)
   }
 
-  const openModalWithData = ({ Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => {
+  const openModalWithData = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => {
+    dispatch({ type: ACTIONS.EDIT_TICKET, ticketPayload: { Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId } })
     setModalOpen(true)
-    dispatch({ type: ACTIONS.EDIT_TICKET, ticketPayload: { Assignee, Description, TicketStatus, IssueType, TicketId } })
   }
 
   return (

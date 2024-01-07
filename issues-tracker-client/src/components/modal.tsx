@@ -51,21 +51,24 @@ const Modal = ({
             <input name="DueDate" type="text" placeholder="DueDate" value={DueDate} onChange={handleChange} />
             <input name="Category" type="text" placeholder="Category" value={Category} onChange={handleChange} />
           </div>
-          <select name="TicketStatus" value={TicketStatus} onChange={handleChange}>
-            {ticketStatusDropDown.map((elem, index) => {
-              if (index === 0) return <option value="" disabled selected hidden>{elem}</option>
+          <div className="modalSelectContainer">
+            <select name="TicketStatus" value={TicketStatus} onChange={handleChange}>
+              {ticketStatusDropDown.map((elem, index) => {
+                if (index === 0) return <option value="" disabled selected hidden>{elem}</option>
 
-              return <option value={elem} key={elem}>{elem}</option>
-            })}
-          </select>
-          <select name="IssueType" value={IssueType} onChange={handleChange}>
-            {issueTypeDropDown.map((elem, index) => {
-              if (index === 0) return <option value="" disabled selected hidden>{elem}</option>
-              return <option value={elem} key={elem}>{elem}</option>
-            })}
-          </select>
+                return <option value={elem} key={elem}>{elem}</option>
+              })}
+            </select>
+            <select name="IssueType" value={IssueType} onChange={handleChange}>
+              {issueTypeDropDown.map((elem, index) => {
+                if (index === 0) return <option value="" disabled selected hidden>{elem}</option>
+                return <option value={elem} key={elem}>{elem}</option>
+              })}
+            </select>
+          </div>
           {inputError && <div style={{ color: 'red' }}>{inputError}</div> }
         </form>
+        <div className="buttonModalContainer">
           <button onClick={() => addTicket({ Title, Category, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })}>
             Add Ticket
           </button>
@@ -81,6 +84,7 @@ const Modal = ({
           }}>
             Delete Ticket
           </button>
+        </div>
       </ModalContainer>
     </ModalBackground>
   );

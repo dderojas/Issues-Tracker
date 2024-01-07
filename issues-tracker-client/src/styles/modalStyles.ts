@@ -11,7 +11,7 @@ const ModalContainer = styled.div`
   text-align: center;
   padding: 25px;
   .closeModal {
-    width: 20%;
+    width: 10%;
     margin: 0% 2%;
   }
   .TitleClass {
@@ -23,6 +23,11 @@ const ModalContainer = styled.div`
   .DescriptionClass {
     display: inline-block;
     padding: 5%;
+    margin: 2%;
+  }
+  .buttonModalContainer {
+    display: flex;
+    justify-content: space-around;
     margin: 2%;
   }
   > form {
