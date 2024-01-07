@@ -1,5 +1,5 @@
 import { useState, useReducer, useEffect } from 'react'
-import { useAuthUser } from 'react-auth-kit'
+import { useAuthUser, useSignOut } from 'react-auth-kit'
 import { VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
 import { Button } from '../styles';
 import { InitialState, Item, SprintBoardState, DeleteTicketType } from '../../types'
@@ -74,7 +74,7 @@ const ACTIONS = {
 }
 
 const initialState: InitialState = {
-  formState: { Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
+  formState: { Title: '', Comments: '', DueDate: '', Project: '', Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
   backlogState: [],
   sprintBoardState: { todo: [], inProgress: [], done: [] }
 }
@@ -143,6 +143,7 @@ const IssuesTracker = () => {
   
   //@ts-ignore
   const { email: Email } = authUser()
+  const signOut = useSignOut()
   
   useEffect(() => {
     (async () => {
@@ -159,7 +160,7 @@ const IssuesTracker = () => {
     
   }, [modalOpen, Email])
   
-  const addTicket = ({ Assignee, Description, TicketStatus, IssueType }: Item) => {
+  const addTicket = ({ Title, DueDate, Project, Assignee, Description, TicketStatus, IssueType }: Item) => {
 
     if (!Assignee || !Description) {
       
@@ -170,6 +171,9 @@ const IssuesTracker = () => {
       
       putItem({
         Email,
+        Title,
+        DueDate,
+        Project,
         Assignee,
         Description,
         TicketStatus,
@@ -180,13 +184,13 @@ const IssuesTracker = () => {
     }
   }
 
-  const updateTicket = async ({ Assignee = '', Description = '', TicketStatus, IssueType, TicketId }: Item) => {
+  const updateTicket = async ({ Title = '', DueDate = '', Project = '', Assignee = '', Description = '', TicketStatus, IssueType, TicketId }: Item) => {
     if (Assignee.length === 0 || Description.length === 0 || !TicketId || !TicketStatus || !IssueType) {
       setInputError('Assignee and Description cannot be empty')
     } else {
       dispatch({ type: ACTIONS.ADD_TICKET })
       
-      await updateItem({ Assignee, Description, TicketStatus, IssueType, TicketId })
+      await updateItem({ Title, DueDate, Project, Assignee, Description, TicketStatus, IssueType, TicketId })
       setModalOpen(false)
     }
   }
@@ -208,7 +212,7 @@ const IssuesTracker = () => {
   return (
     <>
       <VerticalNavbar>
-        <Button>Sign Out / Register</Button>
+        <Button onClick={signOut}>Sign Out / Register</Button>
         <Button onClick={() => {
           setView(true)
         }}>Backlog</Button>

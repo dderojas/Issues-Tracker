@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk'
-import { IssuesPayloadType, Item, TicketType, AccountFormType, FormState } from '../../types'
+import { IssuesPayloadType, TicketType, AccountFormType, FormState } from '../../types'
 
 AWS.config.region = process.env.REACT_APP_AWS_REGION;
 
@@ -20,7 +20,10 @@ const lambdaParams = (functionName: string, payload: IssuesPayloadType) => {
 
 const putItem = async (payload: FormState) => {
   const {
-    Email, 
+    Email,
+    Title,
+    DueDate,
+    Project, 
     Assignee, 
     Description,
     TicketStatus,
@@ -33,6 +36,9 @@ const putItem = async (payload: FormState) => {
       TableName : 'Issues',
       Item: {
         Email,
+        Title,
+        DueDate,
+        Project,
         Assignee,
         Description,
         TicketStatus,
@@ -67,7 +73,10 @@ const getItem = async () => {
 
 
 const updateItem = async (payload:TicketType) => {
-  const { 
+  const {
+    Title,
+    DueDate,
+    Project, 
     Assignee, 
     Description, 
     PriorityLevel,
@@ -81,11 +90,14 @@ const updateItem = async (payload:TicketType) => {
     Payload: {
       TableName: "Issues",
       Key: {
-        Assignee,
         TicketId
       },
-      UpdateExpression: "set PriorityLevel = :priority, Description = :description, TicketStatus = :ticketStatus, IssueType = :issueType",
+      UpdateExpression: "set Title = :title, Assignee = :assignee, DueDate = :dueDate, Project = :project, PriorityLevel = :priority, Description = :description, TicketStatus = :ticketStatus, IssueType = :issueType",
       ExpressionAttributeValues: {
+        ":title": Title,
+        ":assignee": Assignee,
+        ":dueDate": DueDate,
+        ":project": Project,
         ":priority": PriorityLevel,
         ":description": Description,
         ":ticketStatus": TicketStatus,
@@ -93,7 +105,7 @@ const updateItem = async (payload:TicketType) => {
       },
       ReturnValues: "ALL_NEW",
     }
-  };;
+  };
 
   const params = lambdaParams('HelloWorld', updateParams)
 
@@ -122,7 +134,6 @@ const deleteItem = async (Assignee: string, TicketId?: string) => {
   await lambda.invoke(params).promise();
 }
 
-// Do I need queryFunc?
 const queryFunc = async (payload: FormState) => {
   const {
     Email
