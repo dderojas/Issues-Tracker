@@ -9,7 +9,7 @@ interface Item extends FormState {
 
 type DispatchType = {
   type: string;
-  backlogPayload?: Item[];
+  backlogPayload?: { backlog: Item[], filteredLog: Item[] };
   sprintBoardPayload?: Item[];
   ticketPayload?: Item;
 }
@@ -38,7 +38,8 @@ type SprintBoardState = {
 
 type InitialState = {
   formState: FormState;
-  backlogState: Item[];
+  // backlogState: Item[];
+  backlogState: { backlog: Item[], filteredLog: Item[] }
   sprintBoardState: SprintBoardState;
 }
 

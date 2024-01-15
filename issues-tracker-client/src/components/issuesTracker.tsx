@@ -52,13 +52,13 @@ const ACTIONS = {
 
 const initialState: InitialState = {
   formState: { Title: '', Comments: '', DueDate: '', Category: '', Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
-  backlogState: [],
+  backlogState: { backlog: [], filteredLog: [] },
   sprintBoardState: { todo: [], inProgress: [], done: [] }
 }
 
 type ActionType = {
   type: string;
-  backlogPayload?: Item[];
+  backlogPayload?: { backlog?: Item[], filteredLog?: Item[] };
   ticketPayload?: Item;
   sprintBoardPayload?: Item[];
 }
@@ -85,18 +85,32 @@ const filterForKanban = (backlogData: Item[] | undefined): SprintBoardState => {
   return results;
 }
 
+const backlogStateFunc = (payload: any, state: any) => {
+  const results:any = { backlog: [...state.backlogState.backlog], filteredLog: [...state.backlogState.filteredLog] }
+  if (payload.backlog) {
+
+    results.backlog = [...payload.backlog]
+
+  } else if (payload.filteredLog) {
+
+    results.filteredLog = [...payload.filteredLog]
+
+  }
+
+  return results
+}
 
 const issuesReducer = (state: InitialState, action: ActionType): InitialState => {
   const { formState, backlogState, sprintBoardState } = state
   console.log(action, 'in reducer???')
   switch(action.type) {
     case ACTIONS.ADD_TICKET:
-      return { backlogState: [...backlogState ], sprintBoardState, formState: initialState.formState }
+      return { backlogState: { backlog: [...backlogState.backlog ], filteredLog: [...backlogState.filteredLog] }, sprintBoardState, formState: initialState.formState }
     case ACTIONS.DELETE_TICKET:
       return { backlogState: initialState.backlogState, sprintBoardState, formState: initialState.formState}
     case ACTIONS.UPDATE_BACKLOG:
       return { 
-        backlogState: action.backlogPayload ? [ ...action.backlogPayload ] : [ ...backlogState ], 
+        backlogState: backlogStateFunc(action.backlogPayload, state), 
         sprintBoardState, 
         formState: initialState.formState
       }
@@ -114,12 +128,14 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
 const IssuesTracker = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [view, setView] = useState(false)
+  const [filteredView, setFilteredView] = useState(false)
   const [inputError, setInputError] = useState('')
   const authUser = useAuthUser()
   const [{ backlogState, formState, sprintBoardState }, dispatch] = useReducer(issuesReducer, initialState)
   
   //@ts-ignore
   const { email: Email } = authUser()
+  // const Email = 'don@don.com'
   const signOut = useSignOut()
   
   useEffect(() => {
@@ -129,7 +145,7 @@ const IssuesTracker = () => {
         const items = await queryFunc({ Email })
         
         if (items?.length) {
-          dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: items })
+          dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { backlog: items } })
           dispatch({ type: ACTIONS.UPDATE_SPRINT_BOARD, sprintBoardPayload: items })
         }
       }
@@ -209,7 +225,7 @@ const IssuesTracker = () => {
           /> }
 
       { !view && <SprintBoardView sprintBoardState={sprintBoardState} openModalWithData={openModalWithData}/> }
-      { view && <BacklogView list={backlogState} openModalWithData={openModalWithData}/> }
+      { view && <BacklogView list={backlogState} openModalWithData={openModalWithData} dispatch={dispatch} setFilteredView={setFilteredView} filteredView={filteredView}/> }
     </>
   );
 }

@@ -27,7 +27,10 @@ const Modal = ({
   const ticketStatusDropDown = ['Choose Ticket Status', 'Todo', 'In Progress', 'Done']
   const issueTypeDropDown = ['Choose Issue Type', 'Task', 'Feature', 'Bug']
 
-  const handleChange = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.FormEvent<HTMLInputElement 
+    | HTMLSelectElement 
+    | HTMLTextAreaElement>
+  ) => {
     e.preventDefault()
     let name:string = (e!.target as HTMLInputElement)!.name;
     let value:string = (e!.target as HTMLInputElement)!.value;
