@@ -1,5 +1,6 @@
 import { SprintBoard, Columns, Ticket } from '../styles'
 import { SprintBoardState, Item } from '../../types'
+import { calculateDaysFunc } from '../utils/calculateDays'
 
 type SprintBoardType = {
   sprintBoardState: SprintBoardState;
@@ -13,6 +14,8 @@ const SprintBoardView = ({ sprintBoardState, openModalWithData }: SprintBoardTyp
     <SprintBoard>
       <Columns>
         {todo?.map(({ Title, DueDate, Assignee, Description, IssueType, TicketStatus, TicketId }: Item) => {
+          ///@ts-ignore
+          let something = new Date(DueDate)
           return (
             <Ticket onClick={() => {
               openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
@@ -21,7 +24,8 @@ const SprintBoardView = ({ sprintBoardState, openModalWithData }: SprintBoardTyp
               <p>{IssueType}</p>
               <footer>
                 <p>{Assignee}</p>
-                <p>{DueDate}</p>
+                {/*@ts-ignore*/}
+                <p>{something.toDateString()}</p>
               </footer>
             </Ticket>
           )

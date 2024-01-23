@@ -22,7 +22,7 @@ const putItem = async (payload: FormState) => {
   const {
     Email,
     Title,
-    DueDate,
+    DueDate = '',
     Category, 
     Assignee, 
     Description,
@@ -30,7 +30,7 @@ const putItem = async (payload: FormState) => {
     IssueType
   } = payload
 
-  console.log(payload, 'payload in put????')
+  const test = new Date(DueDate)
   const putParams: IssuesPayloadType = {
     Method: 'Put',
     Payload: {
@@ -38,7 +38,8 @@ const putItem = async (payload: FormState) => {
       Item: {
         Email,
         Title,
-        DueDate,
+        //@ts-ignore
+        DueDate: test,
         Category,
         Assignee,
         Description,
@@ -86,7 +87,7 @@ const updateItem = async (payload:TicketType) => {
     TicketId
    } = payload
 
-   console.log(payload, 'in updateitem!!!!!')
+   const test = new Date(DueDate)
 
   const updateParams: IssuesPayloadType = {
     Method: 'Update',
@@ -100,7 +101,8 @@ const updateItem = async (payload:TicketType) => {
       ExpressionAttributeValues: {
         ":title": Title,
         ":assignee": Assignee,
-        ":dueDate": DueDate,
+        //@ts-ignore
+        ":dueDate": test.getTime(),
         ":category": Category,
         ":description": Description,
         ":ticketStatus": TicketStatus,
@@ -114,7 +116,6 @@ const updateItem = async (payload:TicketType) => {
 
 
   const results = await lambda.invoke(params).promise()
-  console.log(results, 'resultsssssss')
   // return JSON.parse(results.toString())
 }
 
@@ -160,7 +161,6 @@ const queryFunc = async (payload: FormState) => {
   
     const something = JSON.parse(lambdaResults.Payload!.toString())
 
-    console.log(something, 'asdfasdfasdf')
     return something.body.results.Items
   }
 }

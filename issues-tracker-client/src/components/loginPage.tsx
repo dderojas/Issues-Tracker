@@ -30,7 +30,7 @@ const LoginPage = () => {
     e.preventDefault()
     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value })
   }
-// why did I have to spread the state?, why did {username: e.target.value[0], password: e.target.value[1]} not work?
+  
   const createLogin = async (e: any) => {
     e.preventDefault()
     await createAccount(loginInfo)

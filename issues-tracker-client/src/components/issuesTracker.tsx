@@ -2,7 +2,7 @@ import { useState, useReducer, useEffect } from 'react'
 import { useAuthUser, useSignOut } from 'react-auth-kit'
 import { VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
 import { Button } from '../styles';
-import { InitialState, Item, SprintBoardState, DeleteTicketType } from '../../types'
+import { InitialState, Item, SprintBoardState, BacklogState, DeleteTicketType } from '../../types'
 import { putItem, updateItem, deleteItem, queryFunc } from '../services';
 
 
@@ -52,13 +52,13 @@ const ACTIONS = {
 
 const initialState: InitialState = {
   formState: { Title: '', Comments: '', DueDate: '', Category: '', Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
-  backlogState: { backlog: [], filteredLog: [] },
+  backlogState: { backlog: [], filteredLog: [], filteredView: false, issueTypeFilter: '' },
   sprintBoardState: { todo: [], inProgress: [], done: [] }
 }
 
 type ActionType = {
   type: string;
-  backlogPayload?: { backlog?: Item[], filteredLog?: Item[] };
+  backlogPayload?: BacklogState;
   ticketPayload?: Item;
   sprintBoardPayload?: Item[];
 }
@@ -85,32 +85,39 @@ const filterForKanban = (backlogData: Item[] | undefined): SprintBoardState => {
   return results;
 }
 
-const backlogStateFunc = (payload: any, state: any) => {
-  const results:any = { backlog: [...state.backlogState.backlog], filteredLog: [...state.backlogState.filteredLog] }
-  if (payload.backlog) {
+const backlogStateFunc = (payload: BacklogState | undefined, backlogState: BacklogState) => {
+  const results: BacklogState = { ...backlogState, ...payload }
 
-    results.backlog = [...payload.backlog]
-
-  } else if (payload.filteredLog) {
-
-    results.filteredLog = [...payload.filteredLog]
+  if (results.backlog) {
+    if (payload?.filteredView) {
+      results.filteredLog = results.backlog.filter((elem) => {
+        return elem.IssueType === payload.issueTypeFilter
+      })
+    }
+  
+    if (payload?.backlog && results.filteredView) {
+        results.filteredLog = results.backlog.filter((elem) => {
+          return elem.IssueType === results.issueTypeFilter
+        })
+    }
 
   }
+
 
   return results
 }
 
 const issuesReducer = (state: InitialState, action: ActionType): InitialState => {
   const { formState, backlogState, sprintBoardState } = state
-  console.log(action, 'in reducer???')
+
   switch(action.type) {
     case ACTIONS.ADD_TICKET:
-      return { backlogState: { backlog: [...backlogState.backlog ], filteredLog: [...backlogState.filteredLog] }, sprintBoardState, formState: initialState.formState }
+      return { backlogState: { ...backlogState }, sprintBoardState, formState: initialState.formState }
     case ACTIONS.DELETE_TICKET:
       return { backlogState: initialState.backlogState, sprintBoardState, formState: initialState.formState}
     case ACTIONS.UPDATE_BACKLOG:
       return { 
-        backlogState: backlogStateFunc(action.backlogPayload, state), 
+        backlogState: backlogStateFunc(action.backlogPayload, backlogState), 
         sprintBoardState, 
         formState: initialState.formState
       }
@@ -128,16 +135,14 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
 const IssuesTracker = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [view, setView] = useState(false)
-  const [filteredView, setFilteredView] = useState(false)
   const [inputError, setInputError] = useState('')
   const authUser = useAuthUser()
   const [{ backlogState, formState, sprintBoardState }, dispatch] = useReducer(issuesReducer, initialState)
-  
   //@ts-ignore
   const { email: Email } = authUser()
   // const Email = 'don@don.com'
   const signOut = useSignOut()
-  
+
   useEffect(() => {
     (async () => {
       if (!modalOpen) {
@@ -153,7 +158,7 @@ const IssuesTracker = () => {
     
   }, [modalOpen, Email])
   
-  const addTicket = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType }: Item) => {
+  const addTicket = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType }: Required<Item>) => {
     if (!Assignee || !Description) {
       
       setInputError('Assignee and Description cannot be empty')
@@ -210,6 +215,7 @@ const IssuesTracker = () => {
         }}>Backlog</Button>
         <Button onClick={() => {
           setView(false)
+          dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { filteredView: false } })
         }}>Kanban Board</Button>
         <Button onClick={() => setModalOpen(true)}>Create Ticket</Button>
       </VerticalNavbar>
@@ -225,7 +231,7 @@ const IssuesTracker = () => {
           /> }
 
       { !view && <SprintBoardView sprintBoardState={sprintBoardState} openModalWithData={openModalWithData}/> }
-      { view && <BacklogView list={backlogState} openModalWithData={openModalWithData} dispatch={dispatch} setFilteredView={setFilteredView} filteredView={filteredView}/> }
+      { view && <BacklogView list={backlogState} openModalWithData={openModalWithData} dispatch={dispatch} /> }
     </>
   );
 }

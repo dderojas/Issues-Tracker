@@ -9,7 +9,7 @@ interface Item extends FormState {
 
 type DispatchType = {
   type: string;
-  backlogPayload?: { backlog: Item[], filteredLog: Item[] };
+  backlogPayload?: BacklogState;
   sprintBoardPayload?: Item[];
   ticketPayload?: Item;
 }
@@ -30,6 +30,13 @@ type FormState = {
   IssueType?: string;
 }
 
+type BacklogState = { 
+  backlog?: Item[];
+  filteredLog?: Item[]; 
+  filteredView?: boolean; 
+  issueTypeFilter?: string; 
+}
+
 type SprintBoardState = { 
   todo: Item[], 
   inProgress: Item[], 
@@ -38,8 +45,7 @@ type SprintBoardState = {
 
 type InitialState = {
   formState: FormState;
-  // backlogState: Item[];
-  backlogState: { backlog: Item[], filteredLog: Item[] }
+  backlogState: BacklogState;
   sprintBoardState: SprintBoardState;
 }
 
@@ -104,6 +110,7 @@ export type {
   QueryParams, 
   AccountFormType,
   SprintBoardState,
+  BacklogState,
   DispatchType,
   DeleteTicketType
 }
