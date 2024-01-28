@@ -52,7 +52,12 @@ const ModalBackground = styled.div`
   align-items: center;
 `
 
+const DateFont = styled.p<{ $color?: string; }>`
+  color: ${props => props.$color || 'black' };
+`
+
 export {
   ModalContainer,
-  ModalBackground
+  ModalBackground,
+  DateFont
 }

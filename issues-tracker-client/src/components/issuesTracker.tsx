@@ -2,8 +2,9 @@ import { useState, useReducer, useEffect } from 'react'
 import { useAuthUser, useSignOut } from 'react-auth-kit'
 import { VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
 import { Button } from '../styles';
-import { InitialState, Item, SprintBoardState, BacklogState, DeleteTicketType } from '../../types'
+import { Item, DeleteTicketType } from '../../types'
 import { putItem, updateItem, deleteItem, queryFunc } from '../services';
+import { issuesReducer, initialState, ACTIONS } from '../reducers/issuesReducer';
 
 
 const newMockData: any = [
@@ -40,97 +41,7 @@ const newMockData: any = [
   }
 ]
 
-const ACTIONS = {
-  ADD_TICKET: 'add-ticket',
-  SET_MODAL_STATE: 'set-form-state',
-  EDIT_TICKET: 'modal-with-data',
-  UPDATE_TICKET: 'update-ticket',
-  DELETE_TICKET: 'delete-ticket',
-  UPDATE_BACKLOG: 'update-backlog',
-  UPDATE_SPRINT_BOARD: 'update-sprint-board'
-}
 
-const initialState: InitialState = {
-  formState: { Title: '', Comments: '', DueDate: '', Category: '', Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
-  backlogState: { backlog: [], filteredLog: [], filteredView: false, issueTypeFilter: '' },
-  sprintBoardState: { todo: [], inProgress: [], done: [] }
-}
-
-type ActionType = {
-  type: string;
-  backlogPayload?: BacklogState;
-  ticketPayload?: Item;
-  sprintBoardPayload?: Item[];
-}
-
-
-const filterForKanban = (backlogData: Item[] | undefined): SprintBoardState => {
-  
-  const results: SprintBoardState = { inProgress: [], todo: [], done: [] }
-
-  if (!backlogData || backlogData.length === 0) return results
-
-  for (let i = 0; i < backlogData.length; i++) {
-    if (backlogData[i].TicketStatus === 'In Progress') {
-      results.inProgress.push(backlogData[i])
-    }
-    if (backlogData[i].TicketStatus === 'Todo') {
-      results.todo.push(backlogData[i])
-    }
-    if (backlogData[i].TicketStatus === 'Done') {
-      results.done.push(backlogData[i])
-    }
-  }
-
-  return results;
-}
-
-const backlogStateFunc = (payload: BacklogState | undefined, backlogState: BacklogState) => {
-  const results: BacklogState = { ...backlogState, ...payload }
-
-  if (results.backlog) {
-    if (payload?.filteredView) {
-      results.filteredLog = results.backlog.filter((elem) => {
-        return elem.IssueType === payload.issueTypeFilter
-      })
-    }
-  
-    if (payload?.backlog && results.filteredView) {
-        results.filteredLog = results.backlog.filter((elem) => {
-          return elem.IssueType === results.issueTypeFilter
-        })
-    }
-
-  }
-
-
-  return results
-}
-
-const issuesReducer = (state: InitialState, action: ActionType): InitialState => {
-  const { formState, backlogState, sprintBoardState } = state
-
-  switch(action.type) {
-    case ACTIONS.ADD_TICKET:
-      return { backlogState: { ...backlogState }, sprintBoardState, formState: initialState.formState }
-    case ACTIONS.DELETE_TICKET:
-      return { backlogState: initialState.backlogState, sprintBoardState, formState: initialState.formState}
-    case ACTIONS.UPDATE_BACKLOG:
-      return { 
-        backlogState: backlogStateFunc(action.backlogPayload, backlogState), 
-        sprintBoardState, 
-        formState: initialState.formState
-      }
-    case ACTIONS.SET_MODAL_STATE:
-      return { backlogState, sprintBoardState, formState: { ...formState, ...action.ticketPayload } }
-    case ACTIONS.EDIT_TICKET:
-      return { backlogState, sprintBoardState, formState: { ...formState, ...action.ticketPayload } }
-    case ACTIONS.UPDATE_SPRINT_BOARD:
-      return { backlogState, sprintBoardState: filterForKanban(action.sprintBoardPayload), formState: initialState.formState }
-    default:
-      return initialState
-  }
-}
 
 const IssuesTracker = () => {
   const [modalOpen, setModalOpen] = useState(false)
@@ -140,13 +51,11 @@ const IssuesTracker = () => {
   const [{ backlogState, formState, sprintBoardState }, dispatch] = useReducer(issuesReducer, initialState)
   //@ts-ignore
   const { email: Email } = authUser()
-  // const Email = 'don@don.com'
   const signOut = useSignOut()
 
   useEffect(() => {
     (async () => {
       if (!modalOpen) {
-        // const items = newMockData
         const items = await queryFunc({ Email })
         
         if (items?.length) {
@@ -158,7 +67,7 @@ const IssuesTracker = () => {
     
   }, [modalOpen, Email])
   
-  const addTicket = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType }: Required<Item>) => {
+  const addTicket = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType }: Item) => {
     if (!Assignee || !Description) {
       
       setInputError('Assignee and Description cannot be empty')

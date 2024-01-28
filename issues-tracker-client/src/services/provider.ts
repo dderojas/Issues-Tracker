@@ -22,7 +22,7 @@ const putItem = async (payload: FormState) => {
   const {
     Email,
     Title,
-    DueDate = '',
+    DueDate,
     Category, 
     Assignee, 
     Description,
@@ -30,7 +30,6 @@ const putItem = async (payload: FormState) => {
     IssueType
   } = payload
 
-  const test = new Date(DueDate)
   const putParams: IssuesPayloadType = {
     Method: 'Put',
     Payload: {
@@ -38,8 +37,7 @@ const putItem = async (payload: FormState) => {
       Item: {
         Email,
         Title,
-        //@ts-ignore
-        DueDate: test,
+        DueDate,
         Category,
         Assignee,
         Description,
@@ -87,8 +85,6 @@ const updateItem = async (payload:TicketType) => {
     TicketId
    } = payload
 
-   const test = new Date(DueDate)
-
   const updateParams: IssuesPayloadType = {
     Method: 'Update',
     Payload: {
@@ -101,8 +97,7 @@ const updateItem = async (payload:TicketType) => {
       ExpressionAttributeValues: {
         ":title": Title,
         ":assignee": Assignee,
-        //@ts-ignore
-        ":dueDate": test.getTime(),
+        ":dueDate": DueDate,
         ":category": Category,
         ":description": Description,
         ":ticketStatus": TicketStatus,
@@ -164,42 +159,6 @@ const queryFunc = async (payload: FormState) => {
     return something.body.results.Items
   }
 }
-
-// const scanFunc = async () => {
-//   const scanParams = {
-//     Method: 'Scan',
-//     Payload: {
-//       TableName: "Issues"
-//     }
-//   }
-// // @ts-ignore
-//   const params = lambdaParams('HelloWorld', scanParams)
-
-//   try {
-//     const lambdaResults = await lambda.invoke(params).promise()
-
-//     const something:{
-//       body: {
-//         message: string;
-//         results: {
-//           Items: Item[]
-//           Count: number
-//           ScannedCount: number
-//         }
-//       }
-//       header: string
-//       statusCode: number
-//     } = JSON.parse(lambdaResults.Payload!.toString())
-
-//     console.log(something, 'inscannnnnnn')
-//     const { body: { results }, header, statusCode} = something
-
-//     return results.Items
-
-//   } catch(e) {
-//     console.error(e)
-//   }
-// }
 
 const createAccount = async (payload: AccountFormType) => {
   const { Username, Password } = payload

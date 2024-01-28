@@ -5,7 +5,7 @@ import React from "react";
 
 type ModalPropsType = {
   setModalOpen: (boolean: boolean) => void;
-  addTicket: (state: Required<Item>) => void;
+  addTicket: (state: Item) => void;
   deleteTicket: ({ TicketId }: DeleteTicketType) => void;
   updateTicket: ({ Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => void;
   formState: Item;
@@ -72,7 +72,6 @@ const Modal = ({
           {inputError && <div style={{ color: 'red' }}>{inputError}</div> }
         </form>
         <div className="buttonModalContainer">
-          {/*@ts-ignore */}
           <button onClick={() => addTicket({ Title, Category, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })}>
             Add Ticket
           </button>

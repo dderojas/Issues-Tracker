@@ -1,4 +1,4 @@
-import { SprintBoard, Columns, Ticket } from '../styles'
+import { SprintBoard, Columns, Ticket, DateFont } from '../styles'
 import { SprintBoardState, Item } from '../../types'
 import { calculateDaysFunc } from '../utils/calculateDays'
 
@@ -13,9 +13,10 @@ const SprintBoardView = ({ sprintBoardState, openModalWithData }: SprintBoardTyp
   return (
     <SprintBoard>
       <Columns>
-        {todo?.map(({ Title, DueDate, Assignee, Description, IssueType, TicketStatus, TicketId }: Item) => {
-          ///@ts-ignore
-          let something = new Date(DueDate)
+        {todo?.map(({ Title, DueDate = 'NEEDS DUE DATE', Assignee, Description, IssueType, TicketStatus, TicketId }: Item) => {
+          let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
+          const dateColor = differenceInDays < 2 ? 'red' : 'black'
+
           return (
             <Ticket onClick={() => {
               openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
@@ -24,8 +25,7 @@ const SprintBoardView = ({ sprintBoardState, openModalWithData }: SprintBoardTyp
               <p>{IssueType}</p>
               <footer>
                 <p>{Assignee}</p>
-                {/*@ts-ignore*/}
-                <p>{something.toDateString()}</p>
+                <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
               </footer>
             </Ticket>
           )
@@ -35,7 +35,7 @@ const SprintBoardView = ({ sprintBoardState, openModalWithData }: SprintBoardTyp
       {inProgress?.map(({ Title, DueDate, Assignee, Description, IssueType, TicketStatus, TicketId }: Item) => {
           return (
             <Ticket onClick={() => {
-              openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId })
+              openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
             }}>
               <p>{Title}</p>
               <p>{IssueType}</p>

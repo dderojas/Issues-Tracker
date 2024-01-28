@@ -1,6 +1,7 @@
 import { Item, DispatchType, BacklogState } from '../../types'
-import { Ticket, BacklogBoard } from '../styles'
+import { Ticket, BacklogBoard, DateFont } from '../styles'
 import { ACTIONS } from './issuesTracker'
+import { calculateDaysFunc } from '../utils/calculateDays'
 
 type BacklogType = {
   list?: BacklogState;
@@ -16,7 +17,7 @@ type BacklogType = {
 }
 
 const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: false }, openModalWithData, dispatch }: BacklogType) => {
-  
+
   const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
     e.preventDefault()
     let value:string = (e!.target as HTMLSelectElement)!.value;
@@ -40,7 +41,10 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: fals
         <option>Feature</option>
         <option>Bug</option>
       </select>
-      { list.filteredView ? list.filteredLog?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate }: Item) => {
+      { list.filteredView ? list.filteredLog?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
+        let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
+        const dateColor = differenceInDays < 2 ? 'red' : 'black'
+        
         return (
           <Ticket key={Math.random()} onClick={() => {
             openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId, DueDate })
@@ -49,11 +53,13 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: fals
             <div>{IssueType}</div>
             <footer>
               <div>{Assignee}</div>
-              <div>{DueDate}</div>
+              <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
             </footer>
           </Ticket>
         )
-      }) : list.backlog?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate }: Item) => {
+      }) : list.backlog?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
+        let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
+        const dateColor = differenceInDays < 2 ? 'red' : 'black'   
         return (
           <Ticket key={Math.random()} onClick={() => {
             openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId, DueDate })
@@ -62,7 +68,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: fals
             <div>{IssueType}</div>
             <footer>
               <div>{Assignee}</div>
-              <div>{DueDate}</div>
+              <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
             </footer>
           </Ticket>
         )

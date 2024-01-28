@@ -1,3 +1,6 @@
+import { FormState, AccountFormType } from './modalTypes'
+import { BacklogState } from './kanbanAndBacklogTypes'
+
 type Key = {
   TicketId?: string;
   Email?: string
@@ -16,37 +19,6 @@ type DispatchType = {
 
 type TicketType = {
   [key:string]: string;
-}
-
-type FormState = {
-  Email?: string;
-  Title?: string;
-  Comments?: string;
-  DueDate?: string;
-  Category?: string;
-  Assignee?: string;
-  Description?: string;
-  TicketStatus?: string;
-  IssueType?: string;
-}
-
-type BacklogState = { 
-  backlog?: Item[];
-  filteredLog?: Item[]; 
-  filteredView?: boolean; 
-  issueTypeFilter?: string; 
-}
-
-type SprintBoardState = { 
-  todo: Item[], 
-  inProgress: Item[], 
-  done: Item[] 
-}
-
-type InitialState = {
-  formState: FormState;
-  backlogState: BacklogState;
-  sprintBoardState: SprintBoardState;
 }
 
 type ExpressionAttributeValues = {
@@ -86,11 +58,6 @@ type IssuesPayloadType = {
   Payload: GetParams | PutParams | UpdateParams | DeleteParams | QueryParams
 }
 
-type AccountFormType = {
-  Username: string;
-  Password: string;
-}
-
 type DeleteTicketType = {
   TicketId: string;
 }
@@ -105,12 +72,7 @@ export type {
   DeleteParams,
   IssuesPayloadType,
   TicketType,
-  InitialState,
-  FormState,
-  QueryParams, 
-  AccountFormType,
-  SprintBoardState,
-  BacklogState,
+  QueryParams,
   DispatchType,
   DeleteTicketType
 }
