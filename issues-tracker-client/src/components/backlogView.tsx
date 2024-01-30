@@ -28,7 +28,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: fals
       return;
     }
 
-    if (name === 'typeofbuggg') {
+    if (name === 'typeDropdown') {
       dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { issueTypeFilter:  value, filteredView: true } })
     }
   }
@@ -37,7 +37,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: fals
 
   return (
     <BacklogBoard>
-      <select name="typeofbuggg" onChange={handleChange}>
+      <select name="typeDropdown" onChange={handleChange}>
         <option>All</option>
         <option>Task</option>
         <option>Feature</option>
