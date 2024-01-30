@@ -9,9 +9,9 @@ type BacklogState = {
 }
 
 type SprintBoardState = { 
-  todo: Item[], 
-  inProgress: Item[], 
-  done: Item[] 
+  Todo: Item[], 
+  Ongoing: Item[], 
+  Done: Item[] 
 }
 
 type InitialState = {

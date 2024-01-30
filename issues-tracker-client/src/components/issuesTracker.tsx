@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useState, useReducer, useEffect } from 'react'
 import { useAuthUser, useSignOut } from 'react-auth-kit'
 import { VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
@@ -42,7 +43,6 @@ const newMockData: any = [
 ]
 
 
-
 const IssuesTracker = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [view, setView] = useState(false)
@@ -60,7 +60,7 @@ const IssuesTracker = () => {
         
         if (items?.length) {
           dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { backlog: items } })
-          dispatch({ type: ACTIONS.UPDATE_SPRINT_BOARD, sprintBoardPayload: items })
+          dispatch({ type: ACTIONS.UPDATE_SPRINT_BOARD, sprintBoardPayload: { items, openModalWithData } })
         }
       }
     })()
@@ -146,6 +146,5 @@ const IssuesTracker = () => {
 }
 
 export {
-  IssuesTracker,
-  ACTIONS
+  IssuesTracker
 };

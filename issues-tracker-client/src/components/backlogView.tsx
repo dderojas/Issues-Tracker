@@ -1,6 +1,6 @@
 import { Item, DispatchType, BacklogState } from '../../types'
 import { Ticket, BacklogBoard, DateFont } from '../styles'
-import { ACTIONS } from './issuesTracker'
+import { ACTIONS } from '../reducers/issuesReducer'
 import { calculateDaysFunc } from '../utils/calculateDays'
 
 type BacklogType = {

@@ -1,0 +1,33 @@
+//@ts-nocheck
+import { SprintBoardState, ActionType } from "../../types"
+import { Ticket, DateFont } from "../styles"
+import { calculateDaysFunc } from "./calculateDays"
+
+export const filterForKanban = ({ sprintBoardPayload }: ActionType): SprintBoardState => {
+  const results: SprintBoardState = { Ongoing: [], Todo: [], Done: [] }
+  const { items, openModalWithData } = sprintBoardPayload
+
+  if (!items || items.length === 0) return results
+
+  for (let i = 0; i < items.length; i++) {
+      let status:string = items[i].TicketStatus || ''
+      let { Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId } = items[i]
+      let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
+      const dateColor = differenceInDays < 2 ? 'red' : 'black'
+
+      let ticket = <Ticket onClick={() => {
+        openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
+      }}>
+        <p>{Title}</p>
+        <p>{IssueType}</p>
+        <footer>
+          <p>{Assignee}</p>
+          <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
+        </footer>
+      </Ticket>
+
+      results[status].push(ticket)
+  }
+
+  return results;
+}

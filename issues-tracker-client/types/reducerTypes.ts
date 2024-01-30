@@ -5,7 +5,14 @@ type ActionType = {
   type: string;
   backlogPayload?: BacklogState;
   ticketPayload?: Item;
-  sprintBoardPayload?: Item[];
+  sprintBoardPayload: { items?: Item[],   openModalWithData: ({ 
+    Title, 
+    Assignee, 
+    Description, 
+    TicketStatus, 
+    IssueType, 
+    TicketId 
+  }: Item) => void; };
 }
 
 export type {
