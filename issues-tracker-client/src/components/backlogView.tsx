@@ -33,6 +33,8 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: fals
     }
   }
   
+  const view = list.filteredView ? 'filteredLog' : 'backlog'
+
   return (
     <BacklogBoard>
       <select name="typeofbuggg" onChange={handleChange}>
@@ -41,7 +43,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: fals
         <option>Feature</option>
         <option>Bug</option>
       </select>
-      { list.filteredView ? list.filteredLog?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
+      { list[view]?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
         let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
         const dateColor = differenceInDays < 2 ? 'red' : 'black'
         
@@ -57,22 +59,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: fals
             </footer>
           </Ticket>
         )
-      }) : list.backlog?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
-        let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
-        const dateColor = differenceInDays < 2 ? 'red' : 'black'   
-        return (
-          <Ticket key={Math.random()} onClick={() => {
-            openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId, DueDate })
-          }}>
-            <div>{Title}</div>
-            <div>{IssueType}</div>
-            <footer>
-              <div>{Assignee}</div>
-              <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
-            </footer>
-          </Ticket>
-        )
-      })}
+      }) }
     </BacklogBoard>
   )
 }
