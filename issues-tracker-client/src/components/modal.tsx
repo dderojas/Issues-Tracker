@@ -34,7 +34,7 @@ const Modal = ({
     e.preventDefault()
     let name:string = (e!.target as HTMLInputElement)!.name;
     let value:string = (e!.target as HTMLInputElement)!.value;
-
+    
     dispatch({ 
       type: ACTIONS.SET_MODAL_STATE,
       ticketPayload: { [name]: value }
@@ -44,17 +44,18 @@ const Modal = ({
   return (
     <ModalBackground>
       <ModalContainer>
-        <button className="closeModal" onClick={() => { setModalOpen(false) }}>X</button>
-        <h4>{TicketId ? 'Edit Ticket' : 'Create a Ticket'}</h4>
+        <div className="modalHeader">
+          {/*@ts-ignore*/}
+          <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
+          <button className="closeModal" onClick={() => { setModalOpen(false) }}>X</button>
+        </div>
+        <h4 style={{ fontSize: '130%'}}>{TicketId ? 'Edit Ticket' : 'Create a Ticket'}</h4>
         <form>
           <input className="TitleClass" name="Title" type="text" placeholder="Title" value={Title} onChange={handleChange} />
           <textarea className="DescriptionClass" name="Description" placeholder="Description" value={Description} onChange={handleChange}></textarea>
-          <div>
-            <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
+          <div className="inputAndDropdowns">
             <input name="DueDate" type="text" placeholder="DueDate" value={DueDate} onChange={handleChange} />
             <input name="Category" type="text" placeholder="Category" value={Category} onChange={handleChange} />
-          </div>
-          <div className="modalSelectContainer">
             <select name="TicketStatus" value={TicketStatus} onChange={handleChange}>
               {ticketStatusDropDown.map((elem, index) => {
                 if (index === 0) return <option value="" disabled selected hidden>{elem}</option>

@@ -1,5 +1,5 @@
 import { Item, DispatchType, BacklogState } from '../../types'
-import { Ticket, BacklogBoard, DateFont } from '../styles'
+import { Ticket, BacklogBoard, DateFont, DropDown } from '../styles'
 import { ACTIONS } from '../reducers/issuesReducer'
 import { calculateDaysFunc } from '../utils/calculateDays'
 
@@ -37,12 +37,12 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: fals
 
   return (
     <BacklogBoard>
-      <select name="typeDropdown" onChange={handleChange}>
+      <DropDown name="typeDropdown" onChange={handleChange}>
         <option>All</option>
         <option>Task</option>
         <option>Feature</option>
         <option>Bug</option>
-      </select>
+      </DropDown>
       { list[view]?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
         let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
         const dateColor = differenceInDays < 2 ? 'red' : 'black'

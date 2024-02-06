@@ -91,6 +91,7 @@ const IssuesTracker = () => {
   }
 
   const updateTicket = async ({ Title = '', DueDate = '', Category = '', Assignee = '', Description = '', TicketStatus, IssueType, TicketId }: Item) => {
+    
     if (Assignee.length === 0 || Description.length === 0 || !TicketId || !TicketStatus || !IssueType) {
       setInputError('Assignee and Description cannot be empty')
     } else {

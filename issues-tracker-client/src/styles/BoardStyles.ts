@@ -27,7 +27,7 @@ const Columns = styled.div`
   background-color: #0092ca;
   padding: 1%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 15px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   width: 18%;
 `
