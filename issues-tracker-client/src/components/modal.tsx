@@ -1,4 +1,4 @@
-import { ModalContainer, ModalBackground } from "../styles";
+import { TicketModal, ModalBackground } from "../styles";
 import { Item, DispatchType, DeleteTicketType } from "../../types";
 import { ACTIONS } from '../reducers/issuesReducer'
 import React from "react";
@@ -43,7 +43,7 @@ const Modal = ({
   
   return (
     <ModalBackground>
-      <ModalContainer>
+      <TicketModal>
         <div className="modalHeader">
           {/*@ts-ignore*/}
           <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
@@ -89,7 +89,7 @@ const Modal = ({
             Delete Ticket
           </button>
         </div>
-      </ModalContainer>
+      </TicketModal>
     </ModalBackground>
   );
 }

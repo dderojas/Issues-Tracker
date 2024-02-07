@@ -6,7 +6,7 @@ const DropDown = styled.select`
   margin: 2%;
   font-size: 120%;
   border-radius: 15px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
   border: none;
 `
 
@@ -17,7 +17,7 @@ const Ticket = styled.div`
   padding: 5%;
   margin: 2%;
   border-radius: 15px;
-  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
   background-color: #eeeeee;
   overflow: hidden;
   > p {

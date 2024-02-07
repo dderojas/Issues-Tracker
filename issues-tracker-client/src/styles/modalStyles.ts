@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 
-const ModalContainer = styled.div`
+const TicketModal = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 60%;
   height: 75%;
   border-radius: 3%;
   background-color: #eeeeee;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  display: flex;
-  flex-direction: column;
   text-align: center;
   padding: 2% 1% 5%;
   .modalHeader {
@@ -76,10 +76,10 @@ const ModalContainer = styled.div`
       margin: 0% 0.5%;
       border: none;
       outline: none;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
     }
     > input {
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
       border-radius: 50px;
       border: none;
     }
@@ -99,7 +99,7 @@ const ModalContainer = styled.div`
       outline: none;
       font-size: 75%;
       min-width: 30%;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
     }
     > select {
       font-size: 100%;
@@ -107,7 +107,8 @@ const ModalContainer = styled.div`
       border-radius: 50px;
       margin: 0% 0.5%;
       padding: 1%;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+      border: none;
     }
   }
 `
@@ -122,12 +123,52 @@ const ModalBackground = styled.div`
   align-items: center;
 `
 
+const LoginModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  height: 65%;
+  border-radius: 3%;
+  background-color: #eeeeee;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  text-align: center;
+  padding: 2% 1% 5%;
+  > form {
+    display: flex;
+    flex-direction: column;
+    margin: 5% 10%;
+    width: 80%;
+    > input {
+      margin: 1% 0%;
+      padding: 4%;
+      font-size: 150%;
+      // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+      border-radius: 50px;
+      border: none;
+    }
+    > button {
+      margin: 1% 0%;
+      font-size: 150%;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      :active {
+        background-color: #eeeeee;
+        box-shadow: 0 5px #666;
+        transform: translateY(1px);
+      }
+    }
+  }
+`
+
 const DateFont = styled.p<{ $color?: string; }>`
   color: ${props => props.$color || 'black' };
 `
 
 export {
-  ModalContainer,
+  TicketModal,
   ModalBackground,
-  DateFont
+  DateFont,
+  LoginModal
 }

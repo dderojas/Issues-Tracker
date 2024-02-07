@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ModalBackground, ModalContainer } from "../styles"
+import { ModalBackground, TicketModal, LoginModal } from "../styles"
 import { useSignIn } from 'react-auth-kit'
 import { createAccount, login } from '../services'
 
@@ -39,7 +39,7 @@ const LoginPage = () => {
   return (
     <>
       <ModalBackground>
-        <ModalContainer>
+        <LoginModal>
           <h1>CREATE OR LOGIN</h1>
           <form>
             <input name="Username" type="text" placeholder="username" value={loginInfo.Username} onChange={handleChange} />
@@ -48,7 +48,7 @@ const LoginPage = () => {
             <button onClick={createLogin}>Create Account</button>
           </form>
           <div>{error && 'whhhoppppsssiessss'}</div>
-        </ModalContainer>
+        </LoginModal>
       </ModalBackground>
     </>
   )
