@@ -1,5 +1,5 @@
 import { TicketModal, ModalBackground } from "../styles";
-import { Item, DispatchType, DeleteTicketType } from "../../types";
+import { Item, DeleteTicketType, ActionType } from "../../types";
 import { ACTIONS } from '../reducers/issuesReducer'
 import React from "react";
 
@@ -9,7 +9,7 @@ type ModalPropsType = {
   deleteTicket: ({ TicketId }: DeleteTicketType) => void;
   updateTicket: ({ Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => void;
   formState: Item;
-  dispatch: ({ type, ticketPayload }: DispatchType) => void;
+  dispatch: ({ type, ticketPayload }: ActionType) => void;
   inputError: string;
 }
 
@@ -24,8 +24,8 @@ const Modal = ({
 }: ModalPropsType) => {
   const { Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId } = formState
   
-  const ticketStatusDropDown = ['Choose Ticket Status', 'Todo', 'Ongoing', 'Done']
-  const issueTypeDropDown = ['Choose Issue Type', 'Task', 'Feature', 'Bug']
+  const ticketStatusDropDown = ['Status', 'Todo', 'Ongoing', 'Done']
+  const issueTypeDropDown = ['Issue', 'Task', 'Feature', 'Bug']
 
   const handleChange = (e: React.FormEvent<HTMLInputElement 
     | HTMLSelectElement 

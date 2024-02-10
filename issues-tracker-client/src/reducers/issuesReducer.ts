@@ -37,7 +37,7 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
     case ACTIONS.EDIT_TICKET:
       return { backlogState, sprintBoardState, formState: { ...formState, ...action.ticketPayload } }
     case ACTIONS.UPDATE_SPRINT_BOARD:
-      return { backlogState, sprintBoardState: filterForKanban(action), formState: initialState.formState }
+      return { backlogState, sprintBoardState: filterForKanban(action.sprintBoardPayload), formState: initialState.formState }
     default:
       return initialState
   }

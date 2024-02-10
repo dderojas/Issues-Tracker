@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ModalBackground, TicketModal, LoginModal } from "../styles"
+import { ModalBackground, LoginModal } from "../styles"
 import { useSignIn } from 'react-auth-kit'
 import { createAccount, login } from '../services'
 
@@ -19,6 +19,9 @@ const LoginPage = () => {
         tokenType: "Bearer",
         authState: { email: response.body.results.Items[0].Username },
       })
+
+      setLoginInfo({ Username: '', Password: '' })
+      setError('')
     } catch(e) {
       console.error(e, 'error???')
       

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Item } from "./lambdaParamTypes"
 import { FormState } from './modalTypes'
 
@@ -8,10 +9,8 @@ type BacklogState = {
   issueTypeFilter?: string; 
 }
 
-type SprintBoardState = { 
-  Todo: Item[], 
-  Ongoing: Item[], 
-  Done: Item[] 
+type SprintBoardState = {
+  [key: string]: ReactNode[]
 }
 
 type InitialState = {

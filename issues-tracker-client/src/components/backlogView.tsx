@@ -1,4 +1,4 @@
-import { Item, DispatchType, BacklogState } from '../../types'
+import { Item, BacklogState, ActionType } from '../../types'
 import { Ticket, BacklogBoard, DateFont, DropDown } from '../styles'
 import { ACTIONS } from '../reducers/issuesReducer'
 import { calculateDaysFunc } from '../utils/calculateDays'
@@ -13,7 +13,7 @@ type BacklogType = {
     IssueType, 
     TicketId 
   }: Item) => void;
-  dispatch: ({ type, backlogPayload }: DispatchType) => void;
+  dispatch: ({ type, backlogPayload }: ActionType) => void;
 }
 
 const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: false }, openModalWithData, dispatch }: BacklogType) => {

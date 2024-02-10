@@ -1,5 +1,4 @@
 import { FormState, AccountFormType } from './modalTypes'
-import { BacklogState } from './kanbanAndBacklogTypes'
 
 type Key = {
   TicketId?: string;
@@ -8,13 +7,6 @@ type Key = {
 
 interface Item extends FormState {
   TicketId?: string;
-}
-
-type DispatchType = {
-  type: string;
-  backlogPayload?: BacklogState;
-  sprintBoardPayload?: Item[];
-  ticketPayload?: Item;
 }
 
 type TicketType = {
@@ -73,6 +65,5 @@ export type {
   IssuesPayloadType,
   TicketType,
   QueryParams,
-  DispatchType,
   DeleteTicketType
 }

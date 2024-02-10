@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { SprintBoard, Columns } from '../styles'
 import { SprintBoardState, Item } from '../../types'
 
