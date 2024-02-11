@@ -7,41 +7,6 @@ import { putItem, updateItem, deleteItem, queryFunc } from '../services';
 import { issuesReducer, initialState, ACTIONS } from '../reducers/issuesReducer';
 
 
-const newMockData: any = [
-  {
-    Email: 'don@don.com',
-    Title: 'First Ticket',
-    Comments: 'NONE',
-    DueDate: 'Jan 24, 2024',
-    Category: 'N/A',
-    Assignee: 'Don',
-    Description: 'something',
-    TicketStatus: 'Todo',
-    IssueType: 'Task',
-  },
-  {
-    Email: 'sun@sun.com',
-    Title: 'Second Ticket',
-    Comments: 'NONE',
-    DueDate: 'Jan 24, 2024',
-    Assignee: 'sun',
-    Description: 'bada',
-    TicketStatus: 'In Progress',
-    IssueType: 'Bug',
-  },
-  {
-    Email: 'steph@steph.com',
-    Title: 'Third Ticket',
-    DueDate: 'Jan 24, 2024',
-    Comments: 'NONE',
-    Assignee: 'steph',
-    Description: 'bing',
-    TicketStatus: 'Done',
-    IssueType: 'Feature',
-  }
-]
-
-
 const IssuesTracker = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [view, setView] = useState(false)
@@ -72,7 +37,6 @@ const IssuesTracker = () => {
       setInputError('Assignee and Description cannot be empty')
 
     } else {
-      dispatch({ type: ACTIONS.ADD_TICKET })
       
       putItem({
         Email,
@@ -94,7 +58,6 @@ const IssuesTracker = () => {
     if (Assignee.length === 0 || Description.length === 0 || !TicketId || !TicketStatus || !IssueType) {
       setInputError('Assignee and Description cannot be empty')
     } else {
-      dispatch({ type: ACTIONS.ADD_TICKET })
       
       await updateItem({ Email, Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId })
       setModalOpen(false)

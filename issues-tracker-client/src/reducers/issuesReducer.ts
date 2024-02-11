@@ -3,7 +3,6 @@ import { backlogStateFunc, filterForKanban } from "../utils"
 import { ActionType } from "../../types"
 
 const ACTIONS = {
-  ADD_TICKET: 'add-ticket',
   SET_MODAL_STATE: 'set-form-state',
   EDIT_TICKET: 'modal-with-data',
   UPDATE_TICKET: 'update-ticket',
@@ -22,8 +21,6 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
   const { formState, backlogState, sprintBoardState } = state
 
   switch(action.type) {
-    case ACTIONS.ADD_TICKET:
-      return { backlogState: { ...backlogState }, sprintBoardState, formState: initialState.formState }
     case ACTIONS.DELETE_TICKET:
       return { backlogState: initialState.backlogState, sprintBoardState, formState: initialState.formState}
     case ACTIONS.UPDATE_BACKLOG:
