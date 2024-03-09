@@ -1,6 +1,7 @@
 export const calculateDaysFunc = (dueDate: string) => {
   let todaysDate = new Date()
   let deadline = new Date(dueDate);
+  console.log('DueDate:', dueDate, 'Todays Date:', todaysDate, 'Deadline:', deadline)
   let formattedDeadline = deadline.toDateString()
 
   let differenceInTime = deadline.getTime() - todaysDate.getTime();

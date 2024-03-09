@@ -24,7 +24,7 @@ const Modal = ({
 }: ModalPropsType) => {
   const { Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId } = formState
   
-  const ticketStatusDropDown = ['Status', 'Todo', 'Ongoing', 'Done']
+  const ticketStatusDropDown = ['Status', 'Todo', 'Ongoing', 'Done', 'Backlog']
   const issueTypeDropDown = ['Issue', 'Task', 'Feature', 'Bug']
 
   const handleChange = (e: React.FormEvent<HTMLInputElement 
@@ -54,7 +54,7 @@ const Modal = ({
           <input className="TitleClass" name="Title" type="text" placeholder="Title" value={Title} onChange={handleChange} />
           <textarea className="DescriptionClass" name="Description" placeholder="Description" value={Description} onChange={handleChange}></textarea>
           <div className="inputAndDropdowns">
-            <input name="DueDate" type="text" placeholder="DueDate" value={DueDate} onChange={handleChange} />
+            <input name="DueDate" type="date" placeholder="DueDate" pattern="\d{4}-\d{2}-\d{2}" value={DueDate} onChange={handleChange} />
             <input name="Category" type="text" placeholder="Category" value={Category} onChange={handleChange} />
             <select name="TicketStatus" value={TicketStatus} onChange={handleChange}>
               {ticketStatusDropDown.map((elem, index) => {

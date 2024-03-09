@@ -101,7 +101,6 @@ const IssuesTracker = () => {
             dispatch={dispatch}
             inputError={inputError}
           /> }
-
       { !view && <SprintBoardView sprintBoardState={sprintBoardState} openModalWithData={openModalWithData}/> }
       { view && <BacklogView list={backlogState} openModalWithData={openModalWithData} dispatch={dispatch} /> }
     </>

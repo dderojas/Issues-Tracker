@@ -1,5 +1,7 @@
 const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+
 const docClient = new AWS.DynamoDB.DocumentClient();
 const jwtSecret = `17ceb96484aadfb728a760dd099de
 cf2b90ae3c34018d381024af58718d
@@ -16,15 +18,20 @@ module.exports.handler = async (event) => {
   try {
     if (event.Payload.TableName === 'UserAuth') {
       if (event.Method === 'Put') {
-        //dfasdfasd
-        results = await docClient.put(event.Payload).promise();
+        const { TableName, Item } = event.Payload
+        const { Username, Password } = Item
+
+        const salt = await bcrypt.genSalt()
+        const hashPassword = await bcrypt.hash(Password, salt)
+        const newPayload = { TableName, Item: { Username, Password: hashPassword } }
+
+        results = await docClient.put(newPayload).promise();
       }
 
       if (event.Method === 'Get') {
-        //dfasdfasd
-        console.log('in get!!', event)
+        console.log('in get event:', event)
         const { Payload } = event
-        const oldPassword = Payload.ExpressionAttributeValues[':password']
+        const payloadPassword = Payload.ExpressionAttributeValues[':password']
 
         const newPayload = {
           TableName: 'UserAuth',
@@ -36,11 +43,13 @@ module.exports.handler = async (event) => {
 
         results = await docClient.query(newPayload).promise()
         let username = results.Items[0].Username;
-        let password = results.Items[0].Password;
+        let hashPassword = results.Items[0].Password;
 
-        if (oldPassword === password) {
+        const passwordCheck = await bcrypt.compare(payloadPassword, hashPassword)
 
-          jwtToken = jwt.sign({ username, password }, jwtSecret)
+        if (passwordCheck) {
+
+          jwtToken = jwt.sign({ username, hashPassword }, jwtSecret)
 
         } else {
           return {
@@ -87,7 +96,7 @@ module.exports.handler = async (event) => {
     }
     
 
-    console.log(results, 'DB results!!')
+    console.log('DB results!!:',results)
 
     return {
       statusCode: 200,

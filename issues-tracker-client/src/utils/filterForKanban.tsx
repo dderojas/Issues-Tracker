@@ -13,22 +13,26 @@ export const filterForKanban = (sprintBoardPayload: SprintBoardPayload | undefin
 
   for (let i = 0; i < items.length; i++) {
       let status:string = items[i].TicketStatus || ''
-      let { Title, DueDate = '', Assignee, Description, TicketStatus, IssueType, TicketId } = items[i]
-      let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
-      const dateColor = differenceInDays < 2 ? 'red' : 'black'
 
-      let ticket = <Ticket onClick={() => {
-        openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
-      }}>
-        <p>{Title}</p>
-        <p>{IssueType}</p>
-        <footer>
-          <p>{Assignee}</p>
-          <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
-        </footer>
-      </Ticket>
+      if (status !== 'Backlog') {
+        let { Title, DueDate = '', Assignee, Description, TicketStatus, IssueType, TicketId } = items[i]
+        let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
+        const dateColor = differenceInDays < 2 ? 'red' : 'black'
+  
+        let ticket = <Ticket onClick={() => {
+          openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
+        }}>
+          <p>{Title}</p>
+          <p>{IssueType}</p>
+          <footer>
+            <p>{Assignee}</p>
+            <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
+          </footer>
+        </Ticket>
+        
+        results[status] = [...results[status], ticket]
+      }
 
-      results[status] = [...results[status], ticket]
   }
 
   return results;
