@@ -30,6 +30,7 @@ module.exports.handler = async (event) => {
 
       if (event.Method === 'Get') {
         console.log('in get event:', event)
+        
         const { Payload } = event
         const payloadPassword = Payload.ExpressionAttributeValues[':password']
 

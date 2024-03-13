@@ -17,6 +17,7 @@ export const filterForKanban = (sprintBoardPayload: SprintBoardPayload | undefin
       if (status !== 'Backlog') {
         let { Title, DueDate = '', Assignee, Description, TicketStatus, IssueType, TicketId } = items[i]
         let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
+        //@ts-ignore
         const dateColor = differenceInDays < 2 ? 'red' : 'black'
   
         let ticket = <Ticket onClick={() => {

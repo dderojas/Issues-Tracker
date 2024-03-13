@@ -114,13 +114,14 @@ const updateItem = async (payload:TicketType) => {
   // return JSON.parse(results.toString())
 }
 
-const deleteItem = async (TicketId?: string) => {
-  console.log(TicketId, 'in delete item!')
+const deleteItem = async (Email: string, TicketId?: string) => {
+
   const deleteParams: IssuesPayloadType = {
     Method: 'Delete',
     Payload: {
       TableName: "Issues",
       Key: {
+        Email,
         TicketId
       },
     }

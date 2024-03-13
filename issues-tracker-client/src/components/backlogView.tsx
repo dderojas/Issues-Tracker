@@ -45,6 +45,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], filteredView: fals
       </DropDown>
       { list[view]?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
         let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
+        //@ts-ignore
         const dateColor = differenceInDays < 2 ? 'red' : 'black'
         
         return (

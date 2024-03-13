@@ -1,7 +1,8 @@
+//@ts-nocheck
 import { useState, useReducer, useEffect } from 'react'
 import { useAuthUser, useSignOut } from 'react-auth-kit'
 import { VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
-import { Button } from '../styles';
+import { Button, Ticket } from '../styles';
 import { Item, DeleteTicketType } from '../../types'
 import { putItem, updateItem, deleteItem, queryFunc } from '../services';
 import { issuesReducer, initialState, ACTIONS } from '../reducers/issuesReducer';
@@ -68,7 +69,7 @@ const IssuesTracker = () => {
     
     dispatch({ type: ACTIONS.DELETE_TICKET })
 
-    await deleteItem(TicketId)
+    await deleteItem(Email, TicketId)
 
     setModalOpen(false)
   }
