@@ -1,5 +1,5 @@
 import { InitialState } from "../../types"
-import { backlogStateFunc, filterForKanban } from "../utils"
+import { backlogStateFunc, filterForKanban,  backlogDeleteFunc } from "../utils"
 import { ActionType } from "../../types"
 
 const ACTIONS = {
@@ -13,7 +13,7 @@ const ACTIONS = {
 
 const initialState: InitialState = {
   formState: { Title: '', Comments: '', DueDate: '', Category: '', Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
-  backlogState: { backlog: [], filteredLog: [], filteredView: false, issueTypeFilter: '' },
+  backlogState: { backlog: [], filteredLog: [], selectedTickets:[], filteredView: false, issueTypeFilter: '', menuView: false, filterDropdown: false, deleteView: false },
   sprintBoardState: { Todo: [], Ongoing: [], Done: [] }
 }
 
@@ -22,7 +22,7 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
 
   switch(action.type) {
     case ACTIONS.DELETE_TICKET:
-      return { backlogState: initialState.backlogState, sprintBoardState, formState: initialState.formState}
+      return { backlogState: backlogDeleteFunc(action.backlogPayload, backlogState), sprintBoardState, formState: initialState.formState}
     case ACTIONS.UPDATE_BACKLOG:
       return { 
         backlogState: backlogStateFunc(action.backlogPayload, backlogState), 

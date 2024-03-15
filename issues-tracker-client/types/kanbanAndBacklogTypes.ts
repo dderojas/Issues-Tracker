@@ -4,9 +4,13 @@ import { FormState } from './modalTypes'
 
 type BacklogState = { 
   backlog?: Item[];
-  filteredLog?: Item[]; 
+  filteredLog?: Item[];
+  selectedTickets?: string[];
   filteredView?: boolean; 
-  issueTypeFilter?: string; 
+  issueTypeFilter?: string;
+  menuView?: boolean;
+  filterDropdown?: boolean;
+  deleteView?: boolean;
 }
 
 type SprintBoardState = {

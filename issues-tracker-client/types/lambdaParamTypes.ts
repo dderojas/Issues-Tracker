@@ -51,7 +51,8 @@ type IssuesPayloadType = {
 }
 
 type DeleteTicketType = {
-  TicketId: string;
+  TicketId?: string;
+  selectedTickets?: string[];
 }
 
 export type {

@@ -10,7 +10,7 @@ const DropDown = styled.select`
   border: none;
 `
 
-const Ticket = styled.div`
+const Ticket = styled.li`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -28,7 +28,22 @@ const Ticket = styled.div`
     justify-content: space-between;
   }
 `
+const EllipsisMenu = styled.div``
+
+const MenuOptions = styled.ul`
+  display: flex;
+  position: absolute;
+  top: 8%;
+  left: 20%;
+  background-color: #f70776;
+  border: 1px solid #ccc;
+  padding: 5px 0;
+  margin: 0;
+`
+
 export {
   Ticket,
-  DropDown
+  DropDown,
+  EllipsisMenu,
+  MenuOptions
 }

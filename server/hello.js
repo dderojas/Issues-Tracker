@@ -29,7 +29,7 @@ module.exports.handler = async (event) => {
       }
 
       if (event.Method === 'Get') {
-        console.log('in get event:', event)
+        console.log('in Get event:', event)
         
         const { Payload } = event
         const payloadPassword = Payload.ExpressionAttributeValues[':password']
@@ -78,8 +78,30 @@ module.exports.handler = async (event) => {
       }
   
       if (event?.Method === 'Delete') {
-  
-        results = await docClient.delete(event.Payload).promise();
+        
+        if (Array.isArray(event.Payload.Key.TicketId)) {
+          
+          const deletePromises = event.Payload.Key.TicketId.map((item) => {
+
+            const params = {
+              TableName: event.Payload.TableName,
+              Key: {
+                Email: event.Payload.Key.Email,
+                TicketId: item
+              }
+            };
+
+            return docClient.delete(params).promise();
+          });
+          
+          results = await Promise.all(deletePromises);
+
+        } else {
+
+          results = await docClient.delete(event.Payload).promise();
+
+        }
+
   
       } else if (event?.Method === 'Put') {
   

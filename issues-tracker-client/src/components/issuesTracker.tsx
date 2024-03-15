@@ -2,7 +2,7 @@
 import { useState, useReducer, useEffect } from 'react'
 import { useAuthUser, useSignOut } from 'react-auth-kit'
 import { VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
-import { Button, Ticket } from '../styles';
+import { Button } from '../styles';
 import { Item, DeleteTicketType } from '../../types'
 import { putItem, updateItem, deleteItem, queryFunc } from '../services';
 import { issuesReducer, initialState, ACTIONS } from '../reducers/issuesReducer';
@@ -21,6 +21,7 @@ const IssuesTracker = () => {
   useEffect(() => {
     (async () => {
       if (!modalOpen) {
+        console.log('infirstuseeffect')
         const items = await queryFunc({ Email })
         
         if (items?.length) {
@@ -29,9 +30,15 @@ const IssuesTracker = () => {
         }
       }
     })()
-    
+
   }, [modalOpen, Email])
   
+
+  useEffect(() => {
+    dispatch({ type: ACTIONS.UPDATE_SPRINT_BOARD, sprintBoardPayload: { items: backlogState.backlog } })
+  }, [backlogState])
+
+
   const addTicket = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType }: Item) => {
     if (!Assignee || !Description) {
       
@@ -65,13 +72,22 @@ const IssuesTracker = () => {
     }
   }
 
-  const deleteTicket = async ({ TicketId }: DeleteTicketType) => {
+  const deleteTicket = async ({ TicketId, selectedTickets }: DeleteTicketType) => {
     
-    dispatch({ type: ACTIONS.DELETE_TICKET })
+    
+    if (selectedTickets) {
 
-    await deleteItem(Email, TicketId)
+      dispatch({ type: ACTIONS.DELETE_TICKET, backlogPayload: { selectedTickets } })
+      
+      await deleteItem({ Email, selectedTickets })
 
-    setModalOpen(false)
+    }
+
+    if (TicketId) {
+      dispatch({ type: ACTIONS.DELETE_TICKET })
+      await deleteItem({ Email, TicketId })
+      setModalOpen(false)
+    }
   }
 
   const openModalWithData = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => {
@@ -103,7 +119,7 @@ const IssuesTracker = () => {
             inputError={inputError}
           /> }
       { !view && <SprintBoardView sprintBoardState={sprintBoardState} openModalWithData={openModalWithData}/> }
-      { view && <BacklogView list={backlogState} openModalWithData={openModalWithData} dispatch={dispatch} /> }
+      { view && <BacklogView list={backlogState} openModalWithData={openModalWithData} dispatch={dispatch} deleteTicket={deleteTicket}/> }
     </>
   );
 }

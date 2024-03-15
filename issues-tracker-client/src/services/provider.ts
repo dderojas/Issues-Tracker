@@ -1,3 +1,4 @@
+//@ts-nocheck
 import AWS from 'aws-sdk'
 import { IssuesPayloadType, TicketType, AccountFormType, FormState } from '../../types'
 
@@ -114,23 +115,60 @@ const updateItem = async (payload:TicketType) => {
   // return JSON.parse(results.toString())
 }
 
-const deleteItem = async (Email: string, TicketId?: string) => {
+const deleteItem = async ({ Email, TicketId, selectedTickets }) => {
+  
+  if (selectedTickets !== undefined) {
+    // const itemsToDelete = [
+    //   { Key: { YourPrimaryKey: { S: 'Item1Key' } } },
+    //   { Key: { YourPrimaryKey: { S: 'Item2Key' } } },
+    //   // Add more items as needed
+    // ];
+    
+    // const itemsToDelete = selectedTickets.map((item) => {
+    //   return { Key: { TicketId: item, Email }}
+    // })
 
-  const deleteParams: IssuesPayloadType = {
-    Method: 'Delete',
-    Payload: {
-      TableName: "Issues",
-      Key: {
-        Email,
-        TicketId
-      },
+    // const batchDeleteParams = {
+    //   Method: 'Delete',
+    //   Payload: {
+    //     RequestItems: {
+    //       "Issues": itemsToDelete.map((item) => ({ DeleteRequest: item })),
+    //     },
+    //   }
+    // };
+
+    const batchDeleteParams = {
+      Method: 'Delete',
+      Payload: {
+        TableName: 'Issues',
+        Key: {
+          Email,
+          TicketId: selectedTickets,
+        },
+      }
+    };
+
+    const params = lambdaParams('HelloWorld', batchDeleteParams)
+
+    await lambda.invoke(params).promise();
+
+  } 
+  
+  if (TicketId) {
+    const deleteParams: IssuesPayloadType = {
+      Method: 'Delete',
+      Payload: {
+        TableName: "Issues",
+        Key: {
+          Email,
+          TicketId
+        },
+      }
     }
+  
+    const params = lambdaParams('HelloWorld', deleteParams)
+    await lambda.invoke(params).promise();
   }
-
-  const params = lambdaParams('HelloWorld', deleteParams)
-
-
-  await lambda.invoke(params).promise();
 }
 
 const queryFunc = async (payload: FormState) => {
