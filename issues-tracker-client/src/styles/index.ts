@@ -1,7 +1,7 @@
 import { VerticalNav, HorizontalNav, Button } from "./navbarStyles";
 import { TicketModal, ModalBackground, DateFont, LoginModal } from './modalStyles'
-import { Ticket, DropDown, EllipsisMenu, MenuOptions } from "./ticketStyles";
-import { BacklogBoard, Columns, SprintBoard } from './BoardStyles'
+import { Ticket, DropDown, MenuOptions } from "./ticketStyles";
+import { BacklogBoard, BacklogList, BacklogNav, Columns, SprintBoard } from './BoardStyles'
 
 export {
   VerticalNav,
@@ -11,11 +11,12 @@ export {
   ModalBackground,
   Ticket,
   BacklogBoard,
+  BacklogList,
+  BacklogNav,
   Columns,
   SprintBoard,
   DateFont,
   DropDown,
   LoginModal,
-  EllipsisMenu,
   MenuOptions
 }

@@ -21,7 +21,6 @@ const IssuesTracker = () => {
   useEffect(() => {
     (async () => {
       if (!modalOpen) {
-        console.log('infirstuseeffect')
         const items = await queryFunc({ Email })
         
         if (items?.length) {
@@ -35,7 +34,7 @@ const IssuesTracker = () => {
   
 
   useEffect(() => {
-    dispatch({ type: ACTIONS.UPDATE_SPRINT_BOARD, sprintBoardPayload: { items: backlogState.backlog } })
+    dispatch({ type: ACTIONS.UPDATE_SPRINT_BOARD, sprintBoardPayload: { items: backlogState.backlog, openModalWithData } })
   }, [backlogState])
 
 
@@ -104,7 +103,14 @@ const IssuesTracker = () => {
         }}>Backlog</Button>
         <Button onClick={() => {
           setView(false)
-          dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { filteredView: false } })
+          dispatch({ 
+            type: ACTIONS.UPDATE_BACKLOG, 
+            backlogPayload: { 
+              filteredView: false, 
+              menuView: false, 
+              deleteView: false, 
+              filterDropdown: false 
+            } })
         }}>Kanban Board</Button>
         <Button onClick={() => setModalOpen(true)}>Create Ticket</Button>
       </VerticalNavbar>

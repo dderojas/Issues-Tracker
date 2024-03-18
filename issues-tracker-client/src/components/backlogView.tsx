@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { Item, BacklogState, ActionType } from '../../types'
-import { Ticket, BacklogBoard, DateFont, DropDown, EllipsisMenu, MenuOptions } from '../styles'
+import { Ticket, BacklogBoard, BacklogList, BacklogNav, DateFont, DropDown, MenuOptions } from '../styles'
 import { ACTIONS } from '../reducers/issuesReducer'
 import { calculateDaysFunc } from '../utils/calculateDays'
 
@@ -39,22 +39,22 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
   
   const handleMenuView = (e: any) => {
     e.preventDefault()
-    console.log(e.target.id, 'asdfasdfasfdafd')
-    if (e.target.id === 'EllipsisMenu') {
-
+    console.log(e.target, 'asdfasdfasfdafd')
+    if (e.target.id === 'ellipsisMenu') {
+      
       dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: !list.menuView } })
 
     }
 
     if (e.target.id === 'FilterDropdown') {
 
-      dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { filterDropdown: !list.filterDropdown } })
+      dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: false, filterDropdown: !list.filterDropdown, deleteView: false } })
 
     }
 
     if (e.target.id === 'DeleteView') {
 
-      dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { deleteView: !list.deleteView } })
+      dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: false, deleteView: !list.deleteView, filterDropdown: false } })
     
     }
   }
@@ -72,17 +72,18 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
 
   return (
     <BacklogBoard>
-      <EllipsisMenu onClick={handleMenuView}>
-        <div id="EllipsisMenu">
-          <FontAwesomeIcon icon={faEllipsisV} />
-        </div>
-        {list.menuView && 
-          <MenuOptions>
-            <li id="FilterDropdown" onClick={handleMenuView}>Filter Dropdown</li>
-            <li id="DeleteView">Delete</li>
-          </MenuOptions>
-        }
-      </EllipsisMenu>
+      <BacklogNav>
+        <h3>Backlog</h3>
+            <div id="ellipsisMenuStyling" onClick={handleMenuView}>
+              <FontAwesomeIcon id="ellipsisMenu" icon={faEllipsisV} size="2xl"/>
+            </div>
+            {list.menuView && 
+              <MenuOptions>
+                <li id="FilterDropdown" onClick={handleMenuView}>Filter Dropdown</li>
+                <li id="DeleteView" onClick={handleMenuView}>Delete</li>
+              </MenuOptions>
+            }
+      </BacklogNav>
       {list.filterDropdown &&
         <DropDown name="typeDropdown" onChange={handleFilterChange}>
           <option>All</option>
@@ -94,30 +95,32 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
       {list.deleteView &&
         <button onClick={() => { deleteTicket({ selectedTickets: list.selectedTickets }) }}>DELETE</button>
       }
-      { list[view]?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
-        let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
+      <BacklogList>
+        { list[view]?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
+          let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
 
-        const dateColor = !differenceInDays || differenceInDays > 2 ? 'black' : 'red'
-        
-        return (
-          <Ticket key={Math.random()}>
-            {list.deleteView && 
-              <input type="checkbox"              
-                checked={list.selectedTickets.includes(TicketId)}
-                onChange={() => handleToggleSelectedItem(TicketId)}
-              />}
-            <div>{Title}</div>
-            <div>{IssueType}</div>
-            <footer>
-              <div>{Assignee}</div>
-              <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
-            </footer>
-            <div onClick={() => {
-            openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId, DueDate })
-          }}>EDIT</div>
-          </Ticket>
-        )
-      }) }
+          const dateColor = !differenceInDays || differenceInDays > 2 ? 'black' : 'red'
+          
+          return (
+            <Ticket key={Math.random()}>
+              {list.deleteView && 
+                <input type="checkbox"              
+                  checked={list.selectedTickets.includes(TicketId)}
+                  onChange={() => handleToggleSelectedItem(TicketId)}
+                />}
+              <div>{Title}</div>
+              <div>{IssueType}</div>
+              <footer>
+                <div>{Assignee}</div>
+                <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
+              </footer>
+              <div onClick={() => {
+              openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId, DueDate })
+            }}>EDIT</div>
+            </Ticket>
+          )
+        }) }
+      </BacklogList>
     </BacklogBoard>
   )
 }

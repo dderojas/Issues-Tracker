@@ -116,26 +116,8 @@ const updateItem = async (payload:TicketType) => {
 }
 
 const deleteItem = async ({ Email, TicketId, selectedTickets }) => {
-  
-  if (selectedTickets !== undefined) {
-    // const itemsToDelete = [
-    //   { Key: { YourPrimaryKey: { S: 'Item1Key' } } },
-    //   { Key: { YourPrimaryKey: { S: 'Item2Key' } } },
-    //   // Add more items as needed
-    // ];
-    
-    // const itemsToDelete = selectedTickets.map((item) => {
-    //   return { Key: { TicketId: item, Email }}
-    // })
 
-    // const batchDeleteParams = {
-    //   Method: 'Delete',
-    //   Payload: {
-    //     RequestItems: {
-    //       "Issues": itemsToDelete.map((item) => ({ DeleteRequest: item })),
-    //     },
-    //   }
-    // };
+  if (selectedTickets !== undefined) {
 
     const batchDeleteParams = {
       Method: 'Delete',

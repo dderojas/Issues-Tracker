@@ -1,15 +1,30 @@
 import styled from 'styled-components';
 
 const BacklogBoard = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 12%;
-  padding-right: 5%;
-  padding-top: 8%;
-  height: 1000px;
   background-color: #393e46;
-  overflow: auto;
+  > ul {
+    display: flex;
+    flex-direction: column;
+    padding-left: 12%;
+    padding-right: 5%;
+    // padding-top: 8%;
+    height: 1000px;
+    overflow: auto;
+  }
 `
+const BacklogNav = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  padding: 4% 5% 4% 12%;
+  > #ellipsisMenuStyling {
+    cursor: pointer;
+    > path {
+      pointer-events: none;
+    }
+  }
+`
+
+const BacklogList = styled.ul``
 
 const SprintBoard = styled.div`
   display: flex;
@@ -34,6 +49,8 @@ const Columns = styled.div`
 
 export {
   BacklogBoard,
+  BacklogList,
+  BacklogNav,
   Columns,
   SprintBoard
 }

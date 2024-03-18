@@ -28,22 +28,25 @@ const Ticket = styled.li`
     justify-content: space-between;
   }
 `
-const EllipsisMenu = styled.div``
 
 const MenuOptions = styled.ul`
-  display: flex;
   position: absolute;
+  list-style-type: none;
   top: 8%;
-  left: 20%;
+  right: 8%;
   background-color: #f70776;
   border: 1px solid #ccc;
   padding: 5px 0;
+  width: 20%;
   margin: 0;
+  > li {
+    margin: 1%;
+    text-align: center;
+  }
 `
 
 export {
   Ticket,
   DropDown,
-  EllipsisMenu,
   MenuOptions
 }
