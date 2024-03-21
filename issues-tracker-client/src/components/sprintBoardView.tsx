@@ -12,7 +12,12 @@ const SprintBoardView = ({ sprintBoardState }: SprintBoardType) => {
   return (
     <SprintBoard>
       {kanbanBoardStateArr.map((elem) => {
-        return <Columns>{sprintBoardState[elem]}</Columns>
+        return (
+          <Columns>
+            {elem}
+            {sprintBoardState[elem]}
+          </Columns>
+        )
       })}
     </SprintBoard>
   )

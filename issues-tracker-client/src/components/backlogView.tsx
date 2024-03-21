@@ -2,7 +2,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { Item, BacklogState, ActionType } from '../../types'
-import { Ticket, BacklogBoard, BacklogList, BacklogNav, DateFont, DropDown, MenuOptions } from '../styles'
+import { 
+  Ticket, 
+  BacklogBoard, 
+  BacklogList, 
+  BacklogNav, 
+  DateFont, 
+  DropDown, 
+  MenuOptions, 
+  EditResultsContainer,
+  DoneButton
+} from '../styles'
 import { ACTIONS } from '../reducers/issuesReducer'
 import { calculateDaysFunc } from '../utils/calculateDays'
 
@@ -68,6 +78,10 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
     }
   }
 
+  const handleDone = () => {
+    dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: false, deleteView: false, filterDropdown: false }})
+  }
+
   const view = list.filteredView ? 'filteredLog' : 'backlog'
 
   return (
@@ -85,15 +99,21 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
             }
       </BacklogNav>
       {list.filterDropdown &&
-        <DropDown name="typeDropdown" onChange={handleFilterChange}>
-          <option>All</option>
-          <option>Task</option>
-          <option>Feature</option>
-          <option>Bug</option>
-        </DropDown>
+        <EditResultsContainer>
+          <DropDown name="typeDropdown" onChange={handleFilterChange}>
+            <option>All</option>
+            <option>Task</option>
+            <option>Feature</option>
+            <option>Bug</option>
+          </DropDown>
+          <DoneButton onClick={handleDone}>Done</DoneButton>
+        </EditResultsContainer>
       }
       {list.deleteView &&
-        <button onClick={() => { deleteTicket({ selectedTickets: list.selectedTickets }) }}>DELETE</button>
+        <EditResultsContainer>
+          <DoneButton onClick={() => { deleteTicket({ selectedTickets: list.selectedTickets }) }}>DELETE</DoneButton>
+          <DoneButton onClick={handleDone}>Done</DoneButton>
+        </EditResultsContainer>
       }
       <BacklogList>
         { list[view]?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {

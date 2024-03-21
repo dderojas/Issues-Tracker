@@ -20,7 +20,8 @@ export const filterForKanban = (sprintBoardPayload: SprintBoardPayload | undefin
         
         const dateColor = !differenceInDays || differenceInDays > 2 ? 'black' : 'red'
   
-        let ticket = <Ticket onClick={() => {
+        // margin logic to provide space between title of column and ticket
+        let ticket = <Ticket style={{ margin: `${results[status].length === 0 ? '15% 0% 2%' : '2% 0%'}`}} onClick={() => {
           openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
         }}>
           <p>{Title}</p>

@@ -1,6 +1,6 @@
 import { VerticalNav, HorizontalNav, Button } from "./navbarStyles";
 import { TicketModal, ModalBackground, DateFont, LoginModal } from './modalStyles'
-import { Ticket, DropDown, MenuOptions } from "./ticketStyles";
+import { Ticket, DropDown, MenuOptions, EditResultsContainer, DoneButton } from "./ticketStyles";
 import { BacklogBoard, BacklogList, BacklogNav, Columns, SprintBoard } from './BoardStyles'
 
 export {
@@ -18,5 +18,7 @@ export {
   DateFont,
   DropDown,
   LoginModal,
-  MenuOptions
+  MenuOptions,
+  EditResultsContainer,
+  DoneButton
 }

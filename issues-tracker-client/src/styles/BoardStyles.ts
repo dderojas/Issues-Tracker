@@ -2,20 +2,19 @@ import styled from 'styled-components';
 
 const BacklogBoard = styled.div`
   background-color: #393e46;
+  // height: 100%;
   > ul {
     display: flex;
     flex-direction: column;
-    padding-left: 12%;
-    padding-right: 5%;
-    // padding-top: 8%;
-    height: 1000px;
-    overflow: auto;
+    padding: 0% 5% 0% 12%;
+    height: 100%;
+    // overflow: scroll;
   }
 `
 const BacklogNav = styled.nav`
   display: flex;
   justify-content: space-between;
-  padding: 4% 5% 4% 12%;
+  padding: 1% 5% 1% 12%;
   > #ellipsisMenuStyling {
     cursor: pointer;
     > path {
@@ -24,7 +23,7 @@ const BacklogNav = styled.nav`
   }
 `
 
-const BacklogList = styled.ul``
+const BacklogList = styled.ul`` // not sure if I'll need this
 
 const SprintBoard = styled.div`
   display: flex;
