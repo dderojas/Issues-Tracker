@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { Item, BacklogState, ActionType } from '../../types'
 import { 
-  Ticket, 
+  BacklogTicket,
   BacklogBoard, 
   BacklogList, 
   BacklogNav, 
@@ -122,7 +122,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
           const dateColor = !differenceInDays || differenceInDays > 2 ? 'black' : 'red'
           
           return (
-            <Ticket key={Math.random()}>
+            <BacklogTicket key={Math.random()}>
               {list.deleteView && 
                 <input type="checkbox"              
                   checked={list.selectedTickets.includes(TicketId)}
@@ -137,7 +137,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
               <div onClick={() => {
               openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId, DueDate })
             }}>EDIT</div>
-            </Ticket>
+            </BacklogTicket>
           )
         }) }
       </BacklogList>

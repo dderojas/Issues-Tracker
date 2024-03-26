@@ -1,17 +1,17 @@
-import HorizontalNavbar from "./horizontalNavbar";
-import VerticalNavbar from "./verticalNavbar";
-import BacklogView from "./backlogView";
-import Modal from "./modal";
-import { SprintBoardView } from "./sprintBoardView";
-import { IssuesTracker } from "./issuesTracker";
-import LoginPage from "./loginPage";
+import HorizontalNavbar from "./HorizontalNavbar";
+import VerticalNavbar from "./VerticalNavbar";
+import BacklogView from "./BacklogView";
+import Modal from './Modal';
+import { KanbanBoardView } from "./KanbanBoardView";
+import { IssuesTracker } from "./IssuesTracker";
+import LoginPage from "./LoginPage";
 
 export {
   HorizontalNavbar,
   VerticalNavbar,
   BacklogView,
   Modal,
-  SprintBoardView,
+  KanbanBoardView,
   IssuesTracker,
   LoginPage
 }

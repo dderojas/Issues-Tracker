@@ -2,14 +2,9 @@ import styled from 'styled-components';
 
 const BacklogBoard = styled.div`
   background-color: #393e46;
-  // height: 100%;
-  > ul {
-    display: flex;
-    flex-direction: column;
-    padding: 0% 5% 0% 12%;
-    height: 100%;
-    // overflow: scroll;
-  }
+  overflow: hidden;
+  height: 100%;
+  padding-bottom: 10%;
 `
 const BacklogNav = styled.nav`
   display: flex;
@@ -23,9 +18,17 @@ const BacklogNav = styled.nav`
   }
 `
 
-const BacklogList = styled.ul`` // not sure if I'll need this
+const BacklogList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  padding: 0% 5% 10% 12%;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+`
 
-const SprintBoard = styled.div`
+const KanbanBoard = styled.div`
   display: flex;
   justify-content: space-around;
   height: 100%;
@@ -40,10 +43,18 @@ const Columns = styled.div`
   flex-direction: column;
   background-color: #0092ca;
   padding: 1%;
-  height: 100%;
   border-radius: 15px;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
   width: 18%;
+`
+
+const KanbanTicketContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+  scrollbar-width: none;
+  width: 100%;
 `
 
 export {
@@ -51,5 +62,6 @@ export {
   BacklogList,
   BacklogNav,
   Columns,
-  SprintBoard
+  KanbanBoard,
+  KanbanTicketContainer
 }

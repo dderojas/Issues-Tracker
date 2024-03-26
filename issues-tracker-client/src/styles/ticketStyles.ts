@@ -11,7 +11,7 @@ const DropDown = styled.select`
   border: none;
 `
 
-const Ticket = styled.li`
+const KanbanTicket = styled.li`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -20,7 +20,24 @@ const Ticket = styled.li`
   border-radius: 15px;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
   background-color: #eeeeee;
-  overflow: auto;
+  > p {
+    margin: 0;
+  }
+  > footer {
+    display: flex;
+    justify-content: space-between;
+  }
+`
+
+const BacklogTicket = styled.li`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1%;
+  margin: 2% 0%;
+  border-radius: 15px;
+  box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
+  background-color: #eeeeee;
   > p {
     margin: 0;
   }
@@ -35,14 +52,22 @@ const MenuOptions = styled.ul`
   list-style-type: none;
   top: 8%;
   right: 8%;
-  background-color: #f70776;
+  background-color: transparent;
   border: 1px solid #ccc;
+  border-radius: 15px;
   padding: 5px 0;
   width: 20%;
   margin: 0;
   > li {
     margin: 1%;
     text-align: center;
+    font-weight: 700;
+    color: #616467;
+    cursor: pointer;
+    :hover{
+      color: #fff;
+      background-color: #616467;
+    }
   }
 `
 
@@ -58,8 +83,8 @@ const DoneButton = styled.button`
   cursor: pointer;
   font-size: 75%;
   line-height: 1;
-  border-radius: 500px;
-  transition-property: background-color,border-color,color,box-shadow,filter;
+  border-radius: 15px;
+  transition-property: background-color,color;
   transition-duration: .3s;
   border: solid transparent;
   letter-spacing: 2px;
@@ -68,7 +93,7 @@ const DoneButton = styled.button`
   white-space: normal;
   font-weight: 700;
   text-align: center;
-  padding: 3% 1% 3%;
+  padding: 2% 1%;
   color: #616467;
   box-shadow: inset 0 0 0 2px #616467;
   background-color: transparent;
@@ -80,7 +105,8 @@ const DoneButton = styled.button`
 `
 
 export {
-  Ticket,
+  KanbanTicket,
+  BacklogTicket,
   DropDown,
   MenuOptions,
   EditResultsContainer,

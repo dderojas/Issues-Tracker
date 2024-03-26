@@ -4,12 +4,12 @@ const TicketModal = styled.div`
   display: flex;
   flex-direction: column;
   width: 60%;
-  height: 75%;
+  height: auto;
   border-radius: 3%;
   background-color: #eeeeee;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-align: center;
-  padding: 2% 1% 5%;
+  padding: 2%;
   .modalHeader {
     display: flex;
     justify-content: space-between;
@@ -43,7 +43,7 @@ const TicketModal = styled.div`
       font-size: 75%;
       line-height: 1;
       border-radius: 500px;
-      transition-property: background-color,border-color,color,box-shadow,filter;
+      transition-property: background-color,color;
       transition-duration: .3s;
       border: solid transparent;
       letter-spacing: 2px;

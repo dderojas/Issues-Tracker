@@ -1,7 +1,7 @@
-import { VerticalNav, HorizontalNav, Button } from "./navbarStyles";
-import { TicketModal, ModalBackground, DateFont, LoginModal } from './modalStyles'
-import { Ticket, DropDown, MenuOptions, EditResultsContainer, DoneButton } from "./ticketStyles";
-import { BacklogBoard, BacklogList, BacklogNav, Columns, SprintBoard } from './BoardStyles'
+import { VerticalNav, HorizontalNav, Button } from "./NavbarStyles";
+import { TicketModal, ModalBackground, DateFont, LoginModal } from './ModalStyles'
+import { KanbanTicket, BacklogTicket, DropDown, MenuOptions, EditResultsContainer, DoneButton } from "./TicketStyles";
+import { BacklogBoard, BacklogList, BacklogNav, Columns, KanbanBoard, KanbanTicketContainer } from './BoardStyles'
 
 export {
   VerticalNav,
@@ -9,16 +9,18 @@ export {
   Button,
   TicketModal, 
   ModalBackground,
-  Ticket,
+  KanbanTicket,
+  BacklogTicket,
   BacklogBoard,
   BacklogList,
   BacklogNav,
   Columns,
-  SprintBoard,
+  KanbanBoard,
   DateFont,
   DropDown,
   LoginModal,
   MenuOptions,
   EditResultsContainer,
-  DoneButton
+  DoneButton,
+  KanbanTicketContainer
 }

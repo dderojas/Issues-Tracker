@@ -8,33 +8,33 @@ const ACTIONS = {
   UPDATE_TICKET: 'update-ticket',
   DELETE_TICKET: 'delete-ticket',
   UPDATE_BACKLOG: 'update-backlog',
-  UPDATE_SPRINT_BOARD: 'update-sprint-board'
+  UPDATE_KANBAN_BOARD: 'update-kanban-board'
 }
 
 const initialState: InitialState = {
   formState: { Title: '', Comments: '', DueDate: '', Category: '', Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
   backlogState: { backlog: [], filteredLog: [], selectedTickets:[], filteredView: false, issueTypeFilter: '', menuView: false, filterDropdown: false, deleteView: false },
-  sprintBoardState: { Todo: [], Ongoing: [], Done: [] }
+  kanbanBoardState: { Todo: [], Ongoing: [], Done: [] }
 }
 
 const issuesReducer = (state: InitialState, action: ActionType): InitialState => {
-  const { formState, backlogState, sprintBoardState } = state
+  const { formState, backlogState, kanbanBoardState } = state
 
   switch(action.type) {
     case ACTIONS.DELETE_TICKET:
-      return { backlogState: backlogDeleteFunc(action.backlogPayload, backlogState), sprintBoardState, formState: initialState.formState}
+      return { backlogState: backlogDeleteFunc(action.backlogPayload, backlogState), kanbanBoardState, formState: initialState.formState}
     case ACTIONS.UPDATE_BACKLOG:
       return { 
         backlogState: backlogStateFunc(action.backlogPayload, backlogState), 
-        sprintBoardState, 
+        kanbanBoardState, 
         formState: initialState.formState
       }
     case ACTIONS.SET_MODAL_STATE:
-      return { backlogState, sprintBoardState, formState: { ...formState, ...action.ticketPayload } }
+      return { backlogState, kanbanBoardState, formState: { ...formState, ...action.ticketPayload } }
     case ACTIONS.EDIT_TICKET:
-      return { backlogState, sprintBoardState, formState: { ...formState, ...action.ticketPayload } }
-    case ACTIONS.UPDATE_SPRINT_BOARD:
-      return { backlogState, sprintBoardState: filterForKanban(action.sprintBoardPayload), formState: initialState.formState }
+      return { backlogState, kanbanBoardState, formState: { ...formState, ...action.ticketPayload } }
+    case ACTIONS.UPDATE_KANBAN_BOARD:
+      return { backlogState, kanbanBoardState: filterForKanban(action.kanbanBoardPayload), formState: initialState.formState }
     default:
       return initialState
   }

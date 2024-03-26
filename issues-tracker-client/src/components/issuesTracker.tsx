@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { useState, useReducer, useEffect } from 'react'
 import { useAuthUser, useSignOut } from 'react-auth-kit'
-import { VerticalNavbar, Modal, BacklogView, SprintBoardView } from './index';
+import { VerticalNavbar, Modal, BacklogView, KanbanBoardView } from './index';
 import { Button } from '../styles';
 import { Item, DeleteTicketType } from '../../types'
 import { putItem, updateItem, deleteItem, queryFunc } from '../services';
@@ -13,7 +13,7 @@ const IssuesTracker = () => {
   const [view, setView] = useState(false)
   const [inputError, setInputError] = useState('')
   const authUser = useAuthUser()
-  const [{ backlogState, formState, sprintBoardState }, dispatch] = useReducer(issuesReducer, initialState)
+  const [{ backlogState, formState, kanbanBoardState }, dispatch] = useReducer(issuesReducer, initialState)
   //@ts-ignore
   const { email: Email } = authUser()
   const signOut = useSignOut()
@@ -25,7 +25,7 @@ const IssuesTracker = () => {
         
         if (items?.length) {
           dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { backlog: items } })
-          dispatch({ type: ACTIONS.UPDATE_SPRINT_BOARD, sprintBoardPayload: { items, openModalWithData } })
+          dispatch({ type: ACTIONS.UPDATE_KANBAN_BOARD, kanbanBoardPayload: { items, openModalWithData } })
         }
       }
     })()
@@ -34,7 +34,7 @@ const IssuesTracker = () => {
   
 
   useEffect(() => {
-    dispatch({ type: ACTIONS.UPDATE_SPRINT_BOARD, sprintBoardPayload: { items: backlogState.backlog, openModalWithData } })
+    dispatch({ type: ACTIONS.UPDATE_KANBAN_BOARD, kanbanBoardPayload: { items: backlogState.backlog, openModalWithData } })
   }, [backlogState])
 
 
@@ -57,6 +57,7 @@ const IssuesTracker = () => {
       })
   
       setModalOpen(false)
+      if (inputError) setInputError(false)
     }
   }
 
@@ -68,6 +69,7 @@ const IssuesTracker = () => {
       
       await updateItem({ Email, Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId })
       setModalOpen(false)
+      if (inputError) setInputError(false)
     }
   }
 
@@ -123,8 +125,9 @@ const IssuesTracker = () => {
             formState={formState} 
             dispatch={dispatch}
             inputError={inputError}
+            setInputError={setInputError}
           /> }
-      { !view && <SprintBoardView sprintBoardState={sprintBoardState} openModalWithData={openModalWithData}/> }
+      { !view && <KanbanBoardView kanbanBoardState={kanbanBoardState} openModalWithData={openModalWithData}/> }
       { view && <BacklogView list={backlogState} openModalWithData={openModalWithData} dispatch={dispatch} deleteTicket={deleteTicket}/> }
     </>
   );

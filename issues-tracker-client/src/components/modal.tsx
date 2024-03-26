@@ -11,6 +11,7 @@ type ModalPropsType = {
   formState: Item;
   dispatch: ({ type, ticketPayload }: ActionType) => void;
   inputError: string;
+  setInputError: (boolean: boolean) => void;
 }
 
 const Modal = ({ 
@@ -20,7 +21,8 @@ const Modal = ({
   deleteTicket, 
   formState = { Title: '', DueDate: '', Category: '', Assignee: '', Description: '', TicketStatus: '', IssueType: '', TicketId: ''}, 
   dispatch, 
-  inputError  
+  inputError,
+  setInputError
 }: ModalPropsType) => {
   const { Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId } = formState
   
@@ -47,7 +49,12 @@ const Modal = ({
         <div className="modalHeader">
           {/*@ts-ignore*/}
           <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
-          <button className="closeModal" onClick={() => { setModalOpen(false) }}>X</button>
+          <button className="closeModal" onClick={() => { 
+            setModalOpen(false)
+            setInputError(false)
+          }}>
+              X
+          </button>
         </div>
         <h4 style={{ fontSize: '130%'}}>{TicketId ? 'Edit Ticket' : 'Create a Ticket'}</h4>
         <form>

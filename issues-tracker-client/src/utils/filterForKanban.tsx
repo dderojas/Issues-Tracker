@@ -1,13 +1,13 @@
-import { SprintBoardState, SprintBoardPayload } from "../../types"
-import { Ticket, DateFont } from "../styles"
+import { KanbanBoardState, KanbanBoardPayload } from "../../types"
+import { KanbanTicket, DateFont } from "../styles"
 import { calculateDaysFunc } from "./calculateDays"
 
-export const filterForKanban = (sprintBoardPayload: SprintBoardPayload | undefined): SprintBoardState => {
-  const results: SprintBoardState = { Todo: [], Ongoing: [], Done: [] }
+export const filterForKanban = (kanbanBoardPayload: KanbanBoardPayload | undefined): KanbanBoardState => {
+  const results: KanbanBoardState = { Todo: [], Ongoing: [], Done: [] }
   
-  if (!sprintBoardPayload) return results;
+  if (!kanbanBoardPayload) return results;
 
-  const { items, openModalWithData } = sprintBoardPayload
+  const { items, openModalWithData } = kanbanBoardPayload
 
   if (!items || items.length === 0) return results
 
@@ -20,8 +20,7 @@ export const filterForKanban = (sprintBoardPayload: SprintBoardPayload | undefin
         
         const dateColor = !differenceInDays || differenceInDays > 2 ? 'black' : 'red'
   
-        // margin logic to provide space between title of column and ticket
-        let ticket = <Ticket style={{ margin: `${results[status].length === 0 ? '15% 0% 2%' : '2% 0%'}`}} onClick={() => {
+        let ticket = <KanbanTicket onClick={() => {
           openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
         }}>
           <p>{Title}</p>
@@ -30,7 +29,7 @@ export const filterForKanban = (sprintBoardPayload: SprintBoardPayload | undefin
             <p>{Assignee}</p>
             <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
           </footer>
-        </Ticket>
+        </KanbanTicket>
         
         results[status] = [...results[status], ticket]
       }

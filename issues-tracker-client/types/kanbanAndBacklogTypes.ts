@@ -13,18 +13,18 @@ type BacklogState = {
   deleteView?: boolean;
 }
 
-type SprintBoardState = {
+type KanbanBoardState = {
   [key: string]: ReactNode[]
 }
 
 type InitialState = {
   formState: FormState;
   backlogState: BacklogState;
-  sprintBoardState: SprintBoardState;
+  kanbanBoardState: KanbanBoardState;
 }
 
 export type {
   InitialState,
-  SprintBoardState,
+  KanbanBoardState,
   BacklogState
 }
