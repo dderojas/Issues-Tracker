@@ -1,13 +1,10 @@
+require('dotenv').config();
 const AWS = require('aws-sdk');
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
 const docClient = new AWS.DynamoDB.DocumentClient();
-const jwtSecret = `17ceb96484aadfb728a760dd099de
-cf2b90ae3c34018d381024af58718d
-bc00cc18cf8d01af37ac0a81697390
-fb4fd26110b15fffb484bf87bf7736
-4349c10d9`
+const jwtSecret = process.env.JWT_SECRET
 
 
 module.exports.handler = async (event) => {
@@ -15,6 +12,7 @@ module.exports.handler = async (event) => {
   let responseMessage = 'Successfully created item!';
   let results
   let jwtToken
+
   try {
     if (event.Payload.TableName === 'UserAuth') {
       if (event.Method === 'Put') {
@@ -49,7 +47,6 @@ module.exports.handler = async (event) => {
         const passwordCheck = await bcrypt.compare(payloadPassword, hashPassword)
 
         if (passwordCheck) {
-
           jwtToken = jwt.sign({ username, hashPassword }, jwtSecret)
 
         } else {

@@ -50,28 +50,10 @@ const putItem = async (payload: FormState) => {
     }
   }
 
-  const params = lambdaParams('HelloWorld', putParams)
+  const params = lambdaParams('IssuesTracker', putParams)
 
   await lambda.invoke(params).promise();
 }
-
-// const getItem = async () => {
-//   const getParams: IssuesPayloadType = {
-//     Method: 'Get',
-//     Payload: {
-//       TableName: 'Issues' ,
-//       Key: {
-//         Assignee: 'BadaBing'
-//       }
-//     }
-//    };;
-
-//    const params = lambdaParams('HelloWorld', getParams)
-
-
-//   await lambda.invoke(params).promise();
-// }
-
 
 const updateItem = async (payload:TicketType) => {
   const {
@@ -108,7 +90,7 @@ const updateItem = async (payload:TicketType) => {
     }
   };
 
-  const params = lambdaParams('HelloWorld', updateParams)
+  const params = lambdaParams('IssuesTracker', updateParams)
 
 
   const results = await lambda.invoke(params).promise()
@@ -130,7 +112,7 @@ const deleteItem = async ({ Email, TicketId, selectedTickets }) => {
       }
     };
 
-    const params = lambdaParams('HelloWorld', batchDeleteParams)
+    const params = lambdaParams('IssuesTracker', batchDeleteParams)
 
     await lambda.invoke(params).promise();
 
@@ -148,7 +130,7 @@ const deleteItem = async ({ Email, TicketId, selectedTickets }) => {
       }
     }
   
-    const params = lambdaParams('HelloWorld', deleteParams)
+    const params = lambdaParams('IssuesTracker', deleteParams)
     await lambda.invoke(params).promise();
   }
 }
@@ -171,7 +153,7 @@ const queryFunc = async (payload: FormState) => {
       }
     }
   
-    const params = lambdaParams('HelloWorld', queryParams)
+    const params = lambdaParams('IssuesTracker', queryParams)
   
     const lambdaResults = await lambda.invoke(params).promise();
   
@@ -192,7 +174,7 @@ const createAccount = async (payload: AccountFormType) => {
     }
   }
 
-  const params = lambdaParams('HelloWorld', putParams)
+  const params = lambdaParams('IssuesTracker', putParams)
 
   await lambda.invoke(params).promise();
 }
@@ -212,7 +194,7 @@ const login = async (payload: AccountFormType) => {
     }
   }
   
-  const params = lambdaParams('HelloWorld', loginParams)
+  const params = lambdaParams('IssuesTracker', loginParams)
 
   const results = await lambda.invoke(params).promise();
   const moreResults = JSON.parse(results.Payload!.toString())

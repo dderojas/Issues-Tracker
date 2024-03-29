@@ -13,43 +13,43 @@ provider "aws" {
   region = "us-west-2"
 }
 
-data "archive_file" "lambda_hello_world" {
+data "archive_file" "lambda_issues_tracker" {
   type = "zip"
 
   source_dir  = "${path.module}./server"
   output_path = "${path.module}/server.zip"
 }
 
-resource "aws_s3_object" "lambda_hello_world" {
+resource "aws_s3_object" "lambda_issues_tracker" {
   bucket = aws_s3_bucket.lambda_bucket.id
 
-  key    = "hello-world.zip"
-  source = data.archive_file.lambda_hello_world.output_path
+  key    = "issues-tracker.zip"
+  source = data.archive_file.lambda_issues_tracker.output_path
 
-  etag = filemd5(data.archive_file.lambda_hello_world.output_path)
+  etag = filemd5(data.archive_file.lambda_issues_tracker.output_path)
 }
 
 resource "aws_s3_bucket" "lambda_bucket" {
-  bucket        = "badabingbucket"
+  bucket        = "issuestrackerbucket"
   force_destroy = true
 }
 
-resource "aws_lambda_function" "hello_world" {
-  function_name = "HelloWorld"
+resource "aws_lambda_function" "issues_tracker" {
+  function_name = "IssuesTracker"
 
   s3_bucket = aws_s3_bucket.lambda_bucket.id
-  s3_key    = aws_s3_object.lambda_hello_world.key
+  s3_key    = aws_s3_object.lambda_issues_tracker.key
 
   runtime = "nodejs18.x"
-  handler = "hello.handler"
+  handler = "issuesTracker.handler"
 
-  source_code_hash = data.archive_file.lambda_hello_world.output_base64sha256
+  source_code_hash = data.archive_file.lambda_issues_tracker.output_base64sha256
 
   role = aws_iam_role.lambda_exec.arn
 }
 
-resource "aws_cloudwatch_log_group" "hello_world" {
-  name = "/aws/lambda/${aws_lambda_function.hello_world.function_name}"
+resource "aws_cloudwatch_log_group" "issues_tracker" {
+  name = "/aws/lambda/${aws_lambda_function.issues_tracker.function_name}"
 
   retention_in_days = 30
 }
@@ -67,7 +67,7 @@ resource "aws_dynamodb_table" "UserAuth" {
   }
 }
 
-resource "aws_dynamodb_table" "book_catalog_table" {
+resource "aws_dynamodb_table" "Issues" {
   name           = "Issues"
   billing_mode   = "PROVISIONED"
   read_capacity  = 1
@@ -197,19 +197,19 @@ resource "aws_apigatewayv2_stage" "lambda" {
   }
 }
 
-resource "aws_apigatewayv2_integration" "hello_world" {
+resource "aws_apigatewayv2_integration" "issues_tracker" {
   api_id = aws_apigatewayv2_api.lambda.id
 
-  integration_uri    = aws_lambda_function.hello_world.invoke_arn
+  integration_uri    = aws_lambda_function.issues_tracker.invoke_arn
   integration_type   = "AWS_PROXY"
   integration_method = "POST"
 }
 
-resource "aws_apigatewayv2_route" "hello_world" {
+resource "aws_apigatewayv2_route" "issues_tracker" {
   api_id = aws_apigatewayv2_api.lambda.id
 
   route_key = "$default"
-  target    = "integrations/${aws_apigatewayv2_integration.hello_world.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.issues_tracker.id}"
 }
 
 resource "aws_cloudwatch_log_group" "api_gw" {
@@ -221,7 +221,7 @@ resource "aws_cloudwatch_log_group" "api_gw" {
 resource "aws_lambda_permission" "api_gw" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.hello_world.function_name
+  function_name = aws_lambda_function.issues_tracker.function_name
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
