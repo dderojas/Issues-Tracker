@@ -1,17 +1,17 @@
 import { TicketModal, ModalBackground } from "../styles";
-import { Item, DeleteTicketType, ActionType } from "../../types";
+import { Item, DeleteTicketType, ActionType, FormState } from "../../types";
 import { ACTIONS } from '../reducers/issuesReducer'
 import React from "react";
 
 type ModalPropsType = {
   setModalOpen: (boolean: boolean) => void;
-  addTicket: (state: Item) => void;
+  addTicket: (state: FormState) => void;
   deleteTicket: ({ TicketId }: DeleteTicketType) => void;
   updateTicket: ({ Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => void;
-  formState: Item;
+  formState: FormState & { TicketId?: string };
   dispatch: ({ type, ticketPayload }: ActionType) => void;
   inputError: string;
-  setInputError: (boolean: boolean) => void;
+  setInputError: (error: string) => void;
 }
 
 const Modal = ({ 
@@ -51,7 +51,7 @@ const Modal = ({
           <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
           <button className="closeModal" onClick={() => { 
             setModalOpen(false)
-            setInputError(false)
+            setInputError('')
           }}>
               X
           </button>
@@ -80,11 +80,15 @@ const Modal = ({
           {inputError && <div style={{ color: 'red' }}>{inputError}</div> }
         </form>
         <div className="buttonModalContainer">
-          <button onClick={() => addTicket({ Title, Category, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })}>
+          <button onClick={() => addTicket({ Title, Category, DueDate, Assignee, Description, TicketStatus, IssueType })}>
             Add Ticket
           </button>
           <button onClick={() => {
-            updateTicket({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId })
+            if (!TicketId) {
+              setInputError('need ticketID')
+            } else  {
+              updateTicket({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId })
+            }
           }}>
             Update Ticket
           </button>

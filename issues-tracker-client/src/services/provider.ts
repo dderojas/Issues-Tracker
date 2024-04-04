@@ -1,6 +1,5 @@
-//@ts-nocheck
 import AWS from 'aws-sdk'
-import { IssuesPayloadType, TicketType, AccountFormType, FormState } from '../../types'
+import { IssuesPayloadType, TicketType, AccountFormType, FormState, DeleteTicketType } from '../../types'
 
 AWS.config.region = process.env.REACT_APP_AWS_REGION;
 
@@ -11,6 +10,10 @@ AWS.config.update({
 });
 const lambda = new AWS.Lambda()
 
+interface DeleteItemType extends DeleteTicketType {
+  Email: string;
+}
+
 // typing json stringify payload?
 const lambdaParams = (functionName: string, payload: IssuesPayloadType) => {
   return {
@@ -19,7 +22,7 @@ const lambdaParams = (functionName: string, payload: IssuesPayloadType) => {
   }
 }
 
-const putItem = async (payload: FormState) => {
+const putItem = async (payload: FormState & { Email: string }) => {
   const {
     Email,
     Title,
@@ -93,11 +96,10 @@ const updateItem = async (payload:TicketType) => {
   const params = lambdaParams('IssuesTracker', updateParams)
 
 
-  const results = await lambda.invoke(params).promise()
-  // return JSON.parse(results.toString())
+  await lambda.invoke(params).promise()
 }
 
-const deleteItem = async ({ Email, TicketId, selectedTickets }) => {
+const deleteItem = async ({ Email, TicketId, selectedTickets }: DeleteItemType) => {
 
   if (selectedTickets !== undefined) {
 
@@ -135,10 +137,7 @@ const deleteItem = async ({ Email, TicketId, selectedTickets }) => {
   }
 }
 
-const queryFunc = async (payload: FormState) => {
-  const {
-    Email
-  } = payload
+const queryFunc = async (Email: string) => {
 
   if (Email) {
     const queryParams: IssuesPayloadType = {
@@ -165,7 +164,7 @@ const queryFunc = async (payload: FormState) => {
 
 const createAccount = async (payload: AccountFormType) => {
   const { Username, Password } = payload
-  console.log(payload, 'payload in create account!')
+
   const putParams: IssuesPayloadType = {
     Method: 'Put',
     Payload: {
@@ -181,7 +180,7 @@ const createAccount = async (payload: AccountFormType) => {
 
 const login = async (payload: AccountFormType) => {
   const { Username, Password } = payload
-  console.log(payload, 'payload in login!!')
+  
   const loginParams: IssuesPayloadType = {
     Method: 'Get',
     Payload: {

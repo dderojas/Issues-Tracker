@@ -3,14 +3,14 @@ import { Item } from "./lambdaParamTypes"
 import { FormState } from './modalTypes'
 
 type BacklogState = { 
-  backlog?: Item[];
-  filteredLog?: Item[];
-  selectedTickets?: string[];
-  filteredView?: boolean; 
-  issueTypeFilter?: string;
-  menuView?: boolean;
-  filterDropdown?: boolean;
-  deleteView?: boolean;
+  backlog: Item[];
+  filteredLog: Item[];
+  selectedTickets: string[];
+  filteredView: boolean; 
+  issueTypeFilter: string;
+  menuView: boolean;
+  filterDropdown: boolean;
+  deleteView: boolean;
 }
 
 type KanbanBoardState = {

@@ -1,5 +1,4 @@
-type FormState = {
-  Email?: string;
+interface FormState {
   Title?: string;
   Comments?: string;
   DueDate?: string;

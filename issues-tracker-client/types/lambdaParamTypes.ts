@@ -1,12 +1,13 @@
 import { FormState, AccountFormType } from './modalTypes'
 
 type Key = {
-  TicketId?: string;
-  Email?: string
+  TicketId: string | string[];
+  Email: string
 }
 
 interface Item extends FormState {
-  TicketId?: string;
+  TicketId: string;
+  Email?: string;
 }
 
 type TicketType = {
@@ -24,6 +25,8 @@ type GetParams = {
 
 type DeleteParams = GetParams
 
+type BatchDeleteParams = GetParams
+
 type PutParams = {
   TableName: string;
   Item: Item | AccountFormType;
@@ -39,20 +42,25 @@ type UpdateParams = {
 
 type QueryParams = {
   TableName: string;
-  IndexName?: string;
-  KeyConditionExpression?: string;
-  ExpressionAttributeValues?: ExpressionAttributeValues;
-  Limit?: number;
+  KeyConditionExpression: string;
+  ExpressionAttributeValues: ExpressionAttributeValues;
+  Limit: number;
 }
 
 type IssuesPayloadType = {
   Method: string;
-  Payload: GetParams | PutParams | UpdateParams | DeleteParams | QueryParams
+  Payload: GetParams | PutParams | UpdateParams | DeleteParams | QueryParams | BatchDeleteParams | LoginParams
 }
 
 type DeleteTicketType = {
   TicketId?: string;
   selectedTickets?: string[];
+}
+
+type LoginParams = {
+  TableName: string;
+  KeyConditionExpression: string;
+  ExpressionAttributeValues: ExpressionAttributeValues;
 }
 
 export type {
@@ -66,5 +74,6 @@ export type {
   IssuesPayloadType,
   TicketType,
   QueryParams,
-  DeleteTicketType
+  DeleteTicketType,
+  BatchDeleteParams
 }

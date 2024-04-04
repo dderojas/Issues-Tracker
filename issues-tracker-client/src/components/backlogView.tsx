@@ -1,7 +1,6 @@
-//@ts-nocheck
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { Item, BacklogState, ActionType } from '../../types'
+import { Item, BacklogState, ActionType, DeleteTicketType } from '../../types'
 import { 
   BacklogTicket,
   BacklogBoard, 
@@ -17,7 +16,7 @@ import { ACTIONS } from '../reducers/issuesReducer'
 import { calculateDaysFunc } from '../utils/calculateDays'
 
 type BacklogType = {
-  list?: BacklogState;
+  list: BacklogState;
   openModalWithData: ({ 
     Title, 
     Assignee, 
@@ -27,10 +26,10 @@ type BacklogType = {
     TicketId 
   }: Item) => void;
   dispatch: ({ type, backlogPayload }: ActionType) => void;
-  deleteTicket: () => void;
+  deleteTicket: ({ selectedTickets }: DeleteTicketType) => void;
 }
 
-const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [], filteredView: false, menuView: false, filterDropdown: false, deleteView: false }, openModalWithData, dispatch, deleteTicket }: BacklogType) => {
+const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [], filteredView: false, menuView: false, filterDropdown: false, deleteView: false, issueTypeFilter: '' }, openModalWithData, dispatch, deleteTicket }: BacklogType) => {
 
   const handleFilterChange = (e: React.FormEvent<HTMLSelectElement>) => {
     e.preventDefault()
@@ -49,7 +48,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
   
   const handleMenuView = (e: any) => {
     e.preventDefault()
-    console.log(e.target, 'asdfasdfasfdafd')
+    
     if (e.target.id === 'ellipsisMenu') {
       
       dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: !list.menuView } })
@@ -69,8 +68,8 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
     }
   }
 
-  const handleToggleSelectedItem = (TicketId) => {
-    const isSelected = list.selectedTickets.includes(TicketId);
+  const handleToggleSelectedItem = (TicketId: string) => {
+    const isSelected:boolean = list.selectedTickets.includes(TicketId);
     if (isSelected) {
       dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { selectedTickets: list.selectedTickets.filter((id) => id !==TicketId) } })
     } else {

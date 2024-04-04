@@ -1,6 +1,7 @@
 import { BacklogState } from "../../types"
+import { BacklogPayload } from '../../types/reducerTypes'
 
-export const backlogStateFunc = (payload: BacklogState | undefined, backlogState: BacklogState) => {
+export const backlogStateFunc = (payload: BacklogPayload | undefined, backlogState: BacklogState) => {
   const results: BacklogState = { ...backlogState, ...payload }
 
   if (results.backlog) {

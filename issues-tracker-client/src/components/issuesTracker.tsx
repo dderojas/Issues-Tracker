@@ -1,12 +1,10 @@
-//@ts-nocheck
 import { useState, useReducer, useEffect } from 'react'
 import { useAuthUser, useSignOut } from 'react-auth-kit'
 import { VerticalNavbar, Modal, BacklogView, KanbanBoardView } from './index';
 import { Button } from '../styles';
-import { Item, DeleteTicketType } from '../../types'
+import { Item, DeleteTicketType, FormState } from '../../types'
 import { putItem, updateItem, deleteItem, queryFunc } from '../services';
 import { issuesReducer, initialState, ACTIONS } from '../reducers/issuesReducer';
-
 
 const IssuesTracker = () => {
   const [modalOpen, setModalOpen] = useState(false)
@@ -14,14 +12,13 @@ const IssuesTracker = () => {
   const [inputError, setInputError] = useState('')
   const authUser = useAuthUser()
   const [{ backlogState, formState, kanbanBoardState }, dispatch] = useReducer(issuesReducer, initialState)
-  //@ts-ignore
-  const { email: Email } = authUser()
+  const { email: Email } = authUser() as { email: string }
   const signOut = useSignOut()
 
   useEffect(() => {
     (async () => {
       if (!modalOpen) {
-        const items = await queryFunc({ Email })
+        const items = await queryFunc(Email)
         
         if (items?.length) {
           dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { backlog: items } })
@@ -38,7 +35,7 @@ const IssuesTracker = () => {
   }, [backlogState])
 
 
-  const addTicket = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType }: Item) => {
+  const addTicket = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType }: FormState) => {
     if (!Assignee || !Description) {
       
       setInputError('Assignee and Description cannot be empty')
@@ -57,7 +54,7 @@ const IssuesTracker = () => {
       })
   
       setModalOpen(false)
-      if (inputError) setInputError(false)
+      if (inputError) setInputError('')
     }
   }
 
@@ -69,7 +66,7 @@ const IssuesTracker = () => {
       
       await updateItem({ Email, Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId })
       setModalOpen(false)
-      if (inputError) setInputError(false)
+      if (inputError) setInputError('')
     }
   }
 
@@ -92,7 +89,7 @@ const IssuesTracker = () => {
   }
 
   const openModalWithData = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => {
-    dispatch({ type: ACTIONS.EDIT_TICKET, ticketPayload: { Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId } })
+    dispatch({ type: ACTIONS.EDIT_TICKET, modalWithDataPayload: { Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId } })
     setModalOpen(true)
   }
 

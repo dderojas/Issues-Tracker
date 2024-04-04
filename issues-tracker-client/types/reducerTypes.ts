@@ -1,8 +1,8 @@
-import { BacklogState } from './kanbanAndBacklogTypes'
 import { Item } from './lambdaParamTypes'
+import { FormState } from './modalTypes';
 
 type KanbanBoardPayload = { 
-  items?: Item[], 
+  items: Item[], 
   openModalWithData: ({ 
     Title, 
     Assignee, 
@@ -13,14 +13,27 @@ type KanbanBoardPayload = {
   }: Item) => void;
 }
 
+type BacklogPayload = { 
+  backlog?: Item[];
+  filteredLog?: Item[];
+  selectedTickets?: string[];
+  filteredView?: boolean; 
+  issueTypeFilter?: string;
+  menuView?: boolean;
+  filterDropdown?: boolean;
+  deleteView?: boolean;
+}
+
 type ActionType = {
   type: string;
-  backlogPayload?: BacklogState;
-  ticketPayload?: Item;
-  kanbanBoardPayload?: KanbanBoardPayload
+  backlogPayload?: BacklogPayload;
+  ticketPayload?: FormState;
+  kanbanBoardPayload?: KanbanBoardPayload;
+  modalWithDataPayload?: Item;
 }
 
 export type {
   ActionType,
-  KanbanBoardPayload
+  KanbanBoardPayload,
+  BacklogPayload
 }
