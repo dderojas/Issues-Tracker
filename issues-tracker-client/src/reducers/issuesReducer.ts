@@ -32,7 +32,7 @@ const issuesReducer = (state: InitialState, action: ActionType): InitialState =>
     case ACTIONS.SET_MODAL_STATE:
       return { backlogState, kanbanBoardState, formState: { ...formState, ...action.ticketPayload } }
     case ACTIONS.EDIT_TICKET:
-      return { backlogState, kanbanBoardState, formState: { ...formState, ...action.ticketPayload } }
+      return { backlogState, kanbanBoardState, formState: { ...formState, ...action.modalWithDataPayload } }
     case ACTIONS.UPDATE_KANBAN_BOARD:
       return { backlogState, kanbanBoardState: filterForKanban(action.kanbanBoardPayload), formState: initialState.formState }
     default:

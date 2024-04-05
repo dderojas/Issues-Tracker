@@ -138,8 +138,7 @@ const deleteItem = async ({ Email, TicketId, selectedTickets }: DeleteItemType) 
 }
 
 const queryFunc = async (Email: string) => {
-
-  if (Email) {
+  try {
     const queryParams: IssuesPayloadType = {
       Method: 'Query',
       Payload: {
@@ -155,10 +154,11 @@ const queryFunc = async (Email: string) => {
     const params = lambdaParams('IssuesTracker', queryParams)
   
     const lambdaResults = await lambda.invoke(params).promise();
-  
-    const something = JSON.parse(lambdaResults.Payload!.toString())
+    const parsedResults = JSON.parse(lambdaResults.Payload!.toString())
 
-    return something.body.results.Items
+    return parsedResults.body.results.Items
+  } catch(e) {
+    console.error('invalid email', e)
   }
 }
 
@@ -180,7 +180,7 @@ const createAccount = async (payload: AccountFormType) => {
 
 const login = async (payload: AccountFormType) => {
   const { Username, Password } = payload
-  
+
   const loginParams: IssuesPayloadType = {
     Method: 'Get',
     Payload: {

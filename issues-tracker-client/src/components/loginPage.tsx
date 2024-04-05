@@ -22,10 +22,11 @@ const LoginPage = () => {
 
       setLoginInfo({ Username: '', Password: '' })
       setError('')
+
     } catch(e) {
-      console.error(e, 'error???')
+      console.error(e, 'password or email is invalid')
       
-      setError('whoopsies')
+      setError('invalid email or password')
     }
   }
 
@@ -50,7 +51,7 @@ const LoginPage = () => {
             <button onClick={handleLogin}>Login</button>
             <button onClick={createLogin}>Create Account</button>
           </form>
-          <div>{error && 'whhhoppppsssiessss'}</div>
+          <div>{error}</div>
         </LoginModal>
       </ModalBackground>
     </>
