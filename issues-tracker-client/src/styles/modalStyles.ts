@@ -162,7 +162,7 @@ const LoginModal = styled.div`
   }
 `
 
-const DateFont = styled.p<{ $color?: string; }>`
+const DateFont = styled.span<{ $color?: string; }>`
   color: ${props => props.$color || 'black' };
 `
 

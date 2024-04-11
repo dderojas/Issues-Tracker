@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 
+type VerticalNavButtonType = {
+  view?: boolean;
+  id?: string;
+}
+
 const VerticalNav = styled.div`
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   position: fixed;
   background-color: #222831;
-  > button {
-    background-color: inherit;
-  }
   height: 100%;
   width: 10%;
   overflow: auto;
@@ -27,7 +29,7 @@ const HorizontalNav = styled.nav`
   border-style: solid;
 `
 
-const Button = styled.button`
+const VerticalNavButton = styled.button<VerticalNavButtonType>`
   color: white;
   padding: 15% 11%;
   text-align: center;
@@ -36,6 +38,15 @@ const Button = styled.button`
   font-size: 16px;
   cursor: pointer;
   border: none;
+  background-color: ${(props) => {
+    if (props.id === 'Backlog' && props.view) {
+      return '#7a7e83'
+    }
+    if (props.id === 'Kanban' && !props.view) {
+      return '#7a7e83'
+    }
+    return '#222831'
+  }};
   :hover {
     background-color: #7a7e83
   }
@@ -44,5 +55,5 @@ const Button = styled.button`
 export {
   VerticalNav,
   HorizontalNav,
-  Button
+  VerticalNavButton
 }

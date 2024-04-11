@@ -8,13 +8,9 @@ const BacklogBoard = styled.div`
 `
 const BacklogNav = styled.nav`
   display: flex;
-  justify-content: space-between;
   padding: 1% 5% 1% 12%;
-  > #ellipsisMenuStyling {
+  > .actions {
     cursor: pointer;
-    > path {
-      pointer-events: none;
-    }
   }
 `
 
@@ -23,7 +19,7 @@ const BacklogList = styled.ul`
   flex-direction: column;
   padding: 0% 5% 10% 12%;
   height: 100%;
-  width: 100%;
+  width: 75%;
   overflow-y: auto;
   scrollbar-width: none;
 `

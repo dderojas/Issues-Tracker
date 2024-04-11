@@ -20,8 +20,10 @@ const KanbanTicket = styled.li`
   border-radius: 15px;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
   background-color: #eeeeee;
-  > p {
-    margin: 0;
+  .kanbanTicketHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5%;
   }
   > footer {
     display: flex;
@@ -31,27 +33,37 @@ const KanbanTicket = styled.li`
 
 const BacklogTicket = styled.li`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   padding: 1%;
   margin: 2% 0%;
   border-radius: 15px;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
   background-color: #eeeeee;
-  > p {
-    margin: 0;
+  input[type="checkbox"] {
+    margin: 1%;
   }
-  > footer {
+  >.backlog-ticket-content-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    padding: 0% 3%;
+    width: 100%;
+    >.backlogTicketHeader {
+      display: flex;
+      justify-content: space-between;
+    };
+    > footer {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 `
 
 const MenuOptions = styled.ul`
   position: absolute;
   list-style-type: none;
-  top: 8%;
-  right: 8%;
+  top: 2%;
+  left: 24%;
   background-color: transparent;
   border: 1px solid #ccc;
   border-radius: 15px;

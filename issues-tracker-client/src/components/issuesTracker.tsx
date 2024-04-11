@@ -1,7 +1,7 @@
 import { useState, useReducer, useEffect } from 'react'
 import { useAuthUser, useSignOut } from 'react-auth-kit'
 import { VerticalNavbar, Modal, BacklogView, KanbanBoardView } from './index';
-import { Button } from '../styles';
+import { VerticalNavButton } from '../styles';
 import { Item, DeleteTicketType, FormState } from '../../types'
 import { putItem, updateItem, deleteItem, queryFunc } from '../services';
 import { issuesReducer, initialState, ACTIONS } from '../reducers/issuesReducer';
@@ -90,17 +90,19 @@ const IssuesTracker = () => {
 
   const openModalWithData = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => {
     dispatch({ type: ACTIONS.EDIT_TICKET, modalWithDataPayload: { Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId } })
+    dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: false } })
+
     setModalOpen(true)
   }
 
   return (
     <>
       <VerticalNavbar>
-        <Button onClick={signOut}>Sign Out / Register</Button>
-        <Button onClick={() => {
+        <VerticalNavButton onClick={signOut}>Sign Out / Register</VerticalNavButton>
+        <VerticalNavButton id="Backlog" view={view} onClick={() => {
           setView(true)
-        }}>Backlog</Button>
-        <Button onClick={() => {
+        }}>Backlog</VerticalNavButton>
+        <VerticalNavButton id="Kanban" view={view} onClick={() => {
           setView(false)
           dispatch({ 
             type: ACTIONS.UPDATE_BACKLOG, 
@@ -110,8 +112,11 @@ const IssuesTracker = () => {
               deleteView: false, 
               filterDropdown: false 
             } })
-        }}>Kanban Board</Button>
-        <Button onClick={() => setModalOpen(true)}>Create Ticket</Button>
+        }}>Kanban Board</VerticalNavButton>
+        <VerticalNavButton onClick={() => {
+          setModalOpen(true)
+          dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: false } })
+        }}>Create Ticket</VerticalNavButton>
       </VerticalNavbar>
         { modalOpen && 
           <Modal 

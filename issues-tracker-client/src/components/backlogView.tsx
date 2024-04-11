@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { Item, BacklogState, ActionType, DeleteTicketType } from '../../types'
 import { 
   BacklogTicket,
@@ -49,7 +47,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
   const handleMenuView = (e: any) => {
     e.preventDefault()
     
-    if (e.target.id === 'ellipsisMenu') {
+    if (e.target.id === 'actions') {
       
       dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: !list.menuView } })
 
@@ -86,16 +84,15 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
   return (
     <BacklogBoard>
       <BacklogNav>
-        <h3>Backlog</h3>
-            <div id="ellipsisMenuStyling" onClick={handleMenuView}>
-              <FontAwesomeIcon id="ellipsisMenu" icon={faEllipsisV} size="2xl"/>
-            </div>
-            {list.menuView && 
-              <MenuOptions>
-                <li id="FilterDropdown" onClick={handleMenuView}>Filter Dropdown</li>
-                <li id="DeleteView" onClick={handleMenuView}>Delete</li>
-              </MenuOptions>
-            }
+        <DoneButton id='actions' onClick={handleMenuView}>
+          ACTIONS
+        </DoneButton>
+        {list.menuView && 
+          <MenuOptions>
+            <li id="FilterDropdown" onClick={handleMenuView}>Filter Dropdown</li>
+            <li id="DeleteView" onClick={handleMenuView}>Delete</li>
+          </MenuOptions>
+        }
       </BacklogNav>
       {list.filterDropdown &&
         <EditResultsContainer>
@@ -122,20 +119,24 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
           
           return (
             <BacklogTicket key={Math.random()}>
-              {list.deleteView && 
+                {list.deleteView && 
                 <input type="checkbox"              
                   checked={list.selectedTickets.includes(TicketId)}
                   onChange={() => handleToggleSelectedItem(TicketId)}
                 />}
-              <div>{Title}</div>
-              <div>{IssueType}</div>
-              <footer>
-                <div>{Assignee}</div>
-                <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
-              </footer>
-              <div onClick={() => {
-              openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId, DueDate })
-            }}>EDIT</div>
+              <div className="backlog-ticket-content-container">
+                <div className="backlogTicketHeader">
+                  <div>{Assignee}</div>
+                  <div>{Title}</div>
+                </div>
+                <div style={{ margin: '1% 0%'}}>{IssueType}</div>
+                <footer>
+                  <div onClick={() => {
+                  openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId, DueDate })
+                  }}>EDIT</div>
+                  <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
+                </footer>
+              </div>
             </BacklogTicket>
           )
         }) }

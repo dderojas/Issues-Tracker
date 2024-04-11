@@ -14,7 +14,6 @@ interface DeleteItemType extends DeleteTicketType {
   Email: string;
 }
 
-// typing json stringify payload?
 const lambdaParams = (functionName: string, payload: IssuesPayloadType) => {
   return {
     FunctionName: functionName,

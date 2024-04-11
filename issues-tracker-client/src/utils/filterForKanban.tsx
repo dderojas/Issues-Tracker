@@ -23,10 +23,12 @@ export const filterForKanban = (kanbanBoardPayload: KanbanBoardPayload | undefin
         let ticket = <KanbanTicket onClick={() => {
           openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })
         }}>
-          <p>{Title}</p>
-          <p>{IssueType}</p>
+          <div className="kanbanTicketHeader">
+            <span>{Assignee}</span>
+            <span>{Title}</span>
+          </div>
+          <span>{IssueType}</span>
           <footer>
-            <p>{Assignee}</p>
             <DateFont $color={dateColor}>{formattedDeadline}</DateFont>
           </footer>
         </KanbanTicket>

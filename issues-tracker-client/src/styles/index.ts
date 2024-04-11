@@ -1,4 +1,4 @@
-import { VerticalNav, HorizontalNav, Button } from "./NavbarStyles";
+import { VerticalNav, HorizontalNav, VerticalNavButton } from "./NavbarStyles";
 import { TicketModal, ModalBackground, DateFont, LoginModal } from './ModalStyles'
 import { KanbanTicket, BacklogTicket, DropDown, MenuOptions, EditResultsContainer, DoneButton } from "./TicketStyles";
 import { BacklogBoard, BacklogList, BacklogNav, Columns, KanbanBoard, KanbanTicketContainer } from './BoardStyles'
@@ -6,7 +6,7 @@ import { BacklogBoard, BacklogList, BacklogNav, Columns, KanbanBoard, KanbanTick
 export {
   VerticalNav,
   HorizontalNav,
-  Button,
+  VerticalNavButton,
   TicketModal, 
   ModalBackground,
   KanbanTicket,
