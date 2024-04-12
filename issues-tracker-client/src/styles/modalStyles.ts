@@ -142,7 +142,6 @@ const LoginModal = styled.div`
       margin: 1% 0%;
       padding: 4%;
       font-size: 150%;
-      // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
       border-radius: 50px;
       border: none;
     }

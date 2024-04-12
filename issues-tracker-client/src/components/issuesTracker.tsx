@@ -1,7 +1,7 @@
 import { useState, useReducer, useEffect } from 'react'
 import { useAuthUser, useSignOut } from 'react-auth-kit'
-import { VerticalNavbar, Modal, BacklogView, KanbanBoardView } from './index';
-import { VerticalNavButton } from '../styles';
+import { Modal, BacklogView, KanbanBoardView } from './index';
+import { VerticalNavButton, VerticalNav } from '../styles';
 import { Item, DeleteTicketType, FormState } from '../../types'
 import { putItem, updateItem, deleteItem, queryFunc } from '../services';
 import { issuesReducer, initialState, ACTIONS } from '../reducers/issuesReducer';
@@ -97,7 +97,7 @@ const IssuesTracker = () => {
 
   return (
     <>
-      <VerticalNavbar>
+      <VerticalNav>
         <VerticalNavButton onClick={signOut}>Sign Out / Register</VerticalNavButton>
         <VerticalNavButton id="Backlog" view={view} onClick={() => {
           setView(true)
@@ -117,7 +117,7 @@ const IssuesTracker = () => {
           setModalOpen(true)
           dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: false } })
         }}>Create Ticket</VerticalNavButton>
-      </VerticalNavbar>
+      </VerticalNav>
         { modalOpen && 
           <Modal 
             setModalOpen={setModalOpen} 
