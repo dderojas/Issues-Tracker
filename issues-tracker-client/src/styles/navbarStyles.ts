@@ -15,19 +15,6 @@ const VerticalNav = styled.div`
   width: 10%;
   overflow: auto;
 `
-const HorizontalNav = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  background-color: rgb(75,0,130);
-  color: #4B0082;
-  width: 100%;
-  padding: 10px 10px 10px 10px;
-  z-index: 9999;
-  border-color: black;
-  border-style: solid;
-`
 
 const VerticalNavButton = styled.button<VerticalNavButtonType>`
   color: white;
@@ -54,6 +41,5 @@ const VerticalNavButton = styled.button<VerticalNavButtonType>`
 
 export {
   VerticalNav,
-  HorizontalNav,
   VerticalNavButton
 }

@@ -1,4 +1,3 @@
-import HorizontalNavbar from "./HorizontalNavbar";
 import VerticalNavbar from "./VerticalNavbar";
 import BacklogView from "./BacklogView";
 import Modal from './Modal';
@@ -7,7 +6,6 @@ import { IssuesTracker } from "./IssuesTracker";
 import LoginPage from "./LoginPage";
 
 export {
-  HorizontalNavbar,
   VerticalNavbar,
   BacklogView,
   Modal,
