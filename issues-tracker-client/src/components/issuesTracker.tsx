@@ -96,7 +96,7 @@ const IssuesTracker = () => {
   }
 
   return (
-    <>
+    <div>
       <VerticalNav>
         <VerticalNavButton onClick={signOut}>Sign Out / Register</VerticalNavButton>
         <VerticalNavButton id="Backlog" view={view} onClick={() => {
@@ -131,7 +131,7 @@ const IssuesTracker = () => {
           /> }
       { !view && <KanbanBoardView kanbanBoardState={kanbanBoardState} openModalWithData={openModalWithData}/> }
       { view && <BacklogView list={backlogState} openModalWithData={openModalWithData} dispatch={dispatch} deleteTicket={deleteTicket}/> }
-    </>
+    </div>
   );
 }
 
