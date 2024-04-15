@@ -1,4 +1,4 @@
-import BacklogView from "./BacklogView.tsx";
+import BacklogView from "./BacklogView";
 import Modal from './Modal';
 import { KanbanBoardView } from "./KanbanBoardView";
 import { IssuesTracker } from "./IssuesTracker";
