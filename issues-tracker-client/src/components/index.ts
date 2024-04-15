@@ -1,8 +1,8 @@
 import Modal from '@components/Modal';
-import BacklogView from "./BacklogView";
-import { KanbanBoardView } from "./KanbanBoardView";
-import { IssuesTracker } from "./IssuesTracker";
-import LoginPage from "./LoginPage";
+import BacklogView from "@components/BacklogView";
+import { KanbanBoardView } from "@components/KanbanBoardView";
+import { IssuesTracker } from "@components/IssuesTracker";
+import LoginPage from "@components/LoginPage";
 
 export {
   BacklogView,
