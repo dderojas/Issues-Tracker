@@ -1,5 +1,5 @@
-import BacklogView from "./BacklogView";
 import Modal from './Modal';
+import BacklogView from "./BacklogView";
 import { KanbanBoardView } from "./KanbanBoardView";
 import { IssuesTracker } from "./IssuesTracker";
 import LoginPage from "./LoginPage";
