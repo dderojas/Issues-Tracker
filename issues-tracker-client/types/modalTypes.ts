@@ -1,4 +1,5 @@
 interface FormState {
+  TicketId?: string;
   Title?: string;
   Comments?: string;
   DueDate?: string;

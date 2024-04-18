@@ -12,6 +12,5 @@ export const backlogStateFunc = (payload: BacklogPayload | undefined, backlogSta
     }
   }
 
-
   return results
 }

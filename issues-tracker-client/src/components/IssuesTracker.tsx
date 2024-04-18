@@ -91,8 +91,8 @@ const IssuesTracker = () => {
   const openModalWithData = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId }: Item) => {
     dispatch({ type: ACTIONS.EDIT_TICKET, modalWithDataPayload: { Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId } })
     dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: false } })
-
     setModalOpen(true)
+
   }
 
   return (

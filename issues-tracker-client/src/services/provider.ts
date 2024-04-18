@@ -197,7 +197,6 @@ const login = async (payload: AccountFormType) => {
   const results = await lambda.invoke(params).promise();
   const moreResults = JSON.parse(results.Payload!.toString())
 
-  console.log(moreResults, 'results login??')
   return moreResults
 }
 

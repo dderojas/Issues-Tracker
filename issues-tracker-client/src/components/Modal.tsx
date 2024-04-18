@@ -1,7 +1,6 @@
 import { TicketModal, ModalBackground } from "../styles";
 import { Item, DeleteTicketType, ActionType, FormState } from "../../types";
-import { ACTIONS } from '../reducers/issuesReducer'
-import React from "react";
+import { ACTIONS, initialState } from '../reducers/issuesReducer'
 
 type ModalPropsType = {
   setModalOpen: (boolean: boolean) => void;
@@ -25,10 +24,9 @@ const Modal = ({
   setInputError
 }: ModalPropsType) => {
   const { Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId } = formState
-  
   const ticketStatusDropDown = ['Status', 'Todo', 'Ongoing', 'Done', 'Backlog']
   const issueTypeDropDown = ['Issue', 'Task', 'Feature', 'Bug']
-
+  
   const handleChange = (e: React.FormEvent<HTMLInputElement 
     | HTMLSelectElement 
     | HTMLTextAreaElement>
@@ -47,9 +45,12 @@ const Modal = ({
     <ModalBackground>
       <TicketModal>
         <div className="modalHeader">
-          {/*@ts-ignore*/}
           <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
           <button className="closeModal" onClick={() => { 
+            dispatch({ 
+              type: ACTIONS.SET_MODAL_STATE,
+              ticketPayload: initialState.formState
+            })
             setModalOpen(false)
             setInputError('')
           }}>
