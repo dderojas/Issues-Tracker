@@ -18,7 +18,7 @@ export const filterForKanban = (kanbanBoardPayload: KanbanBoardPayload | undefin
         let { Title, DueDate = '', Assignee, Description, TicketStatus, IssueType, TicketId } = items[i]
         let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
         
-        const dateColor = !differenceInDays || differenceInDays > 2 ? 'black' : 'red'
+        const dateColor = !differenceInDays || differenceInDays > 2 ? 'white' : 'red'
   
         let ticket = <KanbanTicket onClick={() => {
           openModalWithData({ Title, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })

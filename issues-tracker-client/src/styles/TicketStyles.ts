@@ -17,9 +17,10 @@ const KanbanTicket = styled.li`
   width: 100%;
   padding: 5%;
   margin: 2% 0%;
+  color: white;
   border-radius: 15px;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
-  background-color: #eeeeee;
+  background-color: #3e3e42;
   .kanbanTicketHeader {
     display: flex;
     justify-content: space-between;
@@ -39,7 +40,8 @@ const BacklogTicket = styled.li`
   margin: 2% 0%;
   border-radius: 15px;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
-  background-color: #eeeeee;
+  color: white;
+  background-color: #3e3e42;
   input[type="checkbox"] {
     margin: 1%;
   }

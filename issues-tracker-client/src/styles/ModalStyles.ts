@@ -6,16 +6,25 @@ const TicketModal = styled.div`
   width: 60%;
   height: auto;
   border-radius: 3%;
-  background-color: #eeeeee;
+  color: white;
+  background-color: #3e3e42;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-align: center;
   padding: 2%;
+  .closeModal {
+    color: inherit;
+    background-color: inherit;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+  }
   .modalHeader {
     display: flex;
     justify-content: space-between;
     margin: 0% 2%;
     > input {
-      background-color:#eeeeee;
+      color: white;
+      background-color: inherit;
       border: none;
       font-weight: 700;
       font-size: 100%;
@@ -23,12 +32,15 @@ const TicketModal = styled.div`
   }
   .TitleClass {
     display: inline-block;
+    color: white;
+    background-color: #737373;
     padding: 2%;
     font-size: 100%;
     margin: 2%;
   }
   .DescriptionClass {
     display: inline-block;
+    background-color: #737373;
     padding: 5%;
     margin: 2%;
   }
@@ -70,7 +82,7 @@ const TicketModal = styled.div`
     font-size: 120%;
     > textarea {
       font-size: 120%;
-      color: #111;
+      color: white;
       border-radius: 50px;
       padding: 2% 3%;
       margin: 0% 0.5%;
@@ -91,7 +103,8 @@ const TicketModal = styled.div`
   }
   .inputAndDropdowns {
     > input {
-      color: #111;
+      color: white;
+      background-color: #737373;
       border-radius: 50px;
       padding: 2% 3%;
       margin: 0% 0.5%;
@@ -102,6 +115,8 @@ const TicketModal = styled.div`
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
     }
     > select {
+      color: white;
+      background-color: #737373;
       font-size: 100%;
       width: 30%;
       border-radius: 50px;

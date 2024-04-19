@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const BacklogBoard = styled.div`
-  background-color: #393e46;
+  background-color: #252526;
   overflow: hidden;
   height: 100%;
   padding-bottom: 10%;
@@ -28,7 +28,7 @@ const KanbanBoard = styled.div`
   display: flex;
   justify-content: space-around;
   height: 100%;
-  background-color: #393e46;
+  background-color: #0e1111;
   padding-left: 10%;
   padding-top: 5%;
   padding-bottom: 3%;
@@ -37,10 +37,11 @@ const KanbanBoard = styled.div`
 const Columns = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #0092ca;
+  color: white;
+  background-color: #252526;
   padding: 1%;
   border-radius: 15px;
-  box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
+  // box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
   width: 18%;
 `
 
