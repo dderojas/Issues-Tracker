@@ -9,13 +9,15 @@ const DropDown = styled.select`
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
   border: none;
+  color: white;
+  background-color: #3e3e42;
 `
 
 const KanbanTicket = styled.li`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 5%;
+  padding: 10%;
   margin: 2% 0%;
   color: white;
   border-radius: 15px;
@@ -24,8 +26,30 @@ const KanbanTicket = styled.li`
   .kanbanTicketHeader {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5%;
+    align-items: center;
+    overflow: hidden;
+    .kanbanTicketAssignee {
+      margin-right: 15%;
+    }
+    .kanbanTicketTitle {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: bold;
+    }
   }
+  .issueTypeContainerKanban {
+    margin: 10% 0%;
+    font-style: italic;
+  }
+  // .issueTypeContainerKanban::before {
+  //   content: '';
+  //   position: absolute;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 2px;
+  //   background-color: purple; 
+  // }
   > footer {
     display: flex;
     justify-content: space-between;
@@ -91,7 +115,7 @@ const EditResultsContainer = styled.div`
   padding: 0% 5% 0% 12%;
 `
 
-const DoneButton = styled.button`
+const Button = styled.button`
   display: inline-block;
   outline: none;
   cursor: pointer;
@@ -124,5 +148,5 @@ export {
   DropDown,
   MenuOptions,
   EditResultsContainer,
-  DoneButton
+  Button
 }

@@ -8,7 +8,7 @@ import {
   DropDown, 
   MenuOptions, 
   EditResultsContainer,
-  DoneButton
+  Button
 } from '../styles'
 import { ACTIONS } from '../reducers/issuesReducer'
 import { calculateDaysFunc } from '../utils/calculateDays'
@@ -84,9 +84,9 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
   return (
     <BacklogBoard>
       <BacklogNav>
-        <DoneButton id='actions' onClick={handleMenuView}>
+        <Button id='actions' onClick={handleMenuView}>
           ACTIONS
-        </DoneButton>
+        </Button>
         {list.menuView && 
           <MenuOptions>
             <li id="FilterDropdown" onClick={handleMenuView}>Filter Dropdown</li>
@@ -102,20 +102,20 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
             <option>Feature</option>
             <option>Bug</option>
           </DropDown>
-          <DoneButton onClick={handleDone}>Done</DoneButton>
+          <Button onClick={handleDone}>Done</Button>
         </EditResultsContainer>
       }
       {list.deleteView &&
         <EditResultsContainer>
-          <DoneButton onClick={() => { deleteTicket({ selectedTickets: list.selectedTickets }) }}>DELETE</DoneButton>
-          <DoneButton onClick={handleDone}>Done</DoneButton>
+          <Button onClick={() => { deleteTicket({ selectedTickets: list.selectedTickets }) }}>DELETE</Button>
+          <Button onClick={handleDone}>Done</Button>
         </EditResultsContainer>
       }
       <BacklogList>
         { list[view]?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
           let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
 
-          const dateColor = !differenceInDays || differenceInDays > 2 ? 'black' : 'red'
+          const dateColor = !differenceInDays || differenceInDays > 2 ? '#228B22' : 'red'
           
           return (
             <BacklogTicket key={Math.random()}>
