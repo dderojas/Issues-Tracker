@@ -44,9 +44,9 @@ const Modal = ({
   return (
     <ModalBackground>
       <TicketModal>
-        <div className="modalHeader">
+        <div className="modal-header">
           <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
-          <button className="closeModal" onClick={() => { 
+          <button className="close-modal" onClick={() => { 
             dispatch({ 
               type: ACTIONS.SET_MODAL_STATE,
               ticketPayload: initialState.formState
@@ -59,9 +59,9 @@ const Modal = ({
         </div>
         <h4 style={{ fontSize: '130%'}}>{TicketId ? 'Edit Ticket' : 'Create a Ticket'}</h4>
         <form>
-          <input className="TitleClass" name="Title" type="text" placeholder="Title" value={Title} onChange={handleChange} />
-          <textarea className="DescriptionClass" name="Description" placeholder="Description" value={Description} onChange={handleChange}></textarea>
-          <div className="inputAndDropdowns">
+          <input className="title-class" name="Title" type="text" placeholder="Title" value={Title} onChange={handleChange} />
+          <textarea className="description-class" name="Description" placeholder="Description" value={Description} onChange={handleChange}></textarea>
+          <div className="input-and-dropdowns">
             <input name="DueDate" type="date" placeholder="DueDate" pattern="\d{4}-\d{2}-\d{2}" value={DueDate} onChange={handleChange} />
             <input name="Category" type="text" placeholder="Category" value={Category} onChange={handleChange} />
             <select name="TicketStatus" value={TicketStatus} onChange={handleChange}>
@@ -80,7 +80,7 @@ const Modal = ({
           </div>
           {inputError && <div style={{ color: 'red' }}>{inputError}</div> }
         </form>
-        <div className="buttonModalContainer">
+        <div className="button-modal-container">
           <button onClick={() => addTicket({ Title, Category, DueDate, Assignee, Description, TicketStatus, IssueType })}>
             Add Ticket
           </button>

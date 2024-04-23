@@ -125,11 +125,11 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
                   onChange={() => handleToggleSelectedItem(TicketId)}
                 />}
               <div className="backlog-ticket-content-container">
-                <div className="backlogTicketHeader">
+                <div className="backlog-ticket-header">
                   <div>{Assignee}</div>
                   <div>{Title}</div>
                 </div>
-                <div style={{ margin: '1% 0%'}}>{IssueType}</div>
+                <div className='issue-type-container-backlog'>{IssueType}</div>
                 <footer>
                   <div onClick={() => {
                   openModalWithData({ Title, Assignee, Description, TicketStatus, IssueType, TicketId, DueDate })

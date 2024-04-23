@@ -23,22 +23,22 @@ const KanbanTicket = styled.li`
   border-radius: 15px;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
   background-color: #3e3e42;
-  .kanbanTicketHeader {
+  .kanban-ticket-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    .kanbanTicketAssignee {
+    .kanban-ticket-assignee {
       margin-right: 15%;
     }
-    .kanbanTicketTitle {
+    .kanban-ticket-title {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       font-weight: bold;
     }
   }
-  .issueTypeContainerKanban {
+  .issue-type-container-kanban {
     margin: 10% 0%;
     font-style: italic;
   }
@@ -74,10 +74,14 @@ const BacklogTicket = styled.li`
     flex-direction: column;
     padding: 0% 3%;
     width: 100%;
-    >.backlogTicketHeader {
+    >.backlog-ticket-header {
       display: flex;
       justify-content: space-between;
     };
+    >.issue-type-container-backlog {
+      font-style: italic;
+      margin: 2% 0%;
+    }
     > footer {
       display: flex;
       justify-content: space-between;
