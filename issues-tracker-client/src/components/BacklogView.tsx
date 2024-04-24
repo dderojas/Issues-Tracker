@@ -44,22 +44,22 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
     }
   }
   
-  const handleMenuView = (e: any) => {
+  const handleMenuView = (e: React.MouseEvent<HTMLButtonElement|HTMLLIElement>) => {
     e.preventDefault()
     
-    if (e.target.id === 'actions') {
+    if (e.currentTarget.id === 'actions') {
       
       dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: !list.menuView } })
 
     }
 
-    if (e.target.id === 'FilterDropdown') {
+    if (e.currentTarget.id === 'FilterDropdown') {
 
       dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: false, filterDropdown: !list.filterDropdown, deleteView: false } })
 
     }
 
-    if (e.target.id === 'DeleteView') {
+    if (e.currentTarget.id === 'DeleteView') {
 
       dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { menuView: false, deleteView: !list.deleteView, filterDropdown: false } })
     

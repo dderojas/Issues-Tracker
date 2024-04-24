@@ -8,7 +8,7 @@ const LoginPage = () => {
   const [error, setError] = useState("")
   const [loginInfo, setLoginInfo] = useState({ Username: '', Password: ''})
 
-  const handleLogin = async (e: any) => {
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     const response = await login(loginInfo)
 
@@ -30,12 +30,12 @@ const LoginPage = () => {
     }
   }
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value })
   }
 
-  const createLogin = async (e: any) => {
+  const createLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     await createAccount(loginInfo)
   }
