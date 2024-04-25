@@ -57,7 +57,7 @@ const Modal = ({
               X
           </button>
         </div>
-        <h4 style={{ fontSize: '130%'}}>{TicketId ? 'Edit Ticket' : 'Create a Ticket'}</h4>
+        <h2>{TicketId ? 'Edit Ticket' : 'Create a Ticket'}</h2>
         <form>
           <input className="title-class" name="Title" type="text" placeholder="Title" value={Title} onChange={handleChange} />
           <textarea className="description-class" name="Description" placeholder="Description" value={Description} onChange={handleChange}></textarea>
@@ -81,7 +81,7 @@ const Modal = ({
           {inputError && <div style={{ color: 'red' }}>{inputError}</div> }
         </form>
         <div className="button-modal-container">
-          <button onClick={() => addTicket({ Title, Category, DueDate, Assignee, Description, TicketStatus, IssueType })}>
+          <button onClick={() => addTicket({ Title, Category, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })}>
             Add Ticket
           </button>
           <button onClick={() => {

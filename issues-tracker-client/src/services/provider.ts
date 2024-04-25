@@ -146,7 +146,7 @@ const queryFunc = async (Email: string) => {
         ExpressionAttributeValues: {
           ':email': Email
         },
-        Limit: 10
+        Limit: 20
       }
     }
   

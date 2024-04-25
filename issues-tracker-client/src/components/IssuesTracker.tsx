@@ -19,7 +19,7 @@ const IssuesTracker = () => {
     (async () => {
       if (!modalOpen) {
         const items = await queryFunc(Email)
-        
+
         if (items?.length) {
           dispatch({ type: ACTIONS.UPDATE_BACKLOG, backlogPayload: { backlog: items } })
           dispatch({ type: ACTIONS.UPDATE_KANBAN_BOARD, kanbanBoardPayload: { items, openModalWithData } })
@@ -35,11 +35,13 @@ const IssuesTracker = () => {
   }, [backlogState])
 
 
-  const addTicket = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType }: FormState) => {
+  const addTicket = ({ Title, DueDate, Category, Assignee, Description, TicketStatus, IssueType, TicketId }: FormState) => {
     if (!Assignee || !Description) {
       
       setInputError('Assignee and Description cannot be empty')
 
+    } else if (TicketId) {
+      setInputError('Ticket already exists')
     } else {
       
       putItem({

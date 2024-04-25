@@ -42,17 +42,11 @@ const KanbanTicket = styled.li`
     margin: 10% 0%;
     font-style: italic;
   }
-  // .issueTypeContainerKanban::before {
-  //   content: '';
-  //   position: absolute;
-  //   left: 0;
-  //   width: 100%;
-  //   height: 2px;
-  //   background-color: purple; 
-  // }
   > footer {
     display: flex;
     justify-content: space-between;
+    border-top: 2px solid #616467;
+    padding-top: 10%;
   }
 `
 
@@ -60,7 +54,7 @@ const BacklogTicket = styled.li`
   display: flex;
   flex-direction: row;
   width: 100%;
-  padding: 1%;
+  padding: 2% 3%;
   margin: 2% 0%;
   border-radius: 15px;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.35);
@@ -85,6 +79,12 @@ const BacklogTicket = styled.li`
     > footer {
       display: flex;
       justify-content: space-between;
+      border-top: 2px solid #616467;
+      margin-top: 3%;
+      padding-top: 3%;
+      > div {
+        cursor: pointer;
+      }
     }
   }
 `
@@ -97,15 +97,17 @@ const MenuOptions = styled.ul`
   background-color: transparent;
   border: 1px solid #ccc;
   border-radius: 15px;
-  padding: 5px 0;
-  width: 20%;
+  padding: 0%;
+  width: 10%;
   margin: 0;
   > li {
-    margin: 1%;
     text-align: center;
-    font-weight: 700;
     color: #616467;
     cursor: pointer;
+    border-radius: 15px;
+    transition-property: background-color,color;
+    transition-duration: .3s;
+    padding 3%;
     :hover{
       color: #fff;
       background-color: #616467;

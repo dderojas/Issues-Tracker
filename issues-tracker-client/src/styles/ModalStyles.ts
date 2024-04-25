@@ -11,6 +11,9 @@ const TicketModal = styled.div`
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-align: center;
   padding: 2%;
+  h2 {
+    font-weight: normal;
+  }
   .close-modal {
     color: inherit;
     background-color: inherit;
@@ -26,7 +29,6 @@ const TicketModal = styled.div`
       color: white;
       background-color: inherit;
       border: none;
-      font-weight: 700;
       font-size: 100%;
     }
   }
@@ -91,6 +93,12 @@ const TicketModal = styled.div`
       border-radius: 50px;
       border: none;
     }
+    > input::placeholder {
+      color: #cccccc;
+    }
+    > textarea::placeholder {
+      color: #cccccc;
+    }
     > div {
       display: flex;
       justify-content: space-around;
@@ -109,6 +117,9 @@ const TicketModal = styled.div`
       font-size: 75%;
       min-width: 30%;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+    }
+    > input::placeholder {
+      color: #cccccc;
     }
     > select {
       color: white;
@@ -134,16 +145,36 @@ const ModalBackground = styled.div`
   align-items: center;
 `
 
+const LoginBackground = styled.div`
+  background-color: #252526;
+  height: 100%;
+  width: 100%;
+  .intro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  h3 {
+    color: white;
+    margin: 0%;
+    font-weight: normal;
+  }
+`
+
 const LoginModal = styled.div`
   display: flex;
   flex-direction: column;
   width: 35%;
   height: 65%;
   border-radius: 3%;
-  background-color: #eeeeee;
+  background-color: #3e3e42;
+  color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-align: center;
   padding: 2% 1% 5%;
+  h1 {
+    font-weight: normal;
+  }
   > form {
     display: flex;
     flex-direction: column;
@@ -155,18 +186,40 @@ const LoginModal = styled.div`
       font-size: 150%;
       border-radius: 50px;
       border: none;
+      color: white;
+      background-color: #737373;
     }
-    > button {
-      margin: 1% 0%;
-      font-size: 150%;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      :active {
-        background-color: #eeeeee;
-        box-shadow: 0 5px #666;
-        transform: translateY(1px);
+    > input::placeholder {
+      color: #cccccc;
+    }
+    >.login-buttons-container {
+      display: flex;
+      flex-direction: column;
+      margin: 5% 0%;
+      > button {
+        outline: none;
+        cursor: pointer;
+        font-size: 75%;
+        line-height: 1;
+        border-radius: 500px;
+        transition-property: background-color,color;
+        transition-duration: .3s;
+        border: solid transparent;
+        letter-spacing: 2px;
+        min-width: 30%;
+        text-transform: uppercase;
+        white-space: normal;
+        font-weight: 700;
+        text-align: center;
+        padding: 3% 1% 4%;
+        color: #616467;
+        box-shadow: inset 0 0 0 2px #616467;
+        background-color: transparent;
+        height: 90%;
+        :hover{
+            color: #fff;
+            background-color: #616467;
+        }
       }
     }
   }
@@ -180,5 +233,6 @@ export {
   TicketModal,
   ModalBackground,
   DateFont,
-  LoginModal
+  LoginModal,
+  LoginBackground
 }

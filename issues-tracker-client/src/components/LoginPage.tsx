@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ModalBackground, LoginModal } from "../styles"
+import { ModalBackground, LoginModal, LoginBackground } from "../styles"
 import { useSignIn } from 'react-auth-kit'
 import { createAccount, login } from '../services'
 
@@ -42,18 +42,25 @@ const LoginPage = () => {
 
   return (
     <>
-      <ModalBackground>
-        <LoginModal>
-          <h1>CREATE OR LOGIN</h1>
-          <form>
-            <input name="Username" type="text" placeholder="username" value={loginInfo.Username} onChange={handleChange} />
-            <input name="Password" type="password" placeholder="password" value={loginInfo.Password} onChange={handleChange} />
-            <button onClick={handleLogin}>Login</button>
-            <button onClick={createLogin}>Create Account</button>
-          </form>
-          <div>{error}</div>
-        </LoginModal>
-      </ModalBackground>
+      <LoginBackground>
+        <div className='intro-container'>
+          <h3>Welcome to my issues tracker app! Just create a login to get started</h3>
+        </div>
+        <ModalBackground>
+          <LoginModal>
+            <h1>CREATE OR LOGIN</h1>
+            <form>
+              <input name="Username" type="text" placeholder="username" value={loginInfo.Username} onChange={handleChange} />
+              <input name="Password" type="password" placeholder="password" value={loginInfo.Password} onChange={handleChange} />
+              <div className='login-buttons-container'>
+                <button onClick={handleLogin}>Login</button>
+                <button onClick={createLogin}>Create Account</button>
+              </div>
+            </form>
+            <div>{error}</div>
+          </LoginModal>
+        </ModalBackground>
+      </LoginBackground>
     </>
   )
 }
