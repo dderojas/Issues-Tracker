@@ -145,8 +145,7 @@ const queryFunc = async (Email: string) => {
         KeyConditionExpression: 'Email=:email',
         ExpressionAttributeValues: {
           ':email': Email
-        },
-        Limit: 20
+        }
       }
     }
   

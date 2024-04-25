@@ -98,6 +98,7 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
         <EditResultsContainer>
           <DropDown name="typeDropdown" onChange={handleFilterChange}>
             <option>All</option>
+            <option>Done</option>
             <option>Task</option>
             <option>Feature</option>
             <option>Bug</option>

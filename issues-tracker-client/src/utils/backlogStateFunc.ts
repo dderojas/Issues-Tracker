@@ -7,7 +7,7 @@ export const backlogStateFunc = (payload: BacklogPayload | undefined, backlogSta
   if (results.backlog) {
     if (payload?.filteredView || results.filteredView) {
       results.filteredLog = results.backlog.filter((elem) => {
-        return elem.IssueType === results.issueTypeFilter
+        return elem.IssueType === results.issueTypeFilter || elem.TicketStatus === results.issueTypeFilter
       })
     }
   }
