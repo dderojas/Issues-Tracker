@@ -8,6 +8,11 @@ https://issues-tracker-eg69.onrender.com/
 
 - clone repo
 - cd into issues-tracker-client
-- run npm install
+- npm install
+- npm start
+
+### Next steps
+- Add unit tests using jest/react-testing-library
+- Lazy loading
 
 
