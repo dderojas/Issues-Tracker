@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ModalBackground, LoginModal, LoginBackground } from "../styles"
+import { ModalBackground, LoginModal, LoginBackground, LoginButtons } from "../styles"
 import { useSignIn } from 'react-auth-kit'
 import { createAccount, login } from '../services'
 
@@ -53,8 +53,8 @@ const LoginPage = () => {
               <input name="Username" type="text" placeholder="username" value={loginInfo.Username} onChange={handleChange} />
               <input name="Password" type="password" placeholder="password" value={loginInfo.Password} onChange={handleChange} />
               <div className='login-buttons-container'>
-                <button onClick={handleLogin}>Login</button>
-                <button onClick={createLogin}>Create Account</button>
+                <LoginButtons onClick={handleLogin}>Login</LoginButtons>
+                <LoginButtons onClick={createLogin}>Create Account</LoginButtons>
               </div>
             </form>
             <div>{error}</div>

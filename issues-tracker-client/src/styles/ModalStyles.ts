@@ -1,4 +1,21 @@
 import styled from 'styled-components'
+import { Button } from './TicketStyles'
+
+const ModalButton = styled(Button)`
+  outline: none;
+  cursor: pointer;
+  border-radius: 500px;
+  min-width: 30%;
+  padding: 3% 1% 4%;
+`
+
+const CloseModal = styled.button`
+  color: inherit;
+  background-color: inherit;
+  appearance: none;
+  border: none;
+  cursor: pointer;
+`
 
 const TicketModal = styled.div`
   display: flex;
@@ -13,13 +30,6 @@ const TicketModal = styled.div`
   padding: 2%;
   h2 {
     font-weight: normal;
-  }
-  .close-modal {
-    color: inherit;
-    background-color: inherit;
-    appearance: none;
-    border: none;
-    cursor: pointer;
   }
   .modal-header {
     display: flex;
@@ -39,6 +49,12 @@ const TicketModal = styled.div`
     padding: 2%;
     font-size: 100%;
     margin: 2%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+    border-radius: 50px;
+    border: none;
+  }
+  .title-class::placeholder {
+    color: #cccccc;
   }
   .description-class {
     display: inline-block;
@@ -52,60 +68,24 @@ const TicketModal = styled.div`
     outline: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
   }
+  .description-class::placeholder {
+    color: #cccccc;
+  }
   .button-modal-container {
     display: flex;
     justify-content: space-between;
     margin: 0% 2%;
-    > button {
-      display: inline-block;
-      outline: none;
-      cursor: pointer;
-      font-size: 75%;
-      line-height: 1;
-      border-radius: 500px;
-      transition-property: background-color,color;
-      transition-duration: .3s;
-      border: solid transparent;
-      letter-spacing: 2px;
-      min-width: 30%;
-      text-transform: uppercase;
-      white-space: normal;
-      font-weight: 700;
-      text-align: center;
-      padding: 3% 1% 4%;
-      color: #616467;
-      box-shadow: inset 0 0 0 2px #616467;
-      background-color: transparent;
-      height: 90%;
-      :hover{
-          color: #fff;
-          background-color: #616467;
-      }
-    }
   }
   > form {
     display: flex;
     flex-direction: column;
     margin: 2%;
     font-size: 120%;
-    > input {
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
-      border-radius: 50px;
-      border: none;
-    }
-    > input::placeholder {
-      color: #cccccc;
-    }
-    > textarea::placeholder {
-      color: #cccccc;
-    }
-    > div {
-      display: flex;
-      justify-content: space-around;
-      margin: 2%;
-    }
   }
   .input-and-dropdowns {
+    display: flex;
+    justify-content: space-around;
+    margin: 2%;
     > input {
       color: white;
       background-color: #737373;
@@ -161,6 +141,13 @@ const LoginBackground = styled.div`
   }
 `
 
+const LoginButtons = styled(Button)`
+  border-radius: 500px;
+  min-width: 30%;
+  text-align: center;
+  padding: 3% 1% 4%;
+`
+
 const LoginModal = styled.div`
   display: flex;
   flex-direction: column;
@@ -196,31 +183,6 @@ const LoginModal = styled.div`
       display: flex;
       flex-direction: column;
       margin: 5% 0%;
-      > button {
-        outline: none;
-        cursor: pointer;
-        font-size: 75%;
-        line-height: 1;
-        border-radius: 500px;
-        transition-property: background-color,color;
-        transition-duration: .3s;
-        border: solid transparent;
-        letter-spacing: 2px;
-        min-width: 30%;
-        text-transform: uppercase;
-        white-space: normal;
-        font-weight: 700;
-        text-align: center;
-        padding: 3% 1% 4%;
-        color: #616467;
-        box-shadow: inset 0 0 0 2px #616467;
-        background-color: transparent;
-        height: 90%;
-        :hover{
-            color: #fff;
-            background-color: #616467;
-        }
-      }
     }
   }
 `
@@ -234,5 +196,8 @@ export {
   ModalBackground,
   DateFont,
   LoginModal,
-  LoginBackground
+  LoginBackground,
+  ModalButton,
+  LoginButtons,
+  CloseModal
 }

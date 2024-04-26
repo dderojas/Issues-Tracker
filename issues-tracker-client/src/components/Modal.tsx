@@ -1,4 +1,4 @@
-import { TicketModal, ModalBackground } from "../styles";
+import { TicketModal, ModalBackground, ModalButton, CloseModal } from "../styles";
 import { Item, DeleteTicketType, ActionType, FormState } from "../../types";
 import { ACTIONS, initialState } from '../reducers/issuesReducer'
 
@@ -46,7 +46,7 @@ const Modal = ({
       <TicketModal>
         <div className="modal-header">
           <input name="Assignee" type="text" placeholder="Assignee" value={Assignee} onChange={handleChange} />
-          <button className="close-modal" onClick={() => { 
+          <CloseModal onClick={() => { 
             dispatch({ 
               type: ACTIONS.SET_MODAL_STATE,
               ticketPayload: initialState.formState
@@ -55,7 +55,7 @@ const Modal = ({
             setInputError('')
           }}>
               X
-          </button>
+          </CloseModal>
         </div>
         <h2>{TicketId ? 'Edit Ticket' : 'Create a Ticket'}</h2>
         <form>
@@ -81,10 +81,10 @@ const Modal = ({
           {inputError && <div style={{ color: 'red' }}>{inputError}</div> }
         </form>
         <div className="button-modal-container">
-          <button onClick={() => addTicket({ Title, Category, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })}>
+          <ModalButton onClick={() => addTicket({ Title, Category, DueDate, Assignee, Description, TicketStatus, IssueType, TicketId })}>
             Add Ticket
-          </button>
-          <button onClick={() => {
+          </ModalButton>
+          <ModalButton onClick={() => {
             if (!TicketId) {
               setInputError('need ticketID')
             } else  {
@@ -92,14 +92,14 @@ const Modal = ({
             }
           }}>
             Update Ticket
-          </button>
-          <button onClick={() => {
+          </ModalButton>
+          <ModalButton onClick={() => {
             if (TicketId) {
               deleteTicket({ TicketId })
             }
           }}>
             Delete Ticket
-          </button>
+          </ModalButton>
         </div>
       </TicketModal>
     </ModalBackground>
