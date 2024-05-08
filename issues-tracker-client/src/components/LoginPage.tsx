@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ModalBackground, LoginModal, LoginBackground, LoginButtons } from "../styles"
 import { useSignIn } from 'react-auth-kit'
 import { createAccount, login } from '../services'
+import { createSignInResponseObj } from 'utils'
 
 const LoginPage = () => {
   const signIn = useSignIn()
@@ -11,14 +12,10 @@ const LoginPage = () => {
   const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     const response = await login(loginInfo)
+    const signInObj = createSignInResponseObj(response)
 
     try {
-      signIn({
-        token: response.body.jwtToken,
-        expiresIn: 3600,
-        tokenType: "Bearer",
-        authState: { email: response.body.results.Items[0].Username },
-      })
+      signIn(signInObj)
 
       setLoginInfo({ Username: '', Password: '' })
       setError('')
@@ -38,6 +35,20 @@ const LoginPage = () => {
   const createLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     await createAccount(loginInfo)
+    const response = await login(loginInfo)
+    const signInObj = createSignInResponseObj(response)
+
+    try {
+      signIn(signInObj)
+
+      setLoginInfo({ Username: '', Password: '' })
+      setError('')
+
+    } catch(e) {
+      console.error(e, 'password or email is invalid')
+      
+      setError('invalid email or password')
+    }
   }
 
   return (
