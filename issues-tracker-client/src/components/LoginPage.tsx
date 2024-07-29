@@ -11,17 +11,18 @@ const LoginPage = () => {
 
   const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    const response = await login(loginInfo)
-    const signInObj = createSignInResponseObj(response)
-
+    
     try {
+      const response = await login(loginInfo)
+      const signInObj = createSignInResponseObj(response)
+      
       signIn(signInObj)
 
       setLoginInfo({ Username: '', Password: '' })
       setError('')
 
     } catch(e) {
-      console.error(e, 'password or email is invalid')
+      console.error(e, 'invalid email or password')
       
       setError('invalid email or password')
     }
@@ -55,7 +56,7 @@ const LoginPage = () => {
     <>
       <LoginBackground>
         <div className='intro-container'>
-          <h3>Welcome to my issues tracker app! Just create a login to get started</h3>
+          <h3>Welcome to my issues tracker app! Create a login to get started</h3>
         </div>
         <ModalBackground>
           <LoginModal>
