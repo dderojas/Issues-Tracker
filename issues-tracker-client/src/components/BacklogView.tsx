@@ -126,6 +126,7 @@ const BacklogView = ({
           <DropDown name="typeDropdown" onChange={handleFilterChange}>
             <option>All</option>
             <option>Done</option>
+            <option>Due Soon</option>
             <option>Task</option>
             <option>Feature</option>
             <option>Bug</option>
@@ -140,7 +141,16 @@ const BacklogView = ({
         </EditResultsContainer>
       }
       <BacklogList>
-        { list[view]?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
+        {list[view].length === 0 ? (
+          <BacklogTicket>
+            <div className="backlog-ticket-content-container">
+              <div className="backlog-ticket-header">
+                <div>No Tickets!</div>
+              </div>
+              <div className='issue-type-container-backlog'>Backlog Tickets go here</div>
+            </div>
+          </BacklogTicket>
+        ) : list[view]?.map(({ Assignee, Description, IssueType, TicketStatus, TicketId, Title, DueDate = '' }: Item) => {
           let { formattedDeadline, differenceInDays } = calculateDaysFunc(DueDate)
 
           const dateColor = !differenceInDays || differenceInDays > 2 ? '#228B22' : 'red'

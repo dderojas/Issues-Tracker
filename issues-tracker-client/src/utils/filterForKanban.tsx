@@ -9,7 +9,7 @@ export const filterForKanban = (kanbanBoardPayload: KanbanBoardPayload | undefin
 
   const { items, openModalWithData } = kanbanBoardPayload
 
-  if (!items || items.length === 0) return results
+  if (!items || items.length === 0) return results;
 
   for (let i = 0; i < items.length; i++) {
       let status:string = items[i].TicketStatus || ''

@@ -1,11 +1,13 @@
 import { BacklogState } from "../../types"
 import { BacklogPayload } from '../../types/reducerTypes'
+import { calculateDaysFunc } from "./calculateDays"
 
 export const backlogStateFunc = (payload: BacklogPayload | undefined, backlogState: BacklogState) => {
   const results: BacklogState = { ...backlogState, ...payload }
 
   if (results.backlog) {
 
+    // task number cards
     results.backlog.forEach((elem) => {
       if (elem.TicketStatus) {
         //@ts-ignore
@@ -15,7 +17,21 @@ export const backlogStateFunc = (payload: BacklogPayload | undefined, backlogSta
 
     if (payload?.filteredView || results.filteredView) {
       results.filteredLog = results.backlog.filter((elem) => {
-        return elem.IssueType === results.issueTypeFilter || elem.TicketStatus === results.issueTypeFilter
+
+        if (results.issueTypeFilter !== 'Due Soon') {
+
+          return elem.IssueType === results.issueTypeFilter || elem.TicketStatus === results.issueTypeFilter
+        }
+
+        //@ts-ignore
+        let { differenceInDays } = calculateDaysFunc(elem.DueDate)
+
+        if ((!differenceInDays || differenceInDays < 2) && elem.TicketStatus !== 'Done') {
+
+          return true
+        }
+
+        return false
       })
     }
   }
