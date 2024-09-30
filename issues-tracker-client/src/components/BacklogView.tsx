@@ -8,7 +8,9 @@ import {
   DropDown, 
   MenuOptions, 
   EditResultsContainer,
-  Button
+  Button,
+  NumberOfTasksContainer,
+  TaskNumberCards
 } from '../styles'
 import { ACTIONS } from '../reducers/issuesReducer'
 import { calculateDaysFunc } from '../utils/calculateDays'
@@ -27,7 +29,18 @@ type BacklogType = {
   deleteTicket: ({ selectedTickets }: DeleteTicketType) => void;
 }
 
-const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [], filteredView: false, menuView: false, filterDropdown: false, deleteView: false, issueTypeFilter: '' }, openModalWithData, dispatch, deleteTicket }: BacklogType) => {
+const BacklogView = ({ 
+  list = { 
+    backlog: [], 
+    filteredLog: [], 
+    selectedTickets: [], 
+    filteredView: false, 
+    menuView: false, 
+    filterDropdown: false, 
+    deleteView: false, 
+    issueTypeFilter: '',
+    numberOfTasksCards: { Todo: '0', Ongoing: '0', Done: '0', Backlog: '0' }
+  }, openModalWithData, dispatch, deleteTicket }: BacklogType) => {
 
   const handleFilterChange = (e: React.FormEvent<HTMLSelectElement>) => {
     e.preventDefault()
@@ -93,6 +106,20 @@ const BacklogView = ({ list = { backlog: [], filteredLog: [], selectedTickets: [
             <li id="DeleteView" onClick={handleMenuView}>Delete</li>
           </MenuOptions>
         }
+        <NumberOfTasksContainer>
+          <TaskNumberCards>
+            Todo {list.numberOfTasksCards.Todo}
+          </TaskNumberCards>
+          <TaskNumberCards>
+            Ongoing {list.numberOfTasksCards.Ongoing}
+          </TaskNumberCards>
+          <TaskNumberCards>
+            Done {list.numberOfTasksCards.Done}
+          </TaskNumberCards>
+          <TaskNumberCards>
+            Backlog {list.numberOfTasksCards.Backlog}
+          </TaskNumberCards>
+        </NumberOfTasksContainer>
       </BacklogNav>
       {list.filterDropdown &&
         <EditResultsContainer>

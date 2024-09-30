@@ -11,6 +11,7 @@ type BacklogState = {
   menuView: boolean;
   filterDropdown: boolean;
   deleteView: boolean;
+  numberOfTasksCards: { Todo: string, Ongoing: string, Done: string, Backlog: string }
 }
 
 type KanbanBoardState = {

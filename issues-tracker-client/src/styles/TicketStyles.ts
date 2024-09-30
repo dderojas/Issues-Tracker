@@ -140,6 +140,19 @@ const Button = styled.button`
       background-color: #616467;
   }
 `
+const NumberOfTasksContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const TaskNumberCards = styled.div`
+  border-color: black;
+  border-style: solid;
+  height: 75px;
+  width: 75px;
+  margin: 0px 10px;
+  color: white;
+`
 
 export {
   KanbanTicket,
@@ -147,5 +160,7 @@ export {
   DropDown,
   MenuOptions,
   EditResultsContainer,
-  Button
+  Button,
+  NumberOfTasksContainer,
+  TaskNumberCards
 }

@@ -56,9 +56,9 @@ const LoginPage = () => {
     <>
       <LoginBackground>
         <div className='intro-container'>
-          <h3>Welcome to my issues tracker app! Create a login to get started</h3>
+          <h1>SOME TITLE HERE!!</h1>
         </div>
-        <ModalBackground>
+        {/* <ModalBackground> */}
           <LoginModal>
             <h1>CREATE OR LOGIN</h1>
             <form>
@@ -71,7 +71,7 @@ const LoginPage = () => {
             </form>
             <div>{error}</div>
           </LoginModal>
-        </ModalBackground>
+        {/* </ModalBackground> */}
       </LoginBackground>
     </>
   )

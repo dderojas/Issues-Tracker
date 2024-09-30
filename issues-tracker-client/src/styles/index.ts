@@ -15,7 +15,9 @@ import {
   DropDown, 
   MenuOptions, 
   EditResultsContainer, 
-  Button 
+  Button,
+  NumberOfTasksContainer,
+  TaskNumberCards
 } from "./TicketStyles";
 import { 
   BacklogBoard, 
@@ -48,5 +50,7 @@ export {
   ModalButton,
   LoginButtons,
   KanbanTicketContainer,
-  CloseModal
+  CloseModal,
+  NumberOfTasksContainer,
+  TaskNumberCards
 }

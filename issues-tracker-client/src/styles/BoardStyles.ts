@@ -8,6 +8,7 @@ const BacklogBoard = styled.div`
 `
 const BacklogNav = styled.nav`
   display: flex;
+  justify-content: space-between;
   padding: 1% 5% 1% 12%;
   > .actions {
     cursor: pointer;
@@ -17,9 +18,9 @@ const BacklogNav = styled.nav`
 const BacklogList = styled.ul`
   display: flex;
   flex-direction: column;
-  padding: 0% 5% 10% 12%;
+  padding: 0% 25% 10%;
+  margin-left: 10%;
   height: 100%;
-  width: 75%;
   overflow-y: auto;
   scrollbar-width: none;
 `

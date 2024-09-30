@@ -126,6 +126,10 @@ const ModalBackground = styled.div`
 `
 
 const LoginBackground = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #252526;
   height: 100%;
   width: 100%;
@@ -133,8 +137,9 @@ const LoginBackground = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 8%;
   }
-  h3 {
+  h1 {
     color: white;
     margin: 0%;
     font-weight: normal;

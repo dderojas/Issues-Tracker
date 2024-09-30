@@ -12,7 +12,17 @@ const ACTIONS = {
 
 const initialState: InitialState = {
   formState: { TicketId: '', Title: '', Comments: '', DueDate: '', Category: '', Assignee: '', Description: '', TicketStatus: '', IssueType: '' },
-  backlogState: { backlog: [], filteredLog: [], selectedTickets:[], filteredView: false, issueTypeFilter: '', menuView: false, filterDropdown: false, deleteView: false },
+  backlogState: { 
+    backlog: [], 
+    filteredLog: [], 
+    selectedTickets:[], 
+    filteredView: false, 
+    issueTypeFilter: '', 
+    menuView: false, 
+    filterDropdown: false, 
+    deleteView: false,
+    numberOfTasksCards: { Todo: '0', Ongoing: '0', Done: '0', Backlog: '0' }
+  },
   kanbanBoardState: { Todo: [], Ongoing: [], Done: [] }
 }
 
