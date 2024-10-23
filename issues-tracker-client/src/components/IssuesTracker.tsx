@@ -121,7 +121,7 @@ const IssuesTracker = () => {
               filteredView: false, 
               menuView: false, 
               deleteView: false, 
-              filterDropdown: false 
+              filterDropdown: false
             } })
         }}>Kanban Board</VerticalNavButton>
         <VerticalNavButton onClick={() => {

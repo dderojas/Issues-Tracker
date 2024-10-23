@@ -81,6 +81,14 @@ const KanbanTicket = styled(BacklogTicket)`
     padding-top: 10%;
   }
 `
+const TaskNumberCards = styled(KanbanTicket)`
+  padding: 3%;
+  margin: 0px 5px;
+  color: white;
+  > p {
+    margin: 0; 
+  }
+`
 
 const MenuOptions = styled.ul`
   position: absolute;
@@ -143,15 +151,7 @@ const Button = styled.button`
 const NumberOfTasksContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`
-
-const TaskNumberCards = styled.div`
-  border-color: black;
-  border-style: solid;
-  height: 75px;
-  width: 75px;
-  margin: 0px 10px;
-  color: white;
+  width: 50%;
 `
 
 export {

@@ -10,7 +10,8 @@ import {
   EditResultsContainer,
   Button,
   NumberOfTasksContainer,
-  TaskNumberCards
+  TaskNumberCards,
+  KanbanTicket
 } from '../styles'
 import { ACTIONS } from '../reducers/issuesReducer'
 import { calculateDaysFunc } from '../utils/calculateDays'
@@ -108,16 +109,36 @@ const BacklogView = ({
         }
         <NumberOfTasksContainer>
           <TaskNumberCards>
-            Todo {list.numberOfTasksCards.Todo}
+            <p>
+              Todo
+            </p>
+            <p>
+              {list.numberOfTasksCards.Todo}
+            </p>
           </TaskNumberCards>
           <TaskNumberCards>
-            Ongoing {list.numberOfTasksCards.Ongoing}
+            <p>
+              Ongoing
+            </p>
+            <p>
+              {list.numberOfTasksCards.Ongoing}
+            </p>
           </TaskNumberCards>
           <TaskNumberCards>
-            Done {list.numberOfTasksCards.Done}
+            <p>
+              Done
+            </p>
+            <p>
+              {list.numberOfTasksCards.Done}
+            </p>
           </TaskNumberCards>
           <TaskNumberCards>
-            Backlog {list.numberOfTasksCards.Backlog}
+            <p>
+              Backlog
+            </p>
+            <p>
+              {list.numberOfTasksCards.Backlog}
+            </p>
           </TaskNumberCards>
         </NumberOfTasksContainer>
       </BacklogNav>
@@ -125,7 +146,7 @@ const BacklogView = ({
         <EditResultsContainer>
           <DropDown name="typeDropdown" onChange={handleFilterChange}>
             <option>All</option>
-            <option>Done</option>
+            <option>Backlog</option>
             <option>Due Soon</option>
             <option>Task</option>
             <option>Feature</option>
@@ -157,11 +178,11 @@ const BacklogView = ({
           
           return (
             <BacklogTicket key={Math.random()}>
-                {list.deleteView && 
-                <input type="checkbox"              
-                  checked={list.selectedTickets.includes(TicketId)}
-                  onChange={() => handleToggleSelectedItem(TicketId)}
-                />}
+              {list.deleteView && 
+              <input type="checkbox"              
+                checked={list.selectedTickets.includes(TicketId)}
+                onChange={() => handleToggleSelectedItem(TicketId)}
+              />}
               <div className="backlog-ticket-content-container">
                 <div className="backlog-ticket-header">
                   <div>{Assignee}</div>

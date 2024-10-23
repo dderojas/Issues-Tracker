@@ -5,6 +5,8 @@ import { calculateDaysFunc } from "./calculateDays"
 export const backlogStateFunc = (payload: BacklogPayload | undefined, backlogState: BacklogState) => {
   const results: BacklogState = { ...backlogState, ...payload }
 
+  results.numberOfTasksCards = { Todo: '0', Ongoing: '0', Done: '0', Backlog: '0' }
+
   if (results.backlog) {
 
     // task number cards

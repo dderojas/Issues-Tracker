@@ -56,13 +56,13 @@ const LoginPage = () => {
     <>
       <LoginBackground>
         <div className='intro-container'>
-          <h1>SOME TITLE HERE!!</h1>
+          <h1>ISSUES TRACKER</h1>
         </div>
           <LoginModal>
             <h1>CREATE OR LOGIN</h1>
             <form>
-              <input name="Username" type="text" placeholder="username" value={loginInfo.Username} onChange={handleChange} />
-              <input name="Password" type="password" placeholder="password" value={loginInfo.Password} onChange={handleChange} />
+              <input name="Username" type="text" placeholder="Username" value={loginInfo.Username} onChange={handleChange} />
+              <input name="Password" type="password" placeholder="Password" value={loginInfo.Password} onChange={handleChange} />
               <div className='login-buttons-container'>
                 <LoginButtons onClick={handleLogin}>Login</LoginButtons>
                 <LoginButtons onClick={createLogin}>Create Account</LoginButtons>
